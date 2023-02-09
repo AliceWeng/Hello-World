@@ -6,10 +6,10 @@ function NavBar() {
         <nav>
             <ul>
                 <li>
-                    <Link className="link" to="/">Hello, World!</Link>
+                    <Link className="link" to="/">Hello, world!</Link>
                 </li>
                 <li>
-                    <Link className="link" to="/signup">Sign Up</Link>
+                    <Link className="link" to="/signup">Sign up</Link>
                 </li>
             </ul>
         </nav>
