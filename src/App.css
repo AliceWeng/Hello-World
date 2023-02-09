@@ -10,3 +10,15 @@ form {
   justify-content: center;
   width: 500px;
 }
+nav ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+li {
+  list-style: none;
+  margin: 1em;
+}
+.link {
+  text-decoration: none;
+}
