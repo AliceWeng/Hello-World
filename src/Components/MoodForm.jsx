@@ -2,7 +2,7 @@ import "../App.css";
 
 function MoodForm() {
     const handleSubmit = e => {
-        e.preventDefault();
+        
     }
 
     return (
