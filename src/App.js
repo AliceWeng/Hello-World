@@ -1,10 +1,12 @@
 import "./App.css";
-import SignUp from "./Components/SignUp";
+import SignUpForm from "./Components/SignUpForm";
+import MoodForm from "./Components/MoodForm";
 
 function App() {
   return (
     <div>
-      <SignUp/>
+      <SignUpForm/>
+      <MoodForm/>
     </div>
   );
 }
