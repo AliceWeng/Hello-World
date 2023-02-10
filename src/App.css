@@ -6,7 +6,11 @@
   box-sizing: border-box;
 }
 :root {
-  --link: #aac1ff;
+  --blue: #aac1ff;
+  --darkBlue: #7197ff;
+}
+body {
+  background: var(--blue);
 }
 form {
   display: flex;
@@ -23,28 +27,49 @@ nav ul {
 }
 li {
   list-style: none;
-  margin: 1em 2em;
+  margin: 1em;
 }
-.link {
-  font-family: "Pathway Gothic One", sans-serif;
-  text-transform: uppercase;
-  text-decoration: none;
-  font-weight: bolder;
+.home {
   position: relative;
   font-size: 3em;
-  color: var(--link);
-  text-shadow: 1px 1px 1px #6890ff;
 }
-.link::before {
+.home::before {
   content: "";
   position: absolute;
   height: 2px;
   width: 0;
   left: 0;
   bottom: -17px;
-  background: var(--link);
+  background: var(--darkBlue);
   transition: 500ms ease-in-out;
 }
-.link:hover::before {
+.home:hover::before {
   width: 100%;
+}
+.navButton, .home {
+  font-family: "Pathway Gothic One", sans-serif;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: bolder;
+  color: var(--darkBlue);
+  text-shadow: 1px 1px 1px var(--blue);
+}
+.navButton {
+  font-size: 2em;
+  padding: .5em;
+  margin-left: .5em;
+  border-radius: .2em;
+  box-shadow: inset var(--blue) 0 0 1em;
+}
+.navButton:hover {
+  box-shadow: inset var(--blue) 0 0 2em;
+}
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1em;
+}
+input {
+  margin: .5em;
 }

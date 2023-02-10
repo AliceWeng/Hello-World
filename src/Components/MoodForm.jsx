@@ -6,7 +6,7 @@ function MoodForm() {
     }
 
     return (
-        <div>
+        <div className="flex">
             <form onSubmit={handleSubmit} action="/moods" method="POST">
                 <label htmlFor="text">
                     Let's talk about our feelings.

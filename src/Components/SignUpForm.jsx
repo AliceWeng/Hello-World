@@ -6,7 +6,7 @@ function SignUpForm() {
     }
 
     return (
-        <div>
+        <div className="flex">
             <form onSubmit={handleSubmit} action="/" method="POST">
                 <label htmlFor="username">Username</label>
                 <input id="username" name="username" type="text" required/>
