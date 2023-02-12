@@ -5,13 +5,13 @@ const moodSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    text: {
+    mood: {
         type: String,
-
+        required: true
     },
     color: {
         type: String,
-
+        default: white
     },
     private: {
         type: Boolean,

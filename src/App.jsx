@@ -4,15 +4,17 @@ import SignUpForm from "./Components/SignUpForm";
 import LogInForm from "./Components/LogInForm";
 import MoodForm from "./Components/MoodForm";
 import NavBar from "./Components/NavBar";
+import MoodCollection from "./Components/MoodCollection";
 
 function App() {
   return (
       <Router>
         <NavBar/>
         <Routes>
-          <Route path="/login" element={<LogInForm/>}/>
-          <Route path="/moods/new" element={<MoodForm />}/>
           <Route path="/signup" element={<SignUpForm />}/>
+          <Route path="/login" element={<LogInForm />}/>
+          <Route path="/moods" element={<MoodCollection />}/>
+          <Route path="/moods/new" element={<MoodForm />}/>
         </Routes>
       </Router>
   );

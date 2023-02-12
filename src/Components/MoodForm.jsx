@@ -1,11 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 function MoodForm() {
     const [data, setData] = useState({
-        text: "",
+        mood: "",
         color: ""
     });
+
+    const navigate = useNavigate();
+
+    const handleChange = e => {
+        setData({...data, [e.target.id]: e.target.value})
+    };
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -13,27 +20,24 @@ function MoodForm() {
             const response = await fetch("http://localhost:3001/api/moods", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json;charset=utf-8"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(data)
             });
-            return response.json();
+            await response.json();
         } catch(error) {
             console.error(error);
         }
-    };
-
-    const handleChange = e => {
-        setData({...data, [e.target.id]: e.target.value})
+        navigate("/moods");
     };
 
     return (
         <div className="flex">
             <form onSubmit={handleSubmit}>
-                <label htmlFor="text">
+                <label htmlFor="mood">
                     Let's talk about our feelings.
                 </label>
-                <textarea id="text" name="text" type="text" rows="10" cols="50" onChange={handleChange} required/>
+                <textarea id="mood" name="mood" type="text" rows="10" cols="50" onChange={handleChange} required/>
                 <label htmlFor="color">
                     What color best describes your mood today?
                 </label>
