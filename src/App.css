@@ -59,10 +59,11 @@ li {
   padding: .5em;
   margin-left: .5em;
   border-radius: .2em;
+  border: solid 1px transparent;
   box-shadow: inset var(--blue) 0 0 1em;
 }
 .navButton:hover {
-  box-shadow: inset var(--blue) 0 0 2em;
+  border: solid 1px var(--darkBlue);
 }
 .flex {
   display: flex;

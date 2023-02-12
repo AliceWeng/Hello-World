@@ -1,6 +1,6 @@
 import "../App.css";
 
-function SignUpForm() {
+function LogInForm() {
     const handleSubmit = e => {
         e.preventDefault();
     }
@@ -18,4 +18,4 @@ function SignUpForm() {
     )
 }
 
-export default SignUpForm;
+export default LogInForm;

@@ -4,15 +4,22 @@ const URI = process.env.MONGO_URI;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const path = require("path");
 const cors = require("cors");
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "../build")));
 mongoose.connect(URI, {useNewUrlParser: true, useUnifiedTopology: true}, () => {
     console.log("Connected to database.");
 });
 
-app.use("/moods", require("./controllers/moods"));
+app.use("/api/moods", require("./controllers/moods_controller"));
+
+/* app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../build/index.html"));
+}); */
 
 app.listen(PORT, () => {
     console.log("Server is running.");
