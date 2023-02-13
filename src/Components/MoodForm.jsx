@@ -32,17 +32,17 @@ function MoodForm() {
     };
 
     return (
-        <div className="flex">
+        <div className="center">
             <form onSubmit={handleSubmit}>
                 <label htmlFor="mood">
                     Let's talk about our feelings.
                 </label>
-                <textarea id="mood" name="mood" type="text" rows="10" cols="50" onChange={handleChange} required/>
+                <textarea id="mood" name="mood" type="text" onChange={handleChange} required/>
                 <label htmlFor="color">
                     What color best describes your mood today?
                 </label>
-                <input id="color" name="color" type="color" onChange={handleChange}/>
-                <input type="submit"/>
+                <input className="colorInput" id="color" name="color" type="color" onChange={handleChange}/>
+                <input className="submit" type="submit"/>
             </form>
         </div>
     )
