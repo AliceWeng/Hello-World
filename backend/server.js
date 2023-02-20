@@ -15,6 +15,7 @@ mongoose.connect(URI, {useNewUrlParser: true, useUnifiedTopology: true}, () => {
     console.log("Connected to database.");
 });
 
+app.use("/api/user", require("./controllers/user_controller"));
 app.use("/api/moods", require("./controllers/moods_controller"));
 
 app.get("*", (req, res) => {
