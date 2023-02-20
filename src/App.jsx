@@ -11,6 +11,7 @@ function App() {
       <Router>
         <NavBar/>
         <Routes>
+          <Route path="/" element={<MoodCollection />}/>
           <Route path="/signup" element={<SignUpForm />}/>
           <Route path="/login" element={<LogInForm />}/>
           <Route path="/moods" element={<MoodCollection />}/>

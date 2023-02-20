@@ -6,16 +6,21 @@ router.get("/", (req, res) => {
     Mood.find()
         .populate("user")
         .then(moods => {
-            res.json(moods);
+            res.status(200).json(moods);
+        })
+        .catch(() => {
+            res.status(500).send("Server error.");
         });
 });
 
 router.post("/", (req, res) => {
-    try {
-        Mood.create(req.body);
-    } catch(error) {
-        
-    }
+    Mood.create(req.body)
+        .then(data => {
+            res.status(201).json(data);
+        })
+        .catch(() => {
+            res.status(500).send("Server error.");
+        });
 });
 
 module.exports = router;

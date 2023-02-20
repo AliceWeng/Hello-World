@@ -48,6 +48,7 @@ textarea:focus, input:focus {
 input {
   width: 19em;
   height: 2em;
+  line-height: normal;
 }
 .colorInput {
   padding: 0 .1em;
