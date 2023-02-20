@@ -11,7 +11,11 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-    Mood.create(req.body);
+    try {
+        Mood.create(req.body);
+    } catch(error) {
+        
+    }
 });
 
 module.exports = router;

@@ -8,6 +8,7 @@ function LogInForm() {
     return (
         <div className="center">
             <form onSubmit={handleSubmit}>
+                <h1>Log In</h1>
                 <label htmlFor="username">Username</label>
                 <input id="username" name="username" type="text" required/>
                 <label htmlFor="password">Password</label>
