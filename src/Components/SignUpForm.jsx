@@ -37,6 +37,7 @@ function SignUpForm() {
     const handleChange = e => {
         setUser({...user, [e.target.id]: e.target.value});
     }
+    
     return (
         <div className="center">
             <form onSubmit={handleSubmit}>
@@ -46,7 +47,7 @@ function SignUpForm() {
                 <label htmlFor="username">Username</label>
                 <input id="username" name="username" type="text" onChange={handleChange} required/>
                 <label htmlFor="password">Password</label>
-                <input id="password" name="password" type="text" onChange={handleChange} required/>
+                <input id="password" name="password" type="password" onChange={handleChange} required/>
                 <label htmlFor="email">Email</label>
                 <input id="email" name="email" type="email" onChange={handleChange} required/>
                 <label htmlFor="birthday">Birthday</label>
