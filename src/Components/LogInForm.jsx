@@ -16,7 +16,7 @@ function LogInForm() {
     }
 
     return (
-        <div className="center">
+        <section>
             <form onSubmit={handleSubmit}>
                 <h1>Log In</h1>
                 <label htmlFor="username">Username</label>
@@ -25,7 +25,7 @@ function LogInForm() {
                 <input id="password" type="password" onChange={handleChange} required/>
                 <input className="submit" type="submit"/>
             </form>
-        </div>
+        </section>
     )
 }
 
