@@ -21,33 +21,46 @@ function SignUpForm() {
         username: false
     });
 
-    const [valid, setValid] = useState({
-        username: true
+    const [taken, setTaken] = useState({
+        username: false,
+        email: false
+    });
+
+    const [invalid, setInvalid] = useState({
+        username: null
     });
 
     useEffect(() => {
         if(user.username && !focus.username) {
-            const usernameTaken = async () => {
-                const response = await fetch(`http://localhost:3001/api/user/username/${user.username}`);
-                const data = await response.text();
-                return data ? true : false;
-            }
-            if(usernameTaken) {
-                setError({...error, username: "Sorry, this username is already taken. Please choose a different one."});
-                setValid({...valid, username: false});
-                return;
-            }
-            setValid({...valid, username: USERNAME_REGEX.test(user.username)});
-            if(valid.username) {
-                setError({...error, username: ""});
-            }
-            if(!valid.username) {
+            const validation = USERNAME_REGEX.test(user.username);
+            setInvalid({...invalid, username: !validation});
+
+            if(validation === false) {
                 if(user.username.length < 4 || user.username.length > 12) {
-                    setError({...error, username: "Sorry, your username must be between 4 and 12 characters."})
-                } else setError({...error, username: "Sorry, your username must only contain letters and numbers."})
+                    setError({...error, username: "Sorry, your username must be between 4 and 12 characters."});
+                } else {
+                    setError({...error, username: "Sorry, your username must only contain letters and numbers."});
+                }
+            }
+            if(validation === true) {
+                setError({...error, username: ""});
+                const fetchUsername = async () => {
+                    const response = await fetch(`http://localhost:3001/api/user/username/${user.username}`);
+                    const data = await response.text();
+                    return (data ? true : false);
+                }
+                const checkUsername = async () => {
+                    const usernameTaken = await fetchUsername();
+                    if(usernameTaken) {
+                        setTaken({...taken, username: true});
+                        setInvalid({...invalid, username: true});
+                        setError({...error, username: "Sorry, this username is already taken. Please choose a different one."});
+                    } else setTaken({...taken, username: false});
+                }
+                checkUsername();
             }
         }
-    }, [user.username])
+    }, [focus.username]);
 
     const navigate = useNavigate();
 
@@ -96,16 +109,16 @@ function SignUpForm() {
                     spellCheck="false"
                     autoComplete="off"
                     onChange={handleChange}
-                    aria-invalid={valid.username ? "false" : "true"}
+                    aria-invalid={invalid.username}
                     aria-describedby="username-req"
                     value={user.username}
                     onFocus={() => setFocus({...focus, username: true})}
                     onBlur={() => setFocus({...focus, username: false})}
                     required />
-                <p id="username-req" className={valid.username ? "hidden" : "error"}>
-                    {valid.username
-                        ? "Please enter 4 to 12 alphanumeric characters."
-                        : error.username}
+                <p id="username-req" className={invalid.username ? "hidden" : "error"}>
+                    {invalid.username
+                        ? error.username
+                        : "Please enter 4 to 12 alphanumeric characters."}
                 </p>
                 <label htmlFor="password">Password</label>
                 <input
@@ -114,7 +127,7 @@ function SignUpForm() {
                     spellCheck="false"
                     autoComplete="new-password"
                     onChange={handleChange}
-                    aria-invalid={valid.password ? "false" : "true"}
+                    aria-invalid=""
                     required />
                 <label htmlFor="email">Email</label>
                 <input
