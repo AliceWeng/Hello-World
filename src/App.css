@@ -10,25 +10,48 @@
   --blue: #aac1ff;
   --darkBlue: #7197ff;
   --lightBlue: #e3f0ff;
+  --background: white;
+  --accent: black;
 }
 body {
-  background: var(--blue);
+  font-family: "Calibre";
+  background: var(--background);
 }
 h1 {
-  color: white;
-  font-size: 3em;
+  font-size: 2.5em;
   margin-bottom: .5em;
-  font-family: "Calibre";
+  color: var(--accent);
 }
 form {
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  background: var(--darkBlue);
-  border-radius: .5em;
+  background: var(--background);
+  border: solid 1px var(--accent);
+  box-shadow: .8em .8em var(--accent);
   padding: 1.5em;
   margin: 2em;
+}
+input {
+  height: 2em;
+  width: 19em;
+  padding: .5em;
+  margin-bottom: .5em;
+}
+.error {
+  padding: 1em;
+  width: 23.75em;
+  border-radius: 2em;
+  text-align: center;
+  padding-bottom: .5em;
+  color: var(--background);
+  background: var(--accent);
+  
+}
+.hidden {
+  opacity: 0;
+  position: absolute;
 }
 textarea {
   resize: none;
@@ -36,27 +59,21 @@ textarea {
   height: 9em;
 }
 textarea, input {
-  padding: .5em;
-  margin-bottom: 1em;
-  border-radius: .3em;
-  border: solid 1px rgba(0, 0, 0, 0.5);
+
+  border: solid 1px var(--accent);
 }
 textarea:focus, input:focus {
   outline: none;
   border: solid 2px rgba(0, 0, 0, 0.75);
 }
-input {
-  width: 19em;
-  height: 2em;
-  line-height: normal;
+label {
+  margin-top: .5em;
 }
+
 .colorInput {
   padding: 0 .1em;
   background: white;
   cursor: pointer;
-}
-label {
-  margin: .2em;
 }
 .submit {
   margin: 0;
@@ -65,7 +82,6 @@ label {
   cursor: pointer;
 }
 textarea, input, label {
-  font-family: "calibre";
   font-size: 20px;
 }
 nav ul {
@@ -85,11 +101,11 @@ li {
 .navLink::before {
   content: "";
   position: absolute;
-  height: 2px;
+  height: 1px;
   width: 0;
   left: 0;
-  bottom: -17px;
-  background: var(--darkBlue);
+  bottom: -16px;
+  background: var(--accent);
   transition: 500ms ease-in-out;
 }
 .navLink:hover::before {
@@ -115,7 +131,7 @@ li {
 }
 .center {
   display: flex;
-  min-height: 90vh;
+  min-height: 100vh;
   align-items: center;
   justify-content: center;
 }

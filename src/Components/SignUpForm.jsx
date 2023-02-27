@@ -90,7 +90,7 @@ function SignUpForm() {
     };
 
     return (
-        <section>
+        <section className="center">
             <form onSubmit={handleSubmit}>
                 <h1>Sign Up</h1>
                 <label htmlFor="nickname">Nickname</label>
@@ -115,10 +115,10 @@ function SignUpForm() {
                     onFocus={() => setFocus({...focus, username: true})}
                     onBlur={() => setFocus({...focus, username: false})}
                     required />
-                <p id="username-req" className={invalid.username ? "hidden" : "error"}>
-                    {invalid.username
+                <p id="username-req" className={invalid.username ? "error" : "hidden"}>
+                    { invalid.username
                         ? error.username
-                        : "Please enter 4 to 12 alphanumeric characters."}
+                        : "Please enter 4 to 12 alphanumeric characters." }
                 </p>
                 <label htmlFor="password">Password</label>
                 <input
