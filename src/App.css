@@ -12,7 +12,9 @@
   --lightBlue: #e3f0ff;
   --background: white;
   --accent: black;
+  --inputBorder: black;
 }
+
 body {
   font-family: "Calibre";
   background: var(--background);
@@ -38,6 +40,13 @@ input {
   width: 19em;
   padding: .5em;
   margin-bottom: .5em;
+  border: solid 1px var(--inputBorder);
+}
+.red {
+  --inputBorder: #d93025;
+}
+.red:focus {
+  border: solid 2px var(--inputBorder);
 }
 .error {
   padding: 1em;
@@ -47,7 +56,6 @@ input {
   padding-bottom: .5em;
   color: var(--background);
   background: var(--accent);
-  
 }
 .hidden {
   opacity: 0;
@@ -58,10 +66,7 @@ textarea {
   width: 19em;
   height: 9em;
 }
-textarea, input {
 
-  border: solid 1px var(--accent);
-}
 textarea:focus, input:focus {
   outline: none;
   border: solid 2px rgba(0, 0, 0, 0.75);

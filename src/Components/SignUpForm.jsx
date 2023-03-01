@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 const USERNAME_REGEX = /^[a-zA-Z0-9]{4,12}$/;
-const PASSWORD_REGEX = /^[]{8,}$/;
+const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
 
 function SignUpForm() {
     const [user, setUser] = useState({
@@ -14,20 +14,25 @@ function SignUpForm() {
         birthday: "mm/dd/yyyy"
     });
     const [error, setError] = useState({
-        username: ""
+        nickname: "",
+        username: "",
+        password: ""
     });
+
+    const [toggle, setToggle] = useState(false);
 
     const [focus, setFocus] = useState({
         username: false
     });
 
     const [taken, setTaken] = useState({
-        username: false,
-        email: false
+        username: false
     });
 
     const [invalid, setInvalid] = useState({
-        username: null
+        nickname: null,
+        username: null,
+        password: null
     });
 
     useEffect(() => {
@@ -62,26 +67,45 @@ function SignUpForm() {
         }
     }, [focus.username]);
 
-    const navigate = useNavigate();
-
     const handleSubmit = async e => {
         e.preventDefault();
-        setUser("");
-        try {
-            const response = await fetch("http://localhost:3001/api/user", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(user)
-            });
-            return await response.json();
-        } catch(error) {
-            console.error("Error.");
-            setError(true);
+
+        if(!user.nickname) {
+            setInvalid({...invalid, nickname: true});
+            setError({...error, nickname: "Please enter the name you would like to go by. You can't leave this field empty."});
         }
-        if(!error) {
-            navigate("/");
+        if(!user.username) {
+            setInvalid({...invalid, username: true});
+            setError({...error, username: "Please enter a username. You can't leave this field empty."});
+        }
+        if(!user.password) {
+            setInvalid({...invalid, password: true});
+            setError({...error, password: "Please enter a password. You can't leave this field empty."});
+        }
+        if(!user.email) {
+            setInvalid({...invalid, email: true});
+            setError({...error, email: "Please enter an email. You can't leave this field empty."});
+        }
+        if(!user.birthday) {
+            setInvalid({...invalid, birthday: true});
+            setError({...error, birthday: "Please enter your date of birth. You can't leave this field empty."});
+        }
+
+        if(!invalid.nickname && !invalid.username && !invalid.password && !invalid.email && !invalid.birthday) {
+            setUser("");
+            try {
+                const response = await fetch("http://localhost:3001/api/user", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(user)
+                });
+                setSuccess(true);
+                return;
+            } catch(error) {
+                console.error("Error.");
+            }
         }
     }
 
@@ -97,15 +121,24 @@ function SignUpForm() {
                 <input
                     type="text"
                     id="nickname"
+                    className={invalid.nickname ? "red" : null}
                     spellCheck="false"
                     autoComplete="off"
                     onChange={handleChange}
+                    aria-invalid={invalid.nickname}
+                    aria-describedby="nickname-req"
                     value={user.nickname}
-                    required />
+                    />
+                <p id="username-req" className={invalid.nickname ? "error" : "hidden"}>
+                    {invalid.nickname
+                        ? error.nickname
+                        : "Please enter a nickname up to 26 characters."}
+                </p>
                 <label htmlFor="username">Username</label>
                 <input
                     type="text"
                     id="username"
+                    className={invalid.username ? "red" : null}
                     spellCheck="false"
                     autoComplete="off"
                     onChange={handleChange}
@@ -114,29 +147,32 @@ function SignUpForm() {
                     value={user.username}
                     onFocus={() => setFocus({...focus, username: true})}
                     onBlur={() => setFocus({...focus, username: false})}
-                    required />
+                    />
                 <p id="username-req" className={invalid.username ? "error" : "hidden"}>
-                    { invalid.username
+                    {invalid.username
                         ? error.username
-                        : "Please enter 4 to 12 alphanumeric characters." }
+                        : "Please enter 4 to 12 alphanumeric characters."}
                 </p>
                 <label htmlFor="password">Password</label>
                 <input
+                    type={toggle ? "text" : "password"}
                     id="password"
-                    type="password"
+                    className={invalid.password ? "red" : null}
                     spellCheck="false"
                     autoComplete="new-password"
                     onChange={handleChange}
-                    aria-invalid=""
-                    required />
-                <label htmlFor="email">Email</label>
-                <input
-                    id="email"
-                    type="email"
-                    spellCheck="false"
-                    autoComplete="off"
-                    onChange={handleChange}
-                    required />
+                    aria-invalid={invalid.password}
+                    aria-describedby="password-req"
+                    value={user.password}
+                    onFocus={() => setFocus({...focus, password: true})}
+                    onBlur={() => setFocus({...focus, password: false})}
+                    />
+                <p id="password-req" className={invalid.password ? "error" : "hidden"}>
+                        {invalid.password 
+                            ? error.password
+                            : "Please enter 8 or more characters. At least one uppercase letter, one lowercase letter, and one number."}
+                </p>
+                <button onClick={() => setToggle(!toggle)}></button>
                 <label htmlFor="birthday">Birthday</label>
                 <input id="birthday" name="birthday" type="date" onChange={handleChange} required/>
                 <button>Submit</button>
