@@ -11,44 +11,43 @@ function SignUpForm() {
         username: "",
         password: "",
         email: "",
-        birthday: "mm/dd/yyyy"
+        birthday: ""
     });
-    const [error, setError] = useState({
-        nickname: "",
-        username: "",
-        password: ""
-    });
+
+    const [nicknameError, setNicknameError] = useState("");
+    const [usernameError, setUsernameError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [birthdayError, setBirthdayError] = useState("");
 
     const [toggle, setToggle] = useState(false);
 
-    const [focus, setFocus] = useState({
-        username: false
-    });
+    const [nicknameFocus, setNicknameFocus] = useState(false);
+    const [usernameFocus, setUsernameFocus] = useState(false);
+    const [passwordFocus, setPasswordFocus] = useState(false);
+    const [emailFocus, setEmailFocus] = useState(false);
+    const [birthdayFocus, setBirthdayFocus] = useState(false);
+    const [submitFocus, setSubmitFocus] = useState(false);
 
-    const [taken, setTaken] = useState({
-        username: false
-    });
-
-    const [invalid, setInvalid] = useState({
-        nickname: null,
-        username: null,
-        password: null
-    });
+    const [nicknameInvalid, setNicknameInvalid] = useState(null);
+    const [usernameInvalid, setUsernameInvalid] = useState(null);
+    const [passwordInvalid, setPasswordInvalid] = useState(null);
+    const [emailInvalid, setEmailInvalid] = useState(null);
+    const [birthdayInvalid, setBirthdayInvalid] = useState(null);
 
     useEffect(() => {
-        if(user.username && !focus.username) {
+        if(user.username && !usernameFocus) {
             const validation = USERNAME_REGEX.test(user.username);
-            setInvalid({...invalid, username: !validation});
+            setUsernameInvalid(!validation);
 
             if(validation === false) {
                 if(user.username.length < 4 || user.username.length > 12) {
-                    setError({...error, username: "Sorry, your username must be between 4 and 12 characters."});
+                    setUsernameError("Sorry, your username must be between 4 and 12 characters.");
                 } else {
-                    setError({...error, username: "Sorry, your username must only contain letters and numbers."});
+                    setUsernameError("Sorry, your username can only contain letters and numbers.");
                 }
             }
             if(validation === true) {
-                setError({...error, username: ""});
                 const fetchUsername = async () => {
                     const response = await fetch(`http://localhost:3001/api/user/username/${user.username}`);
                     const data = await response.text();
@@ -57,43 +56,56 @@ function SignUpForm() {
                 const checkUsername = async () => {
                     const usernameTaken = await fetchUsername();
                     if(usernameTaken) {
-                        setTaken({...taken, username: true});
-                        setInvalid({...invalid, username: true});
-                        setError({...error, username: "Sorry, this username is already taken. Please choose a different one."});
-                    } else setTaken({...taken, username: false});
+                        setUsernameInvalid(true);
+                        setUsernameError("Sorry, this username is already taken. Please choose a different one.");
+                    }
                 }
                 checkUsername();
             }
         }
-    }, [focus.username]);
+    }, [usernameFocus]);
+
+    useEffect(() => {
+        if(user.nickname && !nicknameFocus) {
+            if(user.nickname.length > 26) {
+                setNicknameInvalid(true);
+                setNicknameError("Sorry, your nickname must be between 1 and 26 characters.");
+            } else setNicknameInvalid(false);
+        }
+    }, [nicknameFocus]);
+
+    useEffect(() => {
+        if(submitFocus) {
+            if(!user.nickname) {
+                setNicknameInvalid(true);
+                setNicknameError("Enter a nickname.");
+            }
+            if(!user.username) {
+                setUsernameInvalid(true);
+                setUsernameError("Enter a username.");
+            }
+            if(!user.password) {
+                setPasswordInvalid(true);
+                setPasswordError("Enter a password.");
+            }
+            if(!user.email) {
+                setEmailInvalid(true);
+                setEmailError("Enter an email.");
+            }
+            if(!user.birthday) {
+               setBirthdayInvalid(true);
+               setBirthdayError("Enter your date of birth.");
+            }
+            if(!user.nickname || !user.username || !user.password || !user.email || !user.birthday) {
+                return;
+            }
+        }
+    }, [submitFocus]);
 
     const handleSubmit = async e => {
         e.preventDefault();
 
-        if(!user.nickname) {
-            setInvalid({...invalid, nickname: true});
-            setError({...error, nickname: "Please enter the name you would like to go by. You can't leave this field empty."});
-        }
-        if(!user.username) {
-            setInvalid({...invalid, username: true});
-            setError({...error, username: "Please enter a username. You can't leave this field empty."});
-        }
-        if(!user.password) {
-            setInvalid({...invalid, password: true});
-            setError({...error, password: "Please enter a password. You can't leave this field empty."});
-        }
-        if(!user.email) {
-            setInvalid({...invalid, email: true});
-            setError({...error, email: "Please enter an email. You can't leave this field empty."});
-        }
-        if(!user.birthday) {
-            setInvalid({...invalid, birthday: true});
-            setError({...error, birthday: "Please enter your date of birth. You can't leave this field empty."});
-        }
-
-        if(!invalid.nickname && !invalid.username && !invalid.password && !invalid.email && !invalid.birthday) {
-            setUser("");
-            try {
+            /* try {
                 const response = await fetch("http://localhost:3001/api/user", {
                     method: "POST",
                     headers: {
@@ -101,12 +113,11 @@ function SignUpForm() {
                     },
                     body: JSON.stringify(user)
                 });
-                setSuccess(true);
+                
                 return;
             } catch(error) {
                 console.error("Error.");
-            }
-        }
+            }*/
     }
 
     const handleChange = e => {
@@ -121,61 +132,68 @@ function SignUpForm() {
                 <input
                     type="text"
                     id="nickname"
-                    className={invalid.nickname ? "red" : null}
+                    className={nicknameInvalid ? "red" : null}
                     spellCheck="false"
                     autoComplete="off"
                     onChange={handleChange}
-                    aria-invalid={invalid.nickname}
+                    aria-invalid={nicknameInvalid}
                     aria-describedby="nickname-req"
                     value={user.nickname}
+                    onFocus={() => setNicknameFocus(true)}
+                    onBlur={() => setNicknameFocus(false)}
+                    maxLength="26"
                     />
-                <p id="username-req" className={invalid.nickname ? "error" : "hidden"}>
-                    {invalid.nickname
-                        ? error.nickname
-                        : "Please enter a nickname up to 26 characters."}
+                <p id="nickname-req" className={nicknameInvalid ? "error" : "hidden"}>
+                    {nicknameInvalid
+                        ? nicknameError
+                        : "Please enter a nickname up to 26 characters long."}
                 </p>
                 <label htmlFor="username">Username</label>
                 <input
                     type="text"
                     id="username"
-                    className={invalid.username ? "red" : null}
+                    className={usernameInvalid ? "red" : null}
                     spellCheck="false"
                     autoComplete="off"
                     onChange={handleChange}
-                    aria-invalid={invalid.username}
+                    aria-invalid={usernameInvalid}
                     aria-describedby="username-req"
                     value={user.username}
-                    onFocus={() => setFocus({...focus, username: true})}
-                    onBlur={() => setFocus({...focus, username: false})}
+                    onFocus={() => setUsernameFocus(true)}
+                    onBlur={() => setUsernameFocus(false)}
+                    maxLength="12"
                     />
-                <p id="username-req" className={invalid.username ? "error" : "hidden"}>
-                    {invalid.username
-                        ? error.username
-                        : "Please enter 4 to 12 alphanumeric characters."}
+                <p id="username-req" className={usernameInvalid ? "error" : "hidden"}>
+                    {usernameInvalid
+                        ? usernameError
+                        : "Please enter a username 4 to 12 alphanumeric characters long."}
                 </p>
                 <label htmlFor="password">Password</label>
                 <input
                     type={toggle ? "text" : "password"}
                     id="password"
-                    className={invalid.password ? "red" : null}
+                    className={passwordInvalid ? "red" : null}
                     spellCheck="false"
                     autoComplete="new-password"
                     onChange={handleChange}
-                    aria-invalid={invalid.password}
+                    aria-invalid={passwordInvalid}
                     aria-describedby="password-req"
                     value={user.password}
-                    onFocus={() => setFocus({...focus, password: true})}
-                    onBlur={() => setFocus({...focus, password: false})}
+                    onFocus={() => setPasswordFocus(true)}
+                    onBlur={() => setPasswordFocus(false)}
                     />
-                <p id="password-req" className={invalid.password ? "error" : "hidden"}>
-                        {invalid.password 
-                            ? error.password
-                            : "Please enter 8 or more characters. At least one uppercase letter, one lowercase letter, and one number."}
+                <p id="password-req" className={passwordInvalid ? "error" : "hidden"}>
+                        {passwordInvalid 
+                            ? passwordError
+                            : "Please enter a password 8 or more characters long. You're required to have at least one uppercase letter, one lowercase letter, and one number."}
                 </p>
                 <button onClick={() => setToggle(!toggle)}></button>
                 <label htmlFor="birthday">Birthday</label>
-                <input id="birthday" name="birthday" type="date" onChange={handleChange} required/>
-                <button>Submit</button>
+                <input id="birthday" name="birthday" type="date" onChange={handleChange} />
+                <button
+                    onFocus={() => setSubmitFocus(true)}
+                    onBlur={() => setSubmitFocus(false)}
+                >Submit</button>
             </form>
         </section>
     )
