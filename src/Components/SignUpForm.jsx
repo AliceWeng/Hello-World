@@ -35,32 +35,39 @@ function SignUpForm() {
     const [emailInvalid, setEmailInvalid] = useState(null);
     const [birthdayInvalid, setBirthdayInvalid] = useState(null);
 
+    const [usernameTaken, setUsernameTaken] = useState(null);
+ 
+    useEffect(() => {
+        if(USERNAME_REGEX.test(user.username)) {
+            const fetchUsername = async () => {
+                const response = await fetch(`http://localhost:3001/api/user/username/${user.username}`);
+                const data = await response.text();
+                return (data ? true : false);
+            }
+            const checkUsername = async () => {
+                const result = await fetchUsername();
+                setUsernameTaken(result);
+            }
+            checkUsername();
+        }
+    }, [user.username]);
+
     useEffect(() => {
         if(user.username && !usernameFocus) {
-            const validation = USERNAME_REGEX.test(user.username);
-            setUsernameInvalid(!validation);
+            setUsernameInvalid(!USERNAME_REGEX.test(user.username));
 
-            if(validation === false) {
+            if(USERNAME_REGEX.test(user.username)) {
+                if(usernameTaken) {
+                    setUsernameInvalid(true);
+                    setUsernameError("Sorry, this username is already taken. Please choose a different one.");
+                }
+            }
+            if(!USERNAME_REGEX.test(user.username)) {
                 if(user.username.length < 4 || user.username.length > 12) {
                     setUsernameError("Sorry, your username must be between 4 and 12 characters.");
                 } else {
                     setUsernameError("Sorry, your username can only contain letters and numbers.");
                 }
-            }
-            if(validation === true) {
-                const fetchUsername = async () => {
-                    const response = await fetch(`http://localhost:3001/api/user/username/${user.username}`);
-                    const data = await response.text();
-                    return (data ? true : false);
-                }
-                const checkUsername = async () => {
-                    const usernameTaken = await fetchUsername();
-                    if(usernameTaken) {
-                        setUsernameInvalid(true);
-                        setUsernameError("Sorry, this username is already taken. Please choose a different one.");
-                    }
-                }
-                checkUsername();
             }
         }
     }, [usernameFocus]);
@@ -69,43 +76,40 @@ function SignUpForm() {
         if(user.nickname && !nicknameFocus) {
             if(user.nickname.length > 26) {
                 setNicknameInvalid(true);
-                setNicknameError("Sorry, your nickname must be between 1 and 26 characters.");
+                setNicknameError("Sorry, your nickname can only be up to 26 characters long.");
             } else setNicknameInvalid(false);
         }
     }, [nicknameFocus]);
 
-    useEffect(() => {
-        if(submitFocus) {
-            if(!user.nickname) {
-                setNicknameInvalid(true);
-                setNicknameError("Enter a nickname.");
-            }
-            if(!user.username) {
-                setUsernameInvalid(true);
-                setUsernameError("Enter a username.");
-            }
-            if(!user.password) {
-                setPasswordInvalid(true);
-                setPasswordError("Enter a password.");
-            }
-            if(!user.email) {
-                setEmailInvalid(true);
-                setEmailError("Enter an email.");
-            }
-            if(!user.birthday) {
-               setBirthdayInvalid(true);
-               setBirthdayError("Enter your date of birth.");
-            }
-            if(!user.nickname || !user.username || !user.password || !user.email || !user.birthday) {
-                return;
-            }
-        }
-    }, [submitFocus]);
-
     const handleSubmit = async e => {
         e.preventDefault();
 
-            /* try {
+        if(!user.nickname) {
+            setNicknameInvalid(true);
+            setNicknameError("Enter a nickname.");
+        }
+        if(!user.username) {
+            setUsernameInvalid(true);
+            setUsernameError("Enter a username.");
+        }
+        if(!user.password) {
+            setPasswordInvalid(true);
+            setPasswordError("Enter a password.");
+        }
+        if(!user.email) {
+            setEmailInvalid(true);
+            setEmailError("Enter an email.");
+        }
+        if(!user.birthday) {
+           setBirthdayInvalid(true);
+           setBirthdayError("Enter your date of birth.");
+        }
+
+        if(!user.nickname || !user.username || !user.password || !user.email || !user.birthday) {
+            return;
+        }
+        if(USERNAME_REGEX.test(user.username) && !usernameTaken) {
+            try {
                 const response = await fetch("http://localhost:3001/api/user", {
                     method: "POST",
                     headers: {
@@ -113,11 +117,11 @@ function SignUpForm() {
                     },
                     body: JSON.stringify(user)
                 });
-                
-                return;
+                return await response.text();
             } catch(error) {
                 console.error("Error.");
-            }*/
+            }
+        }
     }
 
     const handleChange = e => {
@@ -142,7 +146,7 @@ function SignUpForm() {
                     onFocus={() => setNicknameFocus(true)}
                     onBlur={() => setNicknameFocus(false)}
                     maxLength="26"
-                    />
+                />
                 <p id="nickname-req" className={nicknameInvalid ? "error" : "hidden"}>
                     {nicknameInvalid
                         ? nicknameError
@@ -162,7 +166,7 @@ function SignUpForm() {
                     onFocus={() => setUsernameFocus(true)}
                     onBlur={() => setUsernameFocus(false)}
                     maxLength="12"
-                    />
+                />
                 <p id="username-req" className={usernameInvalid ? "error" : "hidden"}>
                     {usernameInvalid
                         ? usernameError
@@ -181,19 +185,39 @@ function SignUpForm() {
                     value={user.password}
                     onFocus={() => setPasswordFocus(true)}
                     onBlur={() => setPasswordFocus(false)}
-                    />
+                />
                 <p id="password-req" className={passwordInvalid ? "error" : "hidden"}>
-                        {passwordInvalid 
-                            ? passwordError
-                            : "Please enter a password 8 or more characters long. You're required to have at least one uppercase letter, one lowercase letter, and one number."}
+                    {passwordInvalid
+                        ? passwordError
+                        : "Please enter a password 8 or more characters long. You're required to have at least one uppercase letter, one lowercase letter, and one number."}
                 </p>
                 <button onClick={() => setToggle(!toggle)}></button>
+                <label htmlFor="email">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    className={emailInvalid ? "red" : null}
+                    spellCheck="false"
+                    autoComplete="off"
+                    onChange={handleChange}
+                    aria-invalid={emailInvalid}
+                    aria-describedby="email-req"
+                    value={user.email}
+                    onFocus={() => setEmailFocus(true)}
+                    onBlur={() => setEmailFocus(false)}
+                />
+                <p id="email-req" className={emailInvalid ? "error" : "hidden"}>
+                    {emailInvalid
+                        ? emailError
+                        : "Please enter an email address."}
+                </p>
                 <label htmlFor="birthday">Birthday</label>
-                <input id="birthday" name="birthday" type="date" onChange={handleChange} />
-                <button
-                    onFocus={() => setSubmitFocus(true)}
-                    onBlur={() => setSubmitFocus(false)}
-                >Submit</button>
+                <input
+                    type="date"
+                    id="birthday"
+                    onChange={handleChange}
+                />
+                <button onFocus={() => setSubmitFocus(true)} onBlur={() => setSubmitFocus(false)}>Submit</button>
             </form>
         </section>
     )
