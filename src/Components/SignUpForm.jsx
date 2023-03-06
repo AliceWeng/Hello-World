@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 
@@ -36,7 +36,18 @@ function SignUpForm() {
     const [birthdayInvalid, setBirthdayInvalid] = useState(null);
 
     const [usernameTaken, setUsernameTaken] = useState(null);
+
+    
+    const nicknameRef = useRef();
+    const usernameRef = useRef();
+    const passwordRef = useRef();
+    const emailRef = useRef();
+    const birthdayRef = useRef();
  
+    useEffect(() => {
+        nicknameRef.current.focus();
+    }, [])
+
     useEffect(() => {
         if(USERNAME_REGEX.test(user.username)) {
             const fetchUsername = async () => {
@@ -84,25 +95,30 @@ function SignUpForm() {
     const handleSubmit = async e => {
         e.preventDefault();
 
-        if(!user.nickname) {
-            setNicknameInvalid(true);
-            setNicknameError("Enter a nickname.");
-        }
-        if(!user.username) {
-            setUsernameInvalid(true);
-            setUsernameError("Enter a username.");
-        }
-        if(!user.password) {
-            setPasswordInvalid(true);
-            setPasswordError("Enter a password.");
+        if(!user.birthday) {
+           setBirthdayInvalid(true);
+           setBirthdayError("Enter your date of birth.");
+           birthdayRef.current.focus();
         }
         if(!user.email) {
             setEmailInvalid(true);
             setEmailError("Enter an email.");
+            emailRef.current.focus();
         }
-        if(!user.birthday) {
-           setBirthdayInvalid(true);
-           setBirthdayError("Enter your date of birth.");
+        if(!user.password) {
+            setPasswordInvalid(true);
+            setPasswordError("Enter a password.");
+            passwordRef.current.focus();
+        }
+        if(!user.username) {
+            setUsernameInvalid(true);
+            setUsernameError("Enter a username.");
+            usernameRef.current.focus();
+        }
+        if(!user.nickname) {
+            setNicknameInvalid(true);
+            setNicknameError("Enter a nickname.");
+            nicknameRef.current.focus();
         }
 
         if(!user.nickname || !user.username || !user.password || !user.email || !user.birthday) {
@@ -143,6 +159,7 @@ function SignUpForm() {
                     aria-invalid={nicknameInvalid}
                     aria-describedby="nickname-req"
                     value={user.nickname}
+                    ref={nicknameRef}
                     onFocus={() => setNicknameFocus(true)}
                     onBlur={() => setNicknameFocus(false)}
                     maxLength="26"
@@ -163,6 +180,7 @@ function SignUpForm() {
                     aria-invalid={usernameInvalid}
                     aria-describedby="username-req"
                     value={user.username}
+                    ref={usernameRef}
                     onFocus={() => setUsernameFocus(true)}
                     onBlur={() => setUsernameFocus(false)}
                     maxLength="12"
@@ -183,6 +201,7 @@ function SignUpForm() {
                     aria-invalid={passwordInvalid}
                     aria-describedby="password-req"
                     value={user.password}
+                    ref={passwordRef}
                     onFocus={() => setPasswordFocus(true)}
                     onBlur={() => setPasswordFocus(false)}
                 />
@@ -203,6 +222,7 @@ function SignUpForm() {
                     aria-invalid={emailInvalid}
                     aria-describedby="email-req"
                     value={user.email}
+                    ref={emailRef}
                     onFocus={() => setEmailFocus(true)}
                     onBlur={() => setEmailFocus(false)}
                 />
@@ -216,6 +236,7 @@ function SignUpForm() {
                     type="date"
                     id="birthday"
                     onChange={handleChange}
+                    ref={birthdayRef}
                 />
                 <button onFocus={() => setSubmitFocus(true)} onBlur={() => setSubmitFocus(false)}>Submit</button>
             </form>
