@@ -210,7 +210,7 @@ function SignUpForm() {
                         ? passwordError
                         : "Please enter a password 8 or more characters long. You're required to have at least one uppercase letter, one lowercase letter, and one number."}
                 </p>
-                <button onClick={() => setToggle(!toggle)}></button>
+                <div onClick={() => setToggle(!toggle)}></div>
                 <label htmlFor="email">Email</label>
                 <input
                     type="email"
@@ -238,7 +238,7 @@ function SignUpForm() {
                     onChange={handleChange}
                     ref={birthdayRef}
                 />
-                <button onFocus={() => setSubmitFocus(true)} onBlur={() => setSubmitFocus(false)}>Submit</button>
+                <input type="submit" className="submit"/>
             </form>
         </section>
     )

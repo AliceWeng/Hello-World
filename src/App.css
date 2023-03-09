@@ -35,6 +35,17 @@ form {
   padding: 1.5em;
   margin: 2em;
 }
+.submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Calibre";
+  position: absolute;
+  padding: .5em 2em;
+  font-size: 20px;
+  bottom: 1em;
+  cursor: pointer;
+}
 input {
   height: 2em;
   width: 19em;
@@ -137,7 +148,7 @@ li {
 }
 .center {
   display: flex;
-  min-height: 100vh;
+  min-height: 90vh;
   align-items: center;
   justify-content: center;
 }
