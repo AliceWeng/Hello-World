@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "../App.css";
+import AuthContext from "./context/AuthContext";
 
 function LogInForm() {
     const [userData, setUserData] = useState({
         username: "",
         password: ""
     });
+
+    const { auth, setAuth } = useContext(AuthContext);
 
     const handleSubmit = e => {
         e.preventDefault();
