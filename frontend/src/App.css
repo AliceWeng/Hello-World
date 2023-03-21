@@ -14,7 +14,11 @@
   --accent: black;
   --inputBorder: black;
 }
-
+.dark {
+  --background: black;
+  --accent: white;
+  --inputBorder: white;
+}
 body {
   font-family: "Calibre";
   background: var(--background);
@@ -84,6 +88,7 @@ textarea:focus, input:focus {
   border: solid 2px rgba(0, 0, 0, 0.75);
 }
 label {
+  color: var(--accent);
   margin-top: .5em;
 }
 
@@ -105,7 +110,7 @@ nav ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--lightBlue);
+  background: var(--accent);
 }
 li {
   list-style: none;
@@ -133,18 +138,18 @@ li {
   text-transform: uppercase;
   text-decoration: none;
   font-weight: bolder;
-  color: var(--darkBlue);
-  text-shadow: 1px 1px 1px var(--blue);
+  color: var(--background);
+  text-shadow: 1px 1px 1px gray;
 }
 .navButton {
   padding: .5em;
   font-size: 2em;
   margin-left: .5em;
   border-radius: .2em;
-  box-shadow: inset var(--blue) 0 0 1em;
+  box-shadow: inset grey 0 0 15em;
 }
 .navButton:hover {
-  box-shadow: inset var(--blue) 0 0 2em;
+  box-shadow: inset var(--background) 0 0 2em;
 }
 .center {
   display: flex;

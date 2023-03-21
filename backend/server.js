@@ -17,7 +17,6 @@ mongoose.connect(URI, {useNewUrlParser: true, useUnifiedTopology: true}, () => {
 
 app.use("/api/user", require("./controllers/user_controller"));
 app.use("/api/moods", require("./controllers/moods_controller"));
-app.use("/api/auth", require("./controllers/authentication_controller"));
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../build/index.html"));

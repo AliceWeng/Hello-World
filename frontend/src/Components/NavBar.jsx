@@ -12,13 +12,13 @@ function NavBar() {
         </>
     )
 
-    if(user) {
+    /* if(user) {
         authentication = (
             <li>
                 Welcome, {user.nickname}!
             </li>
         )
-    }
+    } */
 
     return (
         <nav>

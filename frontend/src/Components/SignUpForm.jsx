@@ -146,8 +146,8 @@ function SignUpForm() {
 
     return (
         <section className="center">
+            <h1>Sign Up</h1>
             <form onSubmit={handleSubmit}>
-                <h1>Sign Up</h1>
                 <label htmlFor="nickname">Nickname</label>
                 <input
                     type="text"
