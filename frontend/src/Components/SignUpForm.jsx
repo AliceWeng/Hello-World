@@ -70,7 +70,7 @@ function SignUpForm() {
             if(USERNAME_REGEX.test(user.username)) {
                 if(usernameTaken) {
                     setUsernameInvalid(true);
-                    setUsernameError("Sorry, this username is already taken. Please choose a different one.");
+                    setUsernameError("Sorry, this username is already taken.");
                 }
             }
             if(!USERNAME_REGEX.test(user.username)) {
@@ -146,8 +146,8 @@ function SignUpForm() {
 
     return (
         <section className="center">
-            <h1>Sign Up</h1>
             <form onSubmit={handleSubmit}>
+                <h1>Sign Up</h1>
                 <label htmlFor="nickname">Nickname</label>
                 <input
                     type="text"

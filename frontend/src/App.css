@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 * {
   margin: 0;
@@ -7,110 +6,111 @@
   box-sizing: border-box;
 }
 :root {
-  --blue: #aac1ff;
-  --darkBlue: #7197ff;
-  --lightBlue: #e3f0ff;
-  --background: white;
-  --accent: black;
-  --inputBorder: black;
+  --accent50: rgba(0, 0, 0, 0.5);
+  --body-background: white;
+  --form-background: white;
+  --input-background: white;
+  --input-border: black;
+  --logo: #80a7fc;
+  --text: black;
 }
 .dark {
-  --background: black;
-  --accent: white;
-  --inputBorder: white;
+  --accent50: rgba(255, 255, 255, 0.5);
+  --body-background: #0e0e10;
+  --form-background: #18181b;
+  --input-background: #3d3d3f;
+  --text: white;
 }
 body {
   font-family: "Calibre";
-  background: var(--background);
+  background: var(--body-background);
 }
 h1 {
   font-size: 2.5em;
   margin-bottom: .5em;
-  color: var(--accent);
+  color: var(--text);
 }
 form {
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  background: var(--background);
-  border: solid 1px var(--accent);
-  box-shadow: .8em .8em var(--accent);
+  background: var(--form-background);
+  border: solid 1px black;
+  box-shadow: .8em .8em black;
   padding: 1.5em;
   margin: 2em;
+}
+label {
+  color: var(--text);
+  margin-top: .5em;
+  font-size: 20px;
+}
+input {
+  height: 2em;
+}
+textarea {
+  height: 15em;
+  resize: none;
+}
+input, textarea {
+  border: solid 1px var(--input-border);
+  background: var(--input-background);
+  margin-bottom: .5em;
+  font-size: 20px;
+  padding: .5em;
+  width: 19em;
+}
+input:focus, textarea:focus {
+  outline: none;
+  border: solid 2px var(--input-border);
+}
+.red {
+  --input-border: #d93025;
 }
 .submit {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: var(--logo);
   font-family: "Calibre";
-  position: absolute;
-  padding: .5em 2em;
+  margin-top: .5em;
   font-size: 20px;
-  bottom: 1em;
+  color: white;
+  padding: .5em;
+  width: 4em;
+  border: none;
+  border-radius: .2em;
   cursor: pointer;
 }
-input {
-  height: 2em;
-  width: 19em;
-  padding: .5em;
-  margin-bottom: .5em;
-  border: solid 1px var(--inputBorder);
+.submit:focus {
+  border: none;
 }
-.red {
-  --inputBorder: #d93025;
+.submit:hover {
+  background: #5e91ff;
 }
-.red:focus {
-  border: solid 2px var(--inputBorder);
+.submit:active {
+  background: #407cff;
 }
 .error {
-  padding: 1em;
-  width: 23.75em;
-  border-radius: 2em;
-  text-align: center;
-  padding-bottom: .5em;
-  color: var(--background);
-  background: var(--accent);
+  width: 23em;
+  color: #d93025;
 }
 .hidden {
   opacity: 0;
   z-index: -1;
   position: absolute;
 }
-textarea {
-  resize: none;
-  width: 19em;
-  height: 9em;
-}
-
-textarea:focus, input:focus {
-  outline: none;
-  border: solid 2px rgba(0, 0, 0, 0.75);
-}
-label {
-  color: var(--accent);
-  margin-top: .5em;
-}
-
 .colorInput {
   padding: 0 .1em;
-  background: white;
   cursor: pointer;
 }
-.submit {
-  margin: 0;
-  width: 4em;
-  background: white;
-  cursor: pointer;
-}
-textarea, input, label {
-  font-size: 20px;
-}
+
 nav ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--accent);
+  box-shadow: var(--logo) 0 0 3em;
 }
 li {
   list-style: none;
@@ -123,11 +123,12 @@ li {
 .navLink::before {
   content: "";
   position: absolute;
-  height: 1px;
+  height: 2px;
   width: 0;
   left: 0;
-  bottom: -16px;
-  background: var(--accent);
+  bottom: -17px;
+  border-radius: 1em;
+  background: var(--logo);
   transition: 500ms ease-in-out;
 }
 .navLink:hover::before {
@@ -138,15 +139,15 @@ li {
   text-transform: uppercase;
   text-decoration: none;
   font-weight: bolder;
-  color: var(--background);
-  text-shadow: 1px 1px 1px gray;
+  color: var(--logo);
+  text-shadow: 1px 1px 1px var(--accent50);
 }
 .navButton {
   padding: .5em;
   font-size: 2em;
   margin-left: .5em;
   border-radius: .2em;
-  box-shadow: inset grey 0 0 15em;
+  box-shadow: inset var(--background) 0 0 1em;
 }
 .navButton:hover {
   box-shadow: inset var(--background) 0 0 2em;

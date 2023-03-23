@@ -1,4 +1,5 @@
-import { useState, useContext, useRef } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
+import { Link } from "react-router-dom";
 import "../App.css";
 import AuthContext from "./context/AuthContext";
 
@@ -7,18 +8,21 @@ function LogInForm() {
         username: "",
         password: ""
     });
-
     const [error, setError] = useState("");
 
     const { setAuth } = useContext(AuthContext);
 
     const usernameRef = useRef();
-    const passwordRef = useRef();
+    const errorRef = useRef();
+
+    useEffect(() => {
+        usernameRef.current.focus();
+    }, []);
 
     const handleSubmit = async e => {
         e.preventDefault();
 
-        const response = await fetch("http://localhost:3001/api/auth", {
+        const response = await fetch("http://localhost:3001/api/user/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -31,6 +35,7 @@ function LogInForm() {
             setAuth(data.user);
         } else {
             setError(data.message);
+            errorRef.current.focus();
         }
     }
 
@@ -39,25 +44,33 @@ function LogInForm() {
     }
 
     return (
-        <section className="center">
-            <h1>Log In</h1>
+        <section className="center">    
             <form onSubmit={handleSubmit}>
+                <h1>Log In</h1>
+                {error ? <p ref={errorRef} role="alert">{error}</p> : null}
                 <label htmlFor="username">Username</label>
                 <input
-                    id="username"
                     type="text"
-                    autoComplete="off"
+                    id="username"
+                    spellCheck="false"
+                    autoCapitalize="off"
+                    autoComplete="username"
                     onChange={handleChange}
-                    required
+                    value={user.username}
+                    ref={usernameRef}
                 />
                 <label htmlFor="password">Password</label>
                 <input
-                    id="password"
                     type="password"
-                    autoComplete="off"
+                    id="password"
+                    spellCheck="false"
+                    autoCapitalize="off"
+                    autoComplete="current-password"
                     onChange={handleChange}
-                    required />
+                    value={user.password}
+                />
                 <input className="submit" type="submit"/>
+                <p>Don't have an account? <Link to="/signup">Sign up.</Link></p>
             </form>
         </section>
     )
