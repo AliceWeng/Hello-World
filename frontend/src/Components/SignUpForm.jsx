@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../App.css";
 
 const USERNAME_REGEX = /^[a-zA-Z0-9]{4,12}$/;
@@ -20,7 +20,7 @@ function SignUpForm() {
     const [emailError, setEmailError] = useState("");
     const [birthdayError, setBirthdayError] = useState("");
 
-    const [toggle, setToggle] = useState(false);
+    const [passwordToggle, setPasswordToggle] = useState(false);
 
     const [nicknameFocus, setNicknameFocus] = useState(false);
     const [usernameFocus, setUsernameFocus] = useState(false);
@@ -36,7 +36,6 @@ function SignUpForm() {
     const [birthdayInvalid, setBirthdayInvalid] = useState(null);
 
     const [usernameTaken, setUsernameTaken] = useState(null);
-
     
     const nicknameRef = useRef();
     const usernameRef = useRef();
@@ -46,7 +45,16 @@ function SignUpForm() {
  
     useEffect(() => {
         nicknameRef.current.focus();
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if(user.nickname && !nicknameFocus) {
+            if(user.nickname.length > 26) {
+                setNicknameInvalid(true);
+                setNicknameError("Sorry, your nickname can only be up to 26 characters long.");
+            } else setNicknameInvalid(false);
+        }
+    }, [nicknameFocus]);
 
     useEffect(() => {
         if(USERNAME_REGEX.test(user.username)) {
@@ -84,13 +92,18 @@ function SignUpForm() {
     }, [usernameFocus]);
 
     useEffect(() => {
-        if(user.nickname && !nicknameFocus) {
-            if(user.nickname.length > 26) {
-                setNicknameInvalid(true);
-                setNicknameError("Sorry, your nickname can only be up to 26 characters long.");
-            } else setNicknameInvalid(false);
+        if(user.password && !passwordFocus) {
+            setPasswordInvalid(!PASSWORD_REGEX.test(user.password));
+
+            if(!PASSWORD_REGEX.test(user.password)) {
+                if(user.password.length < 8) {
+                    setPasswordError("Sorry, your password must be 8 or more characters long.");
+                } else {
+                    setPasswordError("Sorry, your password must contain at least one uppercase letter, one lowercase letter, and one number.");
+                }
+            }
         }
-    }, [nicknameFocus]);
+    }, [passwordFocus]);
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -155,6 +168,7 @@ function SignUpForm() {
                     className={nicknameInvalid ? "red" : null}
                     spellCheck="false"
                     autoComplete="off"
+                    autoCapitalize="off"
                     onChange={handleChange}
                     aria-invalid={nicknameInvalid}
                     aria-describedby="nickname-req"
@@ -176,6 +190,7 @@ function SignUpForm() {
                     className={usernameInvalid ? "red" : null}
                     spellCheck="false"
                     autoComplete="off"
+                    autoCapitalize="off"
                     onChange={handleChange}
                     aria-invalid={usernameInvalid}
                     aria-describedby="username-req"
@@ -192,10 +207,11 @@ function SignUpForm() {
                 </p>
                 <label htmlFor="password">Password</label>
                 <input
-                    type={toggle ? "text" : "password"}
+                    type={passwordToggle ? "text" : "password"}
                     id="password"
-                    className={passwordInvalid ? "red" : null}
+                    className={passwordInvalid ? "red inputPadding" : "inputPadding"}
                     spellCheck="false"
+                    autoCapitalize="off"
                     autoComplete="new-password"
                     onChange={handleChange}
                     aria-invalid={passwordInvalid}
@@ -205,12 +221,19 @@ function SignUpForm() {
                     onFocus={() => setPasswordFocus(true)}
                     onBlur={() => setPasswordFocus(false)}
                 />
+                <button
+                    type="button"
+                    className="passwordToggle"
+                    onClick={() => setPasswordToggle(!passwordToggle)}
+                    aria-label={passwordToggle ? "Hide your password." : "Show your password."}
+                >
+                    {passwordToggle ? "hide" : "show"}
+                </button>
                 <p id="password-req" className={passwordInvalid ? "error" : "hidden"}>
                     {passwordInvalid
                         ? passwordError
                         : "Please enter a password 8 or more characters long. You're required to have at least one uppercase letter, one lowercase letter, and one number."}
                 </p>
-                <div onClick={() => setToggle(!toggle)}></div>
                 <label htmlFor="email">Email</label>
                 <input
                     type="email"
@@ -218,6 +241,7 @@ function SignUpForm() {
                     className={emailInvalid ? "red" : null}
                     spellCheck="false"
                     autoComplete="off"
+                    autoCapitalize="off"
                     onChange={handleChange}
                     aria-invalid={emailInvalid}
                     aria-describedby="email-req"
@@ -239,6 +263,7 @@ function SignUpForm() {
                     ref={birthdayRef}
                 />
                 <input type="submit" className="submit"/>
+                <p>Already have an account? <Link to="/login">Log in.</Link></p>
             </form>
         </section>
     )

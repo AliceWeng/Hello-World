@@ -6,19 +6,19 @@
   box-sizing: border-box;
 }
 :root {
-  --accent50: rgba(0, 0, 0, 0.5);
   --body-background: white;
   --form-background: white;
   --input-background: white;
   --input-border: black;
   --logo: #80a7fc;
+  --shadow: #aac1ff;
   --text: black;
 }
 .dark {
-  --accent50: rgba(255, 255, 255, 0.5);
   --body-background: #0e0e10;
   --form-background: #18181b;
   --input-background: #3d3d3f;
+  --shadow: #aac1ff;
   --text: white;
 }
 body {
@@ -40,6 +40,7 @@ form {
   box-shadow: .8em .8em black;
   padding: 1.5em;
   margin: 2em;
+  position: relative;
 }
 label {
   color: var(--text);
@@ -64,6 +65,22 @@ input, textarea {
 input:focus, textarea:focus {
   outline: none;
   border: solid 2px var(--input-border);
+}
+.inputPadding {
+  padding-right: 3.5em;
+}
+.passwordToggle {
+  background: var(--input-background);
+  font-family: "Calibre";
+  color: var(--text);
+  font-size: 20px;
+  border: none;
+  padding: .15em .7em;
+  padding-top: .45em;
+  position: absolute;
+  right: 1.3em;
+  top: 14.8em;
+  cursor: pointer;
 }
 .red {
   --input-border: #d93025;
@@ -105,7 +122,6 @@ input:focus, textarea:focus {
   padding: 0 .1em;
   cursor: pointer;
 }
-
 nav ul {
   display: flex;
   align-items: center;
@@ -113,12 +129,12 @@ nav ul {
   box-shadow: var(--logo) 0 0 3em;
 }
 li {
-  list-style: none;
   margin: 1em;
+  list-style: none;
 }
 .navLink {
-  position: relative;
   font-size: 3em;
+  position: relative;
 }
 .navLink::before {
   content: "";
@@ -140,21 +156,37 @@ li {
   text-decoration: none;
   font-weight: bolder;
   color: var(--logo);
-  text-shadow: 1px 1px 1px var(--accent50);
+  text-shadow: 1px 1px 1px var(--shadow);
 }
 .navButton {
+  font-weight: normal;
   padding: .5em;
   font-size: 2em;
   margin-left: .5em;
   border-radius: .2em;
-  box-shadow: inset var(--background) 0 0 1em;
+  background: white;
+  box-shadow: inset var(--shadow) 0 0 1em;
 }
 .navButton:hover {
-  box-shadow: inset var(--background) 0 0 2em;
+  box-shadow: inset var(--shadow) 0 0 2em;
+}
+.navButton:active {
+  box-shadow: inset var(--shadow) 0 0 3em;
 }
 .center {
   display: flex;
-  min-height: 90vh;
   align-items: center;
   justify-content: center;
+  min-height: calc(100vh - 88px);
+}
+.toggle {
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+  color: var(--text);
+  cursor: pointer;
+}
+
+p {
+  color: var(--text);
 }

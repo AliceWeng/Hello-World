@@ -40,7 +40,7 @@ function LogInForm() {
     }
 
     const handleChange = e => {
-        setUser({...user, [e.target.id]: e.target.value});
+        setUser({...user, [e.target.id]: e.target.vdcalue});
     }
 
     return (

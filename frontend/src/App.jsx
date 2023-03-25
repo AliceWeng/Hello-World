@@ -31,7 +31,7 @@ function App() {
           <Route path="/moods/new" element={<MoodForm />}/>
           <Route path="/*" component={<Error404/>}/>
         </Routes>
-        <div onClick={() => setToggle(!toggle)}>hi</div>
+        <div className="toggle" onClick={() => setToggle(!toggle)}>hi</div>
       </Router>
   );
 }
