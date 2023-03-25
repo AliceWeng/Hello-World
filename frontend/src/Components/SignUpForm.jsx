@@ -167,8 +167,8 @@ function SignUpForm() {
                     id="nickname"
                     className={nicknameInvalid ? "red" : null}
                     spellCheck="false"
+                    autoCapitalize="on"
                     autoComplete="off"
-                    autoCapitalize="off"
                     onChange={handleChange}
                     aria-invalid={nicknameInvalid}
                     aria-describedby="nickname-req"
@@ -189,8 +189,8 @@ function SignUpForm() {
                     id="username"
                     className={usernameInvalid ? "red" : null}
                     spellCheck="false"
-                    autoComplete="off"
                     autoCapitalize="off"
+                    autoComplete="username"
                     onChange={handleChange}
                     aria-invalid={usernameInvalid}
                     aria-describedby="username-req"
@@ -206,29 +206,31 @@ function SignUpForm() {
                         : "Please enter a username 4 to 12 alphanumeric characters long."}
                 </p>
                 <label htmlFor="password">Password</label>
-                <input
-                    type={passwordToggle ? "text" : "password"}
-                    id="password"
-                    className={passwordInvalid ? "red inputPadding" : "inputPadding"}
-                    spellCheck="false"
-                    autoCapitalize="off"
-                    autoComplete="new-password"
-                    onChange={handleChange}
-                    aria-invalid={passwordInvalid}
-                    aria-describedby="password-req"
-                    value={user.password}
-                    ref={passwordRef}
-                    onFocus={() => setPasswordFocus(true)}
-                    onBlur={() => setPasswordFocus(false)}
-                />
-                <button
-                    type="button"
-                    className="passwordToggle"
-                    onClick={() => setPasswordToggle(!passwordToggle)}
-                    aria-label={passwordToggle ? "Hide your password." : "Show your password."}
-                >
-                    {passwordToggle ? "hide" : "show"}
-                </button>
+                <div className="passwordContainer">
+                    <input
+                        type={passwordToggle ? "text" : "password"}
+                        id="password"
+                        className={passwordInvalid ? "red inputPadding" : "inputPadding"}
+                        spellCheck="false"
+                        autoCapitalize="off"
+                        autoComplete="new-password"
+                        onChange={handleChange}
+                        aria-invalid={passwordInvalid}
+                        aria-describedby="password-req"
+                        value={user.password}
+                        ref={passwordRef}
+                        onFocus={() => setPasswordFocus(true)}
+                        onBlur={() => setPasswordFocus(false)}
+                    />
+                    <button
+                        type="button"
+                        className="passwordToggle"
+                        onClick={() => setPasswordToggle(!passwordToggle)}
+                        aria-label={passwordToggle ? "Hide your password." : "Show your password."}
+                    >
+                        {passwordToggle ? "hide" : "show"}
+                    </button>
+                </div>
                 <p id="password-req" className={passwordInvalid ? "error" : "hidden"}>
                     {passwordInvalid
                         ? passwordError

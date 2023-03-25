@@ -8,7 +8,10 @@ function LogInForm() {
         username: "",
         password: ""
     });
+
     const [error, setError] = useState("");
+    
+    const [passwordToggle, setPasswordToggle] = useState(false);
 
     const { setAuth } = useContext(AuthContext);
 
@@ -60,15 +63,25 @@ function LogInForm() {
                     ref={usernameRef}
                 />
                 <label htmlFor="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    spellCheck="false"
-                    autoCapitalize="off"
-                    autoComplete="current-password"
-                    onChange={handleChange}
-                    value={user.password}
-                />
+                <div className="passwordContainer">
+                    <input
+                        type={passwordToggle ? "text" : "password"}
+                        id="password"
+                        spellCheck="false"
+                        autoCapitalize="off"
+                        autoComplete="current-password"
+                        onChange={handleChange}
+                        value={user.password}
+                    />
+                    <button
+                        type="button"
+                        className="passwordToggle"
+                        onClick={() => setPasswordToggle(!passwordToggle)}
+                        aria-label={passwordToggle ? "Hide your password." : "Show your password."}
+                    >
+                        {passwordToggle ? "hide" : "show"}
+                    </button>
+                </div>
                 <input className="submit" type="submit"/>
                 <p>Don't have an account? <Link to="/signup">Sign up.</Link></p>
             </form>
