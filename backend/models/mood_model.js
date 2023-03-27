@@ -12,13 +12,8 @@ const moodSchema = new mongoose.Schema({
     color: {
         type: String,
     },
-    private: {
-        type: Boolean,
-
-    },
     date: {
         type: Date,
-
     }
 });
 

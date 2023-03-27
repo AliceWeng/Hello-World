@@ -1,24 +1,30 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import "../App.css";
+import AuthContext from "./context/AuthContext";
 
 function NavBar() {
 
-    let authentication = (
-        <>
-            <li>
-                <Link className="navButton" to="/signup">Sign up</Link>
-                <Link className="navButton" to="/login">Log In</Link>
-            </li>
-        </>
-    )
+    const { auth } = useContext(AuthContext);
 
-    /* if(user) {
+    let authentication;
+
+    if(auth) {
         authentication = (
             <li>
-                Welcome, {user.nickname}!
+                Welcome, {auth.nickname}!
             </li>
         )
-    } */
+    } else {
+        authentication = (
+            <>
+                <li>
+                    <Link className="navButton" to="/signup">Sign up</Link>
+                    <Link className="navButton" to="/login">Log In</Link>
+                </li>
+            </>
+        )
+    }
 
     return (
         <nav>

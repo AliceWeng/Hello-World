@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 import AuthContext from "./context/AuthContext";
 
@@ -18,6 +18,8 @@ function LogInForm() {
     const usernameRef = useRef();
     const errorRef = useRef();
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         usernameRef.current.focus();
     }, []);
@@ -27,6 +29,7 @@ function LogInForm() {
 
         const response = await fetch("http://localhost:3001/api/user/login", {
             method: "POST",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -36,6 +39,7 @@ function LogInForm() {
 
         if(response.status === 200) {
             setAuth(data.user);
+            navigate("/");
         } else {
             setError(data.message);
             errorRef.current.focus();
@@ -43,7 +47,7 @@ function LogInForm() {
     }
 
     const handleChange = e => {
-        setUser({...user, [e.target.id]: e.target.vdcalue});
+        setUser({...user, [e.target.id]: e.target.value});
     }
 
     return (
@@ -67,6 +71,7 @@ function LogInForm() {
                     <input
                         type={passwordToggle ? "text" : "password"}
                         id="password"
+                        className="inputPadding"
                         spellCheck="false"
                         autoCapitalize="off"
                         autoComplete="current-password"
@@ -83,7 +88,7 @@ function LogInForm() {
                     </button>
                 </div>
                 <input className="submit" type="submit"/>
-                <p>Don't have an account? <Link to="/signup">Sign up.</Link></p>
+                <p>Don't have an account? <Link className="link" to="/signup">Sign up.</Link></p>
             </form>
         </section>
     )

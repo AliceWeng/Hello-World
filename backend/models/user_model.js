@@ -15,16 +15,6 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
-    },
-    email: {
-        type: String,
-        unique: true,
-        required: true,
-        lowercase: true
-    },
-    birthday: {
-        type: Date,
-        required: true
     }
 }, { timestamps: true });
 

@@ -8,17 +8,16 @@
 :root {
   --body-background: white;
   --form-background: white;
-  --input-background: white;
+  --input-background: #ebebeb;
   --input-border: black;
   --logo: #80a7fc;
-  --shadow: #aac1ff;
   --text: black;
 }
 .dark {
   --body-background: #0e0e10;
   --form-background: #18181b;
   --input-background: #3d3d3f;
-  --shadow: #aac1ff;
+  --input-border: #80a7fc;
   --text: white;
 }
 body {
@@ -36,8 +35,8 @@ form {
   flex-direction: column;
   justify-content: center;
   background: var(--form-background);
-  border: solid 1px black;
-  box-shadow: .8em .8em black;
+  border: solid 1px var(--input-border);
+  box-shadow: .8em .8em var(--input-border);
   padding: 1.5em;
   margin: 2em;
 }
@@ -54,7 +53,7 @@ textarea {
   resize: none;
 }
 input, textarea {
-  border: solid 1px var(--input-border);
+  border: transparent;
   background: var(--input-background);
   margin-bottom: .5em;
   color: var(--text);
@@ -65,6 +64,7 @@ input, textarea {
 input:focus, textarea:focus {
   outline: none;
   border: solid 2px var(--input-border);
+  background: var(--body-background);
 }
 .inputPadding {
   padding-right: 3.5em;
@@ -73,7 +73,7 @@ input:focus, textarea:focus {
   position: relative;
 }
 .passwordToggle {
-  background: var(--input-background);
+  background: transparent;
   font-family: "Calibre";
   color: var(--text);
   font-size: 20px;
@@ -106,6 +106,7 @@ input:focus, textarea:focus {
 }
 .submit:focus {
   border: none;
+  background: var(--logo);
 }
 .submit:hover {
   background: #5e91ff;
@@ -114,7 +115,7 @@ input:focus, textarea:focus {
   background: #407cff;
 }
 .error {
-  width: 23em;
+  width: 23.75em;
   color: #d93025;
 }
 .hidden {
@@ -139,6 +140,7 @@ li {
 .navLink {
   font-size: 3em;
   position: relative;
+  font-weight: bolder;
 }
 .navLink::before {
   content: "";
@@ -158,24 +160,21 @@ li {
   font-family: "Pathway Gothic One", sans-serif;
   text-transform: uppercase;
   text-decoration: none;
-  font-weight: bolder;
   color: var(--logo);
-  text-shadow: 1px 1px 1px var(--shadow);
+  text-shadow: 1px 1px 1px var(--logo);
 }
 .navButton {
-  font-weight: normal;
   padding: .5em;
   font-size: 2em;
   margin-left: .5em;
-  border-radius: .2em;
-  background: white;
-  box-shadow: inset var(--shadow) 0 0 1em;
+  border: 1px solid var(--logo);
+  box-shadow: inset rgba(128, 167, 252, 0.5) 0 0 1em;
 }
 .navButton:hover {
-  box-shadow: inset var(--shadow) 0 0 2em;
+  box-shadow: inset rgba(128, 167, 252, 0.5) 0 0 2em;
 }
 .navButton:active {
-  box-shadow: inset var(--shadow) 0 0 3em;
+  box-shadow: inset rgba(128, 167, 252, 0.5) 0 0 3em;
 }
 .center {
   display: flex;
@@ -190,7 +189,13 @@ li {
   color: var(--text);
   cursor: pointer;
 }
-
 p {
   color: var(--text);
+}
+.link {
+  text-decoration: none;
+  color: var(--logo);
+}
+.link:hover {
+  text-decoration: underline;
 }

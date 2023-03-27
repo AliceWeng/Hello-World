@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 
 const USERNAME_REGEX = /^[a-zA-Z0-9]{4,12}$/;
@@ -10,38 +10,29 @@ function SignUpForm() {
         nickname: "",
         username: "",
         password: "",
-        email: "",
-        birthday: ""
     });
 
     const [nicknameError, setNicknameError] = useState("");
     const [usernameError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
-    const [emailError, setEmailError] = useState("");
-    const [birthdayError, setBirthdayError] = useState("");
-
-    const [passwordToggle, setPasswordToggle] = useState(false);
 
     const [nicknameFocus, setNicknameFocus] = useState(false);
     const [usernameFocus, setUsernameFocus] = useState(false);
     const [passwordFocus, setPasswordFocus] = useState(false);
-    const [emailFocus, setEmailFocus] = useState(false);
-    const [birthdayFocus, setBirthdayFocus] = useState(false);
-    const [submitFocus, setSubmitFocus] = useState(false);
 
     const [nicknameInvalid, setNicknameInvalid] = useState(null);
     const [usernameInvalid, setUsernameInvalid] = useState(null);
     const [passwordInvalid, setPasswordInvalid] = useState(null);
-    const [emailInvalid, setEmailInvalid] = useState(null);
-    const [birthdayInvalid, setBirthdayInvalid] = useState(null);
 
     const [usernameTaken, setUsernameTaken] = useState(null);
+
+    const [passwordToggle, setPasswordToggle] = useState(false);
     
     const nicknameRef = useRef();
     const usernameRef = useRef();
     const passwordRef = useRef();
-    const emailRef = useRef();
-    const birthdayRef = useRef();
+
+    const navigate = useNavigate();
  
     useEffect(() => {
         nicknameRef.current.focus();
@@ -52,7 +43,9 @@ function SignUpForm() {
             if(user.nickname.length > 26) {
                 setNicknameInvalid(true);
                 setNicknameError("Sorry, your nickname can only be up to 26 characters long.");
-            } else setNicknameInvalid(false);
+            } else {
+                setNicknameInvalid(false);
+            }
         }
     }, [nicknameFocus]);
 
@@ -99,7 +92,7 @@ function SignUpForm() {
                 if(user.password.length < 8) {
                     setPasswordError("Sorry, your password must be 8 or more characters long.");
                 } else {
-                    setPasswordError("Sorry, your password must contain at least one uppercase letter, one lowercase letter, and one number.");
+                    setPasswordError("Sorry, your password must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number.");
                 }
             }
         }
@@ -108,16 +101,6 @@ function SignUpForm() {
     const handleSubmit = async e => {
         e.preventDefault();
 
-        if(!user.birthday) {
-           setBirthdayInvalid(true);
-           setBirthdayError("Enter your date of birth.");
-           birthdayRef.current.focus();
-        }
-        if(!user.email) {
-            setEmailInvalid(true);
-            setEmailError("Enter an email.");
-            emailRef.current.focus();
-        }
         if(!user.password) {
             setPasswordInvalid(true);
             setPasswordError("Enter a password.");
@@ -134,10 +117,10 @@ function SignUpForm() {
             nicknameRef.current.focus();
         }
 
-        if(!user.nickname || !user.username || !user.password || !user.email || !user.birthday) {
+        if(!user.nickname || !user.username || !user.password) {
             return;
         }
-        if(USERNAME_REGEX.test(user.username) && !usernameTaken) {
+        if(user.nickname.length <= 26 && USERNAME_REGEX.test(user.username) && !usernameTaken && PASSWORD_REGEX.test(user.password)) {
             try {
                 const response = await fetch("http://localhost:3001/api/user", {
                     method: "POST",
@@ -146,7 +129,10 @@ function SignUpForm() {
                     },
                     body: JSON.stringify(user)
                 });
-                return await response.text();
+                await response.text();
+                setUser("");
+                navigate("/");
+                return;
             } catch(error) {
                 console.error("Error.");
             }
@@ -167,7 +153,7 @@ function SignUpForm() {
                     id="nickname"
                     className={nicknameInvalid ? "red" : null}
                     spellCheck="false"
-                    autoCapitalize="on"
+                    autoCapitalize="off"
                     autoComplete="off"
                     onChange={handleChange}
                     aria-invalid={nicknameInvalid}
@@ -190,7 +176,7 @@ function SignUpForm() {
                     className={usernameInvalid ? "red" : null}
                     spellCheck="false"
                     autoCapitalize="off"
-                    autoComplete="username"
+                    autoComplete="off"
                     onChange={handleChange}
                     aria-invalid={usernameInvalid}
                     aria-describedby="username-req"
@@ -234,38 +220,10 @@ function SignUpForm() {
                 <p id="password-req" className={passwordInvalid ? "error" : "hidden"}>
                     {passwordInvalid
                         ? passwordError
-                        : "Please enter a password 8 or more characters long. You're required to have at least one uppercase letter, one lowercase letter, and one number."}
+                        : "Please enter a password 8 or more characters long with at least 1 uppercase letter, 1 lowercase letter, and 1 number."}
                 </p>
-                <label htmlFor="email">Email</label>
-                <input
-                    type="email"
-                    id="email"
-                    className={emailInvalid ? "red" : null}
-                    spellCheck="false"
-                    autoComplete="off"
-                    autoCapitalize="off"
-                    onChange={handleChange}
-                    aria-invalid={emailInvalid}
-                    aria-describedby="email-req"
-                    value={user.email}
-                    ref={emailRef}
-                    onFocus={() => setEmailFocus(true)}
-                    onBlur={() => setEmailFocus(false)}
-                />
-                <p id="email-req" className={emailInvalid ? "error" : "hidden"}>
-                    {emailInvalid
-                        ? emailError
-                        : "Please enter an email address."}
-                </p>
-                <label htmlFor="birthday">Birthday</label>
-                <input
-                    type="date"
-                    id="birthday"
-                    onChange={handleChange}
-                    ref={birthdayRef}
-                />
                 <input type="submit" className="submit"/>
-                <p>Already have an account? <Link to="/login">Log in.</Link></p>
+                <p>Already have an account? <Link className="link" to="/login">Log in.</Link></p>
             </form>
         </section>
     )
