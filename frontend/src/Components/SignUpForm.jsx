@@ -52,7 +52,7 @@ function SignUpForm() {
     useEffect(() => {
         if(USERNAME_REGEX.test(user.username)) {
             const fetchUsername = async () => {
-                const response = await fetch(`http://localhost:3001/api/user/username/${user.username}`);
+                const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/user/${user.username}`);
                 const data = await response.text();
                 return (data ? true : false);
             }
@@ -122,7 +122,7 @@ function SignUpForm() {
         }
         if(user.nickname.length <= 26 && USERNAME_REGEX.test(user.username) && !usernameTaken && PASSWORD_REGEX.test(user.password)) {
             try {
-                const response = await fetch("http://localhost:3001/api/user", {
+                const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/user`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

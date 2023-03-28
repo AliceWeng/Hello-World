@@ -7,14 +7,14 @@ export const AuthProvider = ({children}) => {
 
     useEffect(() => {
         const getCurrentUser = async () => {
-            let response = await fetch("http://localhost:3001/api/user", {
+            let response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/user/auth`, {
                 credentials: "include"
             });
             let user = await response.json();
             setAuth(user);
         }
         getCurrentUser();
-    }, [auth]);
+    }, []);
 
     return (
         <AuthContext.Provider value={{auth, setAuth}}>

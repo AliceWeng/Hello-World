@@ -27,7 +27,7 @@ function LogInForm() {
     const handleSubmit = async e => {
         e.preventDefault();
 
-        const response = await fetch("http://localhost:3001/api/user/login", {
+        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/user/auth`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -40,6 +40,7 @@ function LogInForm() {
         if(response.status === 200) {
             setAuth(data.user);
             navigate("/");
+            window.location.reload();
         } else {
             setError(data.message);
             errorRef.current.focus();

@@ -5,7 +5,7 @@ function MoodCollection() {
     const [moods, setMoods] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:3001/api/moods")
+        fetch(`${process.env.REACT_APP_FETCH_URI}/api/moods`)
             .then(response => response.json())
             .then(data => setMoods(data));
     }, []);

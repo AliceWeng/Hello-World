@@ -137,12 +137,12 @@ li {
   margin: 1em;
   list-style: none;
 }
-.navLink {
+.navLogo {
   font-size: 3em;
   position: relative;
   font-weight: bolder;
 }
-.navLink::before {
+.navLogo::before {
   content: "";
   position: absolute;
   height: 2px;
@@ -153,10 +153,10 @@ li {
   background: var(--logo);
   transition: 500ms ease-in-out;
 }
-.navLink:hover::before {
+.navLogo:hover::before {
   width: 100%;
 }
-.navButton, .navLink {
+.navButton, .navLogo {
   font-family: "Pathway Gothic One", sans-serif;
   text-transform: uppercase;
   text-decoration: none;

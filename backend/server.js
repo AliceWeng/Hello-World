@@ -6,16 +6,16 @@ const app = express();
 const path = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const cookieSession = require("cookie-session");
+const session = require("cookie-session");
 
-app.use(cookieSession({
+app.use(session({
     name: "session",
     sameSite: "strict",
     keys: [process.env.SESSION_SECRET],
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://your-hello-world.vercel.app"],
     credentials: true
 }));
 app.use(express.json());

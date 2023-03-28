@@ -6,7 +6,8 @@ import LogInForm from "./Components/LogInForm";
 import MoodForm from "./Components/MoodForm";
 import NavBar from "./Components/NavBar";
 import MoodCollection from "./Components/MoodCollection";
-import Error404 from "./Components/Error404"
+import Error404 from "./Components/Error404";
+
 
 function App() {
   const [toggle, setToggle] = useState(false);
@@ -29,7 +30,7 @@ function App() {
           <Route path="/login" element={<LogInForm />}/>
           <Route path="/moods" element={<MoodCollection />}/>
           <Route path="/moods/new" element={<MoodForm />}/>
-          <Route path="/*" component={<Error404/>}/>
+          <Route path="/*" element={<Error404/>}/>
         </Routes>
         <div className="toggle" onClick={() => setToggle(!toggle)}>hi</div>
       </Router>
