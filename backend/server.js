@@ -15,9 +15,13 @@ app.use(session({
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 app.use(cors({
-    origin: ["http://localhost:3000", "https://your-hello-world.vercel.app"],
+    origin: process.env.WEBSITE,
     credentials: true
 }));
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", process.env.WEBSITE);
+    next();
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../build")));

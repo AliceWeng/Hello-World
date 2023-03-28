@@ -14,14 +14,14 @@ function NavBar() {
                     <Link className="navLogo" to="/">Hello, world!</Link>
                 </li>
                 { auth
-                ? <li>
-                    <p>Welcome, {auth.nickname}!</p>
-                    <LogOutButton auth={auth}/>
-                  </li> 
-                : <li>
-                    <Link className="navButton" to="/signup">Sign up</Link>
-                    <Link className="navButton" to="/login">Log In</Link>
-                  </li>
+                    ? <li>
+                        <p>Welcome, {auth.nickname}!</p>
+                        <LogOutButton auth={auth}/>
+                    </li> 
+                    : <li>
+                        <Link className="navButton" to="/signup">Sign up</Link>
+                        <Link className="navButton" to="/login">Log In</Link>
+                    </li>
                 }
             </ul>
         </nav>
