@@ -10,12 +10,6 @@ function NavBar() {
     const [form, setForm] = useState("");
     const { auth } = useContext(AuthContext);
 
-    useEffect(() => {
-        if(auth) {
-            setForm("");
-        }
-    }, []);
-
     return (
         <>
             <nav>
