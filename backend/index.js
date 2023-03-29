@@ -10,12 +10,13 @@ const session = require("cookie-session");
 
 app.use(session({
     name: "session",
-    sameSite: "strict",
+    // sameSite: "strict",
     keys: [process.env.SESSION_SECRET],
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 app.use(cors({
     origin: `${process.env.WEBSITE}`,
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
 app.use(express.json());

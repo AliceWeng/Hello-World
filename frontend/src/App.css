@@ -134,7 +134,7 @@ nav ul {
   box-shadow: var(--logo) 0 0 3em;
 }
 li {
-  margin: 1em;
+  margin: .532em 1em;
   list-style: none;
 }
 .navLogo {
@@ -162,6 +162,7 @@ li {
   text-decoration: none;
   color: var(--logo);
   text-shadow: 1px 1px 1px var(--logo);
+  cursor: pointer;
 }
 .navButton {
   padding: .5em;

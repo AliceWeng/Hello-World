@@ -26,8 +26,6 @@ function App() {
         <NavBar/>
         <Routes>
           <Route path="/" element={<MoodCollection />}/>
-          <Route path="/signup" element={<SignUpForm />}/>
-          <Route path="/login" element={<LogInForm />}/>
           <Route path="/moods" element={<MoodCollection />}/>
           <Route path="/moods/new" element={<MoodForm />}/>
           <Route path="/*" element={<Error404/>}/>
