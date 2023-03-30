@@ -9,7 +9,7 @@ function LogOutButton() {
     }
 
     return (
-        <button onClick={logout}>Log Out</button>
+        <button className="navButton" onClick={logout}>Log Out</button>
     )
 }
 

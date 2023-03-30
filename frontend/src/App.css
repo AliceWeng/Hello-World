@@ -135,7 +135,10 @@ nav ul {
 }
 li {
   margin: 1em;
+  display: flex;
   list-style: none;
+  align-items: center;
+  justify-content: center;
 }
 .navLogo {
   font-size: 3em;
@@ -169,6 +172,7 @@ li {
   padding: .5em;
   font-size: 2em;
   margin-left: .5em;
+  background: transparent;
   border: 1px solid var(--logo);
   box-shadow: inset rgba(128, 167, 252, 0.5) 0 0 1em;
 }
