@@ -1,9 +1,8 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
-import AuthContext from "./context/AuthContext";
 
-function LogInForm() {
+function LogInForm({ setForm }) {
     const [user, setUser] = useState({
         username: "",
         password: ""
@@ -12,8 +11,6 @@ function LogInForm() {
     const [error, setError] = useState("");
     
     const [passwordToggle, setPasswordToggle] = useState(false);
-
-    const { setAuth } = useContext(AuthContext);
 
     const usernameRef = useRef();
     const errorRef = useRef();
@@ -38,12 +35,11 @@ function LogInForm() {
         const data = await response.json();
 
         if(response.status === 200) {
-            setAuth(data.user);
             navigate("/");
             window.location.reload();
         } else {
             setError(data.message);
-            errorRef.current.focus();
+            usernameRef.current.focus();
         }
     }
 
@@ -55,7 +51,7 @@ function LogInForm() {
         <section className="center">    
             <form onSubmit={handleSubmit}>
                 <h1>Log In</h1>
-                {error ? <p ref={errorRef} role="alert">{error}</p> : null}
+                <p ref={errorRef} role="alert">{error}</p>
                 <label htmlFor="username">Username</label>
                 <input
                     type="text"
@@ -89,7 +85,7 @@ function LogInForm() {
                     </button>
                 </div>
                 <input className="submit" type="submit"/>
-                <p>Don't have an account? <Link className="link" to="/signup">Sign up.</Link></p>
+                <p>Don't have an account? <Link className="link" onClick={() => setForm("signup")}>Sign up.</Link></p>
             </form>
         </section>
     )

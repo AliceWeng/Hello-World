@@ -5,7 +5,7 @@ import "../App.css";
 const USERNAME_REGEX = /^[a-zA-Z0-9]{4,12}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
 
-function SignUpForm() {
+function SignUpForm({ setForm }) {
     const [user, setUser] = useState({
         nickname: "",
         username: "",
@@ -223,7 +223,7 @@ function SignUpForm() {
                         : "Please enter a password 8 or more characters long with at least 1 uppercase letter, 1 lowercase letter, and 1 number."}
                 </p>
                 <input type="submit" className="submit"/>
-                <p>Already have an account? <Link className="link" to="/login">Log in.</Link></p>
+                <p>Already have an account? <Link className="link" onClick={() => setForm("login")}>Log in.</Link></p>
             </form>
         </section>
     )

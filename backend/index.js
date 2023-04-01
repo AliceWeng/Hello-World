@@ -10,7 +10,7 @@ const session = require("cookie-session");
 
 app.use(session({
     name: "session",
-    // sameSite: "strict" or "none",
+    sameSite: "strict",
     domain: `${process.env.DOMAIN}`,
     keys: [process.env.SESSION_SECRET],
     maxAge: 24 * 60 * 60 * 1000 // 24 hours

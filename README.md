@@ -9,3 +9,5 @@ In Dave's video, he uses live validation while typing. I researched some popular
 
 
 What I Learned: There's a lot you need to take into consideration for any feature, no matter how simple it may seem. I think we take good user experience for granted because that's just what we have come to expect nowadays.
+
+https://www.youtube.com/watch?v=S-VeYcOCFZw&ab_channel=WebDevSimplified

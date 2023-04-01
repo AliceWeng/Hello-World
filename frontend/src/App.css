@@ -17,7 +17,7 @@
   --body-background: #0e0e10;
   --form-background: #18181b;
   --input-background: #3d3d3f;
-  --input-border: #80a7fc;
+  --input-border: var(--logo);
   --text: white;
 }
 body {
@@ -26,8 +26,8 @@ body {
 }
 h1 {
   font-size: 2.5em;
-  margin-bottom: .5em;
   color: var(--text);
+  margin-bottom: .5em;
 }
 form {
   display: flex;
@@ -96,22 +96,21 @@ input:focus, textarea:focus {
   font-family: "Calibre";
   margin: .5em;
   margin-bottom: 1em;
+  border-radius: .2em;
   font-size: 20px;
   color: white;
   padding: .5em;
   width: 4em;
-  border: none;
-  border-radius: .2em;
   cursor: pointer;
 }
 .submit:focus {
-  border: none;
   background: var(--logo);
 }
 .submit:hover {
   background: #5e91ff;
 }
 .submit:active {
+  border: none;
   background: #407cff;
 }
 .error {
@@ -188,13 +187,6 @@ li {
   justify-content: center;
   min-height: calc(100vh - 88px);
 }
-.toggle {
-  position: absolute;
-  bottom: 1em;
-  left: 1em;
-  color: var(--text);
-  cursor: pointer;
-}
 p {
   color: var(--text);
 }
@@ -204,4 +196,44 @@ p {
 }
 .link:hover {
   text-decoration: underline;
+}
+.dropdownButton {
+  margin: .6em 0;
+  border-radius: 50%;
+  margin-left: 1em;
+  border: none;
+  width: 3em;
+  height: 3em;
+  position: relative;
+  border: solid 1px var(--logo);
+  box-shadow: inset rgba(128, 167, 252, 0.5) 0 0 1em;
+  background: var(--body-background);
+  cursor: pointer;
+}
+.menu {
+  width: 200px;
+  position: absolute;
+  top: 6em;
+  right: 1em;
+  opacity: 0;
+  color: var(--text);
+  background: var(--form-background);
+  pointer-events: none;
+  border-radius: .5em;
+}
+.dropdown.active > .menu {
+  opacity: 1;
+  pointer-events: auto;
+}
+.menu button {
+  background: transparent;
+  color: var(--text);
+  border: none;
+  width: 198px;
+  border-radius: .5em;
+  padding: 1em 2em;
+  cursor: pointer;
+}
+.menu button:hover {
+  background: var(--input-background);
 }
