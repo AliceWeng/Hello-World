@@ -9,23 +9,28 @@ import AuthContext from "./context/AuthContext";
 function NavBar() {
     const [form, setForm] = useState("");
     const [active, setActive] = useState(false);
-    const [toggle, setToggle] = useState(false);
+    const [render, setRender] = useState(false);
+    const [darkTheme, setDarkTheme] = useState(false);
 
     const { auth } = useContext(AuthContext);
 
     document.addEventListener("click", e => {
-        if(e.target.closest(".dropdown")) {
-            // do nothing.
-        } else {
-            setActive(false);
-        }
+        if(e.target.closest(".dropdown") === null) setActive(false);
     });
 
     useEffect(() => {
-      toggle
-        ? document.body.className = "dark"
-        : document.body.className = ""
-    }, [toggle]);
+        let boolean = localStorage.getItem("darkTheme");
+        if(boolean === "true") setDarkTheme(true);
+        if(boolean === "false") setDarkTheme(false);
+        setRender(true);
+    }, []);
+
+    useEffect(() => {
+        if(render) localStorage.setItem("darkTheme", darkTheme);
+        darkTheme
+            ? document.body.className = "darkTheme"
+            : document.body.className = ""
+    }, [darkTheme]);
     
     return (
         <>
@@ -42,9 +47,9 @@ function NavBar() {
                             <button className="navButton" onClick={() => setForm("login")}>Log In</button>
                           </> }
                         <div className={active ? "dropdown active" : "dropdown"}>
-                            <button className="dropdownButton" onClick={() => setActive(!active)}></button>
+                            <button className="menuToggle" onClick={() => setActive(!active)}></button>
                             <div className="menu">
-                                <button className="toggle" onClick={() => setToggle(!toggle)}>Dark Toggle</button>
+                                <button onClick={() => setDarkTheme(!darkTheme)}>Dark Theme</button>
                                 <Link to="https://aliceweng.github.io/Rock-Paper-Scissors"><button>Rock, Paper, Scissors</button></Link>
                                 { auth ? <LogOutButton/> : null }
                             </div>

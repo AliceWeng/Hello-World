@@ -85,7 +85,7 @@ function LogInForm({ setForm }) {
                     </button>
                 </div>
                 <input className="submit" type="submit"/>
-                <p>Don't have an account? <Link className="link" onClick={() => setForm("signup")}>Sign up.</Link></p>
+                <p>Don't have an account? <span className="link" onClick={() => setForm("signup")}>Sign up.</span></p>
             </form>
         </section>
     )

@@ -223,7 +223,7 @@ function SignUpForm({ setForm }) {
                         : "Please enter a password 8 or more characters long with at least 1 uppercase letter, 1 lowercase letter, and 1 number."}
                 </p>
                 <input type="submit" className="submit"/>
-                <p>Already have an account? <Link className="link" onClick={() => setForm("login")}>Log in.</Link></p>
+                <p>Already have an account? <span className="link" onClick={() => setForm("login")}>Log in.</span></p>
             </form>
         </section>
     )

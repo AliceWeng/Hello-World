@@ -13,9 +13,9 @@
   --logo: #80a7fc;
   --text: black;
 }
-.dark {
+.darkTheme {
   --body-background: #0e0e10;
-  --form-background: #18181b;
+  --form-background: #1f1f23;
   --input-background: #3d3d3f;
   --input-border: var(--logo);
   --text: white;
@@ -193,33 +193,35 @@ p {
 .link {
   text-decoration: none;
   color: var(--logo);
+  cursor: pointer;
 }
 .link:hover {
   text-decoration: underline;
 }
-.dropdownButton {
+.menuToggle {
+  background: transparent;
   margin: .6em 0;
   border-radius: 50%;
   margin-left: 1em;
   border: none;
   width: 3em;
   height: 3em;
-  position: relative;
-  border: solid 1px var(--logo);
-  box-shadow: inset rgba(128, 167, 252, 0.5) 0 0 1em;
-  background: var(--body-background);
+  box-shadow: inset var(--logo) 0 0 1em;
   cursor: pointer;
 }
 .menu {
-  width: 200px;
-  position: absolute;
   top: 6em;
   right: 1em;
   opacity: 0;
+  width: 200px;
+  padding: .5em;
   color: var(--text);
-  background: var(--form-background);
-  pointer-events: none;
+  position: absolute;
   border-radius: .5em;
+  pointer-events: none;
+  
+  background: var(--form-background);
+  box-shadow: 0 0 .5em rgba(0, 0, 0, 0.25);
 }
 .dropdown.active > .menu {
   opacity: 1;
@@ -229,7 +231,8 @@ p {
   background: transparent;
   color: var(--text);
   border: none;
-  width: 198px;
+  margin: 0;
+  width: 100%;
   border-radius: .5em;
   padding: 1em 2em;
   cursor: pointer;
