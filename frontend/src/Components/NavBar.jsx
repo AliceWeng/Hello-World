@@ -16,6 +16,7 @@ function NavBar() {
 
     document.addEventListener("click", e => {
         if(e.target.closest(".dropdown") === null) setActive(false);
+        if(e.target.closest("form") === null && !e.target.matches(".navButton")) setForm("");
     });
 
     useEffect(() => {
@@ -47,7 +48,7 @@ function NavBar() {
                             <button className="navButton" onClick={() => setForm("login")}>Log In</button>
                           </> }
                         <div className={active ? "dropdown active" : "dropdown"}>
-                            <button className="menuToggle" onClick={() => setActive(!active)}></button>
+                            <button className="navIcon" onClick={() => setActive(!active)}></button>
                             <div className="menu">
                                 <button onClick={() => setDarkTheme(!darkTheme)}>Dark Theme</button>
                                 <Link to="https://aliceweng.github.io/Rock-Paper-Scissors"><button>Rock, Paper, Scissors</button></Link>

@@ -21,13 +21,13 @@
   --text: white;
 }
 body {
+  color: var(--text);
   font-family: "Calibre";
   background: var(--body-background);
 }
 h1 {
+  margin: .5em;
   font-size: 2.5em;
-  color: var(--text);
-  margin-bottom: .5em;
 }
 form {
   display: flex;
@@ -35,36 +35,43 @@ form {
   flex-direction: column;
   justify-content: center;
   background: var(--form-background);
-  border: solid 1px var(--input-border);
-  box-shadow: .8em .8em var(--input-border);
+  border-radius: .5em;
   padding: 1.5em;
-  margin: 2em;
+}
+.center {
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.75);
 }
 label {
-  color: var(--text);
-  margin-top: .5em;
   font-size: 20px;
+  margin-top: .5em;
 }
 input {
-  height: 2em;
-}
-textarea {
-  height: 15em;
-  resize: none;
-}
-input, textarea {
-  border: transparent;
-  background: var(--input-background);
-  margin-bottom: .5em;
-  color: var(--text);
-  font-size: 20px;
-  padding: .5em;
   width: 19em;
+  height: 2em;
+  padding: .5em;
+  font-size: 20px;
+  color: var(--text);
+  border: transparent;
+  margin-bottom: .5em;
+  border-radius: .25em;
+  background: var(--input-background);
 }
-input:focus, textarea:focus {
+input:focus {
   outline: none;
-  border: solid 2px var(--input-border);
   background: var(--body-background);
+  border: solid 2px var(--input-border);
+}
+.red {
+  --input-border: #d93025;
 }
 .inputPadding {
   padding-right: 3.5em;
@@ -75,42 +82,36 @@ input:focus, textarea:focus {
 .passwordToggle {
   background: transparent;
   font-family: "Calibre";
-  color: var(--text);
-  font-size: 20px;
-  border: none;
   padding: .15em .7em;
   padding-top: .45em;
   position: absolute;
+  color: var(--text);
+  font-size: 20px;
+  border: none;
   right: .1em;
   top: .1em;
   cursor: pointer;
 }
-.red {
-  --input-border: #d93025;
+textarea {
+  resize: none;
 }
 .submit {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--logo);
-  font-family: "Calibre";
-  margin: .5em;
-  margin-bottom: 1em;
-  border-radius: .2em;
-  font-size: 20px;
-  color: white;
-  padding: .5em;
   width: 4em;
+  margin: .5em;
+  color: white;
+  margin-bottom: 1em;
+  font-family: "Calibre";
+  background: var(--logo);
   cursor: pointer;
 }
 .submit:focus {
+  border: none;
   background: var(--logo);
 }
 .submit:hover {
   background: #5e91ff;
 }
 .submit:active {
-  border: none;
   background: #407cff;
 }
 .error {
@@ -143,6 +144,7 @@ li {
   font-size: 3em;
   position: relative;
   font-weight: bolder;
+  text-decoration: none;
 }
 .navLogo::before {
   content: "";
@@ -151,7 +153,6 @@ li {
   width: 0;
   left: 0;
   bottom: -17px;
-  border-radius: 1em;
   background: var(--logo);
   transition: 500ms ease-in-out;
 }
@@ -160,17 +161,15 @@ li {
 }
 .navButton, .navLogo {
   font-family: "Pathway Gothic One", sans-serif;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--logo);
   text-shadow: 1px 1px 1px var(--logo);
+  text-transform: uppercase;
+  color: var(--logo);
   cursor: pointer;
 }
 .navButton {
-  margin: -.5em 0;
   padding: .5em;
   font-size: 2em;
-  margin-left: .5em;
+  margin: -1em .25em;
   background: transparent;
   border: 1px solid var(--logo);
   box-shadow: inset rgba(128, 167, 252, 0.5) 0 0 1em;
@@ -181,32 +180,22 @@ li {
 .navButton:active {
   box-shadow: inset rgba(128, 167, 252, 0.5) 0 0 3em;
 }
-.center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: calc(100vh - 88px);
-}
-p {
-  color: var(--text);
-}
 .link {
-  text-decoration: none;
   color: var(--logo);
   cursor: pointer;
 }
 .link:hover {
   text-decoration: underline;
 }
-.menuToggle {
+.navIcon {
+  box-shadow: inset var(--logo) 0 0 1em;
   background: transparent;
-  margin: .6em 0;
   border-radius: 50%;
-  margin-left: 1em;
-  border: none;
   width: 3em;
   height: 3em;
-  box-shadow: inset var(--logo) 0 0 1em;
+  border: none;
+  margin: .6em 0;
+  margin-left: 1em;
   cursor: pointer;
 }
 .menu {
@@ -219,7 +208,6 @@ p {
   position: absolute;
   border-radius: .5em;
   pointer-events: none;
-  
   background: var(--form-background);
   box-shadow: 0 0 .5em rgba(0, 0, 0, 0.25);
 }
@@ -229,12 +217,11 @@ p {
 }
 .menu button {
   background: transparent;
-  color: var(--text);
-  border: none;
-  margin: 0;
-  width: 100%;
   border-radius: .5em;
-  padding: 1em 2em;
+  color: var(--text);
+  padding: 1em;
+  border: none;
+  width: 100%;
   cursor: pointer;
 }
 .menu button:hover {

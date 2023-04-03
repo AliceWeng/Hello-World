@@ -32,7 +32,7 @@ function MoodForm() {
     };
 
     return (
-        <div className="center">
+        <div>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="mood">
                     Let's talk about our feelings.
