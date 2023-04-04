@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 
 function LogInForm({ setForm }) {
@@ -14,8 +13,6 @@ function LogInForm({ setForm }) {
 
     const usernameRef = useRef();
     const errorRef = useRef();
-
-    const navigate = useNavigate();
 
     useEffect(() => {
         usernameRef.current.focus();
@@ -35,7 +32,6 @@ function LogInForm({ setForm }) {
         const data = await response.json();
 
         if(response.status === 200) {
-            navigate("/");
             window.location.reload();
         } else {
             setError(data.message);
@@ -50,6 +46,9 @@ function LogInForm({ setForm }) {
     return (
         <section className="center">    
             <form onSubmit={handleSubmit}>
+                <div className="closeContainer">
+                    <button className="close" type="button" aria-label="Close form." onClick={() => setForm("")}></button>
+                </div>
                 <h1>Log In</h1>
                 <p ref={errorRef} role="alert">{error}</p>
                 <label htmlFor="username">Username</label>

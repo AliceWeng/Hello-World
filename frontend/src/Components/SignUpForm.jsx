@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 
 const USERNAME_REGEX = /^[a-zA-Z0-9]{4,12}$/;
@@ -12,6 +11,9 @@ function SignUpForm({ setForm }) {
         password: "",
     });
 
+    const [usernameTaken, setUsernameTaken] = useState(false);
+    const [passwordToggle, setPasswordToggle] = useState(false);
+
     const [nicknameError, setNicknameError] = useState("");
     const [usernameError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
@@ -23,16 +25,10 @@ function SignUpForm({ setForm }) {
     const [nicknameInvalid, setNicknameInvalid] = useState(null);
     const [usernameInvalid, setUsernameInvalid] = useState(null);
     const [passwordInvalid, setPasswordInvalid] = useState(null);
-
-    const [usernameTaken, setUsernameTaken] = useState(null);
-
-    const [passwordToggle, setPasswordToggle] = useState(false);
     
     const nicknameRef = useRef();
     const usernameRef = useRef();
     const passwordRef = useRef();
-
-    const navigate = useNavigate();
  
     useEffect(() => {
         nicknameRef.current.focus();
@@ -131,8 +127,7 @@ function SignUpForm({ setForm }) {
                 });
                 await response.text();
                 setUser("");
-                navigate("/");
-                return;
+                setForm("");
             } catch(error) {
                 console.error("Error.");
             }
@@ -146,6 +141,9 @@ function SignUpForm({ setForm }) {
     return (
         <section className="center">
             <form onSubmit={handleSubmit}>
+                <div className="closeContainer">
+                    <button className="close" type="button" aria-label="Close form." onClick={() => setForm("")}></button>
+                </div>
                 <h1>Sign Up</h1>
                 <label htmlFor="nickname">Nickname</label>
                 <input

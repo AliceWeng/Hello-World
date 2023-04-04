@@ -18,9 +18,10 @@ function MoodCollection() {
         )
     });
 
+    // <Link to="/moods/new">New Mood</Link>
+
     return (
         <div>
-            <Link to="/moods/new">New Mood</Link>
             {mapMoods}
         </div>
     )
