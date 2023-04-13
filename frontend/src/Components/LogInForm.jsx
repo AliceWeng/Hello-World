@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../App.css";
 
 function LogInForm({ setForm }) {
@@ -8,7 +8,7 @@ function LogInForm({ setForm }) {
     });
 
     const [error, setError] = useState("");
-    
+
     const [passwordToggle, setPasswordToggle] = useState(false);
 
     const usernameRef = useRef();
@@ -35,7 +35,7 @@ function LogInForm({ setForm }) {
             window.location.reload();
         } else {
             setError(data.message);
-            usernameRef.current.focus();
+            errorRef.current.focus()
         }
     }
 
@@ -47,10 +47,15 @@ function LogInForm({ setForm }) {
         <section className="center">    
             <form onSubmit={handleSubmit}>
                 <div className="closeContainer">
-                    <button className="close" type="button" aria-label="Close form." onClick={() => setForm("")}></button>
+                    <button
+                        type="button"
+                        className="close"
+                        aria-label="Close form."
+                        onClick={() => setForm("")}>
+                    </button>
                 </div>
                 <h1>Log In</h1>
-                <p ref={errorRef} role="alert">{error}</p>
+                {error ? <p role="alert" className="loginError" ref={errorRef}>{error}</p> : null}
                 <label htmlFor="username">Username</label>
                 <input
                     type="text"

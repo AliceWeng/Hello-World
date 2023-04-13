@@ -18,7 +18,7 @@ function MoodCollection() {
         )
     });
 
-    // <Link to="/moods/new">New Mood</Link>
+    //<Link to="/moods/new">New Mood</Link>
 
     return (
         <div>

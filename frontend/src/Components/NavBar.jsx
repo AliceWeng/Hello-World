@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../App.css";
-import LogInForm from "./LogInForm"
+import LogInForm from "./LogInForm";
 import SignUpForm from "./SignUpForm";
 import LogOutButton from "./LogOutButton";
 import AuthContext from "./context/AuthContext";
@@ -50,6 +50,7 @@ function NavBar() {
                         <div className={active ? "dropdown active" : "dropdown"}>
                             <button className="navIcon" onClick={() => setActive(!active)}></button>
                             <div className="menu">
+                                { auth ? <Link to={`/${auth.username}`}><button>Profile</button></Link> : null }
                                 <button onClick={() => setDarkTheme(!darkTheme)}>Dark Theme</button>
                                 <Link to="https://aliceweng.github.io/Rock-Paper-Scissors"><button>Rock, Paper, Scissors</button></Link>
                                 { auth ? <LogOutButton/> : null }

@@ -12,6 +12,7 @@ function SignUpForm({ setForm }) {
     });
 
     const [usernameTaken, setUsernameTaken] = useState(false);
+    
     const [passwordToggle, setPasswordToggle] = useState(false);
 
     const [nicknameError, setNicknameError] = useState("");
@@ -126,7 +127,6 @@ function SignUpForm({ setForm }) {
                     body: JSON.stringify(user)
                 });
                 await response.text();
-                setUser("");
                 setForm("");
             } catch(error) {
                 console.error("Error.");
@@ -142,7 +142,12 @@ function SignUpForm({ setForm }) {
         <section className="center">
             <form onSubmit={handleSubmit}>
                 <div className="closeContainer">
-                    <button className="close" type="button" aria-label="Close form." onClick={() => setForm("")}></button>
+                    <button
+                        type="button"
+                        className="close"
+                        aria-label="Close form."
+                        onClick={() => setForm("")}>
+                    </button>
                 </div>
                 <h1>Sign Up</h1>
                 <label htmlFor="nickname">Nickname</label>
@@ -162,7 +167,7 @@ function SignUpForm({ setForm }) {
                     onBlur={() => setNicknameFocus(false)}
                     maxLength="26"
                 />
-                <p id="nickname-req" className={nicknameInvalid ? "error" : "hidden"}>
+                <p id="nickname-req" className={nicknameInvalid ? "signupError" : "hidden"}>
                     {nicknameInvalid
                         ? nicknameError
                         : "Please enter a nickname up to 26 characters long."}
@@ -184,7 +189,7 @@ function SignUpForm({ setForm }) {
                     onBlur={() => setUsernameFocus(false)}
                     maxLength="12"
                 />
-                <p id="username-req" className={usernameInvalid ? "error" : "hidden"}>
+                <p id="username-req" className={usernameInvalid ? "signupError" : "hidden"}>
                     {usernameInvalid
                         ? usernameError
                         : "Please enter a username 4 to 12 alphanumeric characters long."}
@@ -215,7 +220,7 @@ function SignUpForm({ setForm }) {
                         {passwordToggle ? "hide" : "show"}
                     </button>
                 </div>
-                <p id="password-req" className={passwordInvalid ? "error" : "hidden"}>
+                <p id="password-req" className={passwordInvalid ? "signupError" : "hidden"}>
                     {passwordInvalid
                         ? passwordError
                         : "Please enter a password 8 or more characters long with at least 1 uppercase letter, 1 lowercase letter, and 1 number."}

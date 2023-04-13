@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-    Mood.create(req.body)
+    Mood.create()
         .then(data => {
             res.status(201).json(data);
         })

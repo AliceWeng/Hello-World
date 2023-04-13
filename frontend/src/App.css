@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 * {
   margin: 0;
@@ -6,16 +7,21 @@
   box-sizing: border-box;
 }
 :root {
-  --body-background: white;
-  --form-background: white;
+  --body-background: #fafafa;
+  --nav-background: white;
+  --nav-shadow: rgba(0, 0, 0, .1);
+  --menu-background: white;
   --input-background: #ebebeb;
   --input-border: black;
+  --errorRed: #d93025;
   --logo: #80a7fc;
   --text: black;
 }
 .darkTheme {
   --body-background: #0e0e10;
-  --form-background: #1f1f23;
+  --nav-background: #18181b;
+  --nav-shadow: rgba(0, 0, 0, 1);
+  --menu-background: #1f1f23;
   --input-background: #3d3d3f;
   --input-border: var(--logo);
   --text: white;
@@ -35,7 +41,7 @@ form {
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  background: var(--form-background);
+  background: var(--nav-background);
   border-radius: .5em;
   padding: 1.5em;
 }
@@ -48,7 +54,7 @@ form {
   border: none;
   padding: 1.25em;
   position: relative;
-  border-radius: .25em;
+  border-radius: .4em;
   background: transparent;
   cursor: pointer;
 }
@@ -98,13 +104,10 @@ input {
   border-radius: .25em;
   background: var(--input-background);
 }
-input:focus {
+input[type=text]:focus, input[type=password]:focus {
   outline: none;
   background: var(--body-background);
   border: solid 2px var(--input-border);
-}
-.red {
-  --input-border: #d93025;
 }
 .inputPadding {
   padding-right: 3.5em;
@@ -126,6 +129,9 @@ input:focus {
   cursor: pointer;
 }
 textarea {
+  padding: .5em;
+  height: 10em;
+  width: 35em;
   resize: none;
 }
 .submit {
@@ -137,23 +143,29 @@ textarea {
   background: var(--logo);
   cursor: pointer;
 }
-.submit:focus {
-  border: none;
-  background: var(--logo);
-}
 .submit:hover {
   background: #5e91ff;
 }
 .submit:active {
   background: #407cff;
 }
-.error {
+.loginError {
+  color: var(--errorRed);
+  padding: 1em;
+  padding-bottom: .5em;
+  margin-top: -.5em;
+  margin-bottom: .5em;
+  border: 1px solid var(--errorRed);
+  border-radius: .3em;
+  background: rgba(217, 49, 37, 0.1);
+}
+.signupError {
   width: 23.75em;
-  color: #d93025;
+  color: var(--errorRed);
 }
 .hidden {
   opacity: 0;
-  z-index: -1;
+  pointer-events: none;
   position: absolute;
 }
 .colorInput {
@@ -168,7 +180,8 @@ nav ul {
   position: fixed;
   align-items: center;
   justify-content: space-between;
-  box-shadow: rgba(128, 167, 252, 0.5) 0 0 1em;
+  background: var(--nav-background);
+  box-shadow: var(--nav-shadow) 0 0 10px;
 }
 li {
   margin: 1em;
@@ -179,9 +192,14 @@ li {
 }
 .navLogo {
   font-size: 3em;
+  color: var(--logo);
   position: relative;
   font-weight: bolder;
   text-decoration: none;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 1px var(--logo);
+  font-family: "Pathway Gothic One", sans-serif;
+  cursor: pointer;
 }
 .navLogo::before {
   content: "";
@@ -196,26 +214,16 @@ li {
 .navLogo:hover::before {
   width: 100%;
 }
-.navButton, .navLogo {
-  font-family: "Pathway Gothic One", sans-serif;
-  text-shadow: 1px 1px 1px var(--logo);
-  text-transform: uppercase;
-  color: var(--logo);
-  cursor: pointer;
-}
 .navButton {
-  padding: .5em;
-  font-size: 2em;
+  color: white;
+  padding: 1em;
+  font-size: 1em;
   margin: -1em .25em;
-  background: transparent;
-  border: 1px solid var(--logo);
-  box-shadow: inset rgba(128, 167, 252, 0.5) 0 0 1em;
-}
-.navButton:hover {
-  box-shadow: inset rgba(128, 167, 252, 0.5) 0 0 2em;
-}
-.navButton:active {
-  box-shadow: inset rgba(128, 167, 252, 0.5) 0 0 3em;
+  font-family: "Inter";
+  border: none;
+  border-radius: .25em;
+  background: var(--logo);
+  cursor: pointer;
 }
 .link {
   color: var(--logo);
@@ -243,10 +251,10 @@ li {
   padding: .5em;
   color: var(--text);
   position: absolute;
-  border-radius: .5em;
+  border-radius: .4em;
   pointer-events: none;
-  background: var(--form-background);
-  box-shadow: 0 0 .5em rgba(0, 0, 0, 0.25);
+  background: var(--menu-background);
+  box-shadow: var(--nav-shadow) 0 0 10px;
 }
 .dropdown.active > .menu {
   opacity: 1;
@@ -254,7 +262,7 @@ li {
 }
 .menu button {
   background: transparent;
-  border-radius: .5em;
+  border-radius: .4em;
   color: var(--text);
   padding: 1em;
   border: none;

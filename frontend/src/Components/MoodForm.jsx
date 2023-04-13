@@ -1,14 +1,18 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
 import "../App.css";
+import AuthContext from "./context/AuthContext";
 
 function MoodForm() {
     const [data, setData] = useState({
-        mood: "",
-        color: ""
+        user: "",
+        mood: ""
     });
 
-    const navigate = useNavigate();
+    const { auth } = useContext(AuthContext);
+
+    useEffect(() => {
+        setData({ user: auth._id })
+    }, []);
 
     const handleChange = e => {
         setData({...data, [e.target.id]: e.target.value})
@@ -25,10 +29,10 @@ function MoodForm() {
                 body: JSON.stringify(data)
             });
             await response.json();
+            window.location.reload();
         } catch(error) {
             console.error(error);
         }
-        navigate("/moods");
     };
 
     return (
@@ -37,11 +41,11 @@ function MoodForm() {
                 <label htmlFor="mood">
                     Let's talk about our feelings.
                 </label>
-                <textarea id="mood" name="mood" type="text" onChange={handleChange} required/>
-                <label htmlFor="color">
-                    What color best describes your mood today?
-                </label>
-                <input className="colorInput" id="color" name="color" type="color" onChange={handleChange}/>
+                <textarea
+                    id="mood"
+                    type="text"
+                    onChange={handleChange}
+                    />
                 <input className="submit" type="submit"/>
             </form>
         </div>

@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 
 //
 router.get("/auth", (req, res) => {
+
     User.findOne({
         _id: req.session.userId
     }).then(user => res.json(user))
