@@ -20,7 +20,7 @@
 .darkTheme {
   --body-background: #0e0e10;
   --nav-background: #18181b;
-  --nav-shadow: rgba(0, 0, 0, 1);
+  --nav-shadow: rgba(0, 0, 0, .75);
   --menu-background: #1f1f23;
   --input-background: #3d3d3f;
   --input-border: var(--logo);
@@ -129,10 +129,20 @@ input[type=text]:focus, input[type=password]:focus {
   cursor: pointer;
 }
 textarea {
+  color: var(--text);
+  background: var(--menu-background);
+  border: transparent;
   padding: .5em;
+  font-size: 20px;
   height: 10em;
   width: 35em;
   resize: none;
+  border-radius: .5em;
+}
+textarea:focus {
+  outline: none;
+  border: solid 2px var(--input-border);
+  z-index: 0;
 }
 .submit {
   width: 4em;
@@ -215,17 +225,19 @@ li {
   width: 100%;
 }
 .navButton {
-  color: white;
-  padding: 1em;
+  color: var(--logo);
+  padding: 1em 1.5em;
   font-size: 1em;
   margin: -1em .25em;
   font-family: "Inter";
   border: none;
-  border-radius: .25em;
-  background: var(--logo);
+  border-radius: 2em;
+  background: transparent;
+  border: 1px solid var(--input-background);
   cursor: pointer;
 }
 .link {
+  text-decoration: none;
   color: var(--logo);
   cursor: pointer;
 }
@@ -233,18 +245,17 @@ li {
   text-decoration: underline;
 }
 .navIcon {
-  box-shadow: inset var(--logo) 0 0 1em;
-  background: transparent;
+  background: var(--logo);
   border-radius: 50%;
   width: 3em;
   height: 3em;
   border: none;
   margin: .6em 0;
-  margin-left: 1em;
+  margin-left: .5em;
   cursor: pointer;
 }
 .menu {
-  top: 6em;
+  top: 6.5em;
   right: 1em;
   opacity: 0;
   width: 200px;
@@ -271,4 +282,42 @@ li {
 }
 .menu button:hover {
   background: var(--input-background);
+}
+main {
+  min-height: calc(100vh - 88px);
+  margin-top: 88px;
+}
+
+/* Error404.jsx */
+.container404 {
+  padding: 1em;
+  text-align: center;
+}
+.ohno {
+  max-width: 75vw;
+  border-radius: 1em;
+}
+
+
+.moments {
+  margin: 1em;
+  display: flex;
+  flex-shrink: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.moment {
+  background: var(--menu-background);
+  width: 500px;
+  margin: .5em;
+}
+.moment p {
+  padding: 1em;
+}
+.moment p:first-child {
+  background: var(--nav-background);
+}
+.moment p:nth-child(2) {
+
 }

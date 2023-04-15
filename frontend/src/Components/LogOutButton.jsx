@@ -1,6 +1,6 @@
 function LogOutButton() {
     const logout = async () => {
-        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/user/auth`, {
+        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/auth`, {
             method: "DELETE",
             credentials: "include"
         });

@@ -1,50 +1,39 @@
 import { useState, useContext, useEffect } from "react";
-import "../App.css";
-import AuthContext from "./context/AuthContext";
 
 function MoodForm() {
-    const [data, setData] = useState({
-        user: "",
-        mood: ""
+    const [post, setPost] = useState({
+        post: ""
     });
-
-    const { auth } = useContext(AuthContext);
-
-    useEffect(() => {
-        setData({ user: auth._id })
-    }, []);
-
-    const handleChange = e => {
-        setData({...data, [e.target.id]: e.target.value})
-    };
 
     const handleSubmit = async e => {
         e.preventDefault();
+
         try {
-            const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moods`, {
+            const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments`, {
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(post)
             });
-            await response.json();
+            await response.text();
             window.location.reload();
         } catch(error) {
-            console.error(error);
+            console.error("Error.");
         }
     };
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="mood">
+                <label htmlFor="post">
                     Let's talk about our feelings.
                 </label>
                 <textarea
-                    id="mood"
+                    id="post"
                     type="text"
-                    onChange={handleChange}
+                    onChange={e => setPost({[e.target.id]: e.target.value})}
                     />
                 <input className="submit" type="submit"/>
             </form>

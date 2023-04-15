@@ -2,21 +2,20 @@ const router = require("express").Router();
 const User = require("../models/user_model");
 const bcrypt = require("bcrypt");
 
-//
+// finds user based on id stored in cookie session.
 router.get("/auth", (req, res) => {
-
     User.findOne({
         _id: req.session.userId
-    }).then(user => res.json(user))
-      .catch(() => res.json(null));
+    }).then(user => res.status(200).json(user))
+      .catch(() => res.status(404).json(null));
 });
 
 // searches database for a match to sign up form's username input, checks if username is taken.
 router.get("/:username", (req, res) => {
     User.findOne({
         username: new RegExp("^" + req.params.username + "$", "i")
-    }).then(user => res.send(user.username))
-      .catch(() => res.send(null));
+    }).then(user => res.status(200).send(user.username))
+      .catch(() => res.status(404).send(null));
 });
 
 // hashes sign up form's password input, creates a new user.
@@ -30,13 +29,13 @@ router.post("/", async (req, res) => {
     res.status(201).send("Your account has been successfully created.");
 });
 
-// compares database username and password to log in form's input, authenticates user.
+// compares log in form's input to database's username and password, authenticates user.
 router.post("/auth", async (req, res) => {
     if(!req.body.username || !req.body.password) {
         return res.status(400).json({message: "Please fill out all required fields."});
     }
     let user = await User.findOne({
-        "username": new RegExp("^" + req.body.username + "$", "i")
+        username: new RegExp("^" + req.body.username + "$", "i")
     });
     if(!user) {
         return res.status(401).json({message: "The username you entered doesn't exist."});

@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import "../App.css";
 
 const USERNAME_REGEX = /^[a-zA-Z0-9]{4,12}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
@@ -49,7 +48,7 @@ function SignUpForm({ setForm }) {
     useEffect(() => {
         if(USERNAME_REGEX.test(user.username)) {
             const fetchUsername = async () => {
-                const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/user/${user.username}`);
+                const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/${user.username}`);
                 const data = await response.text();
                 return (data ? true : false);
             }
@@ -113,13 +112,12 @@ function SignUpForm({ setForm }) {
             setNicknameError("Enter a nickname.");
             nicknameRef.current.focus();
         }
-
         if(!user.nickname || !user.username || !user.password) {
             return;
         }
         if(user.nickname.length <= 26 && USERNAME_REGEX.test(user.username) && !usernameTaken && PASSWORD_REGEX.test(user.password)) {
             try {
-                const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/user`, {
+                const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

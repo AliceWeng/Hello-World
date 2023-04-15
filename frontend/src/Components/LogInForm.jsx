@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import "../App.css";
 
 function LogInForm({ setForm }) {
     const [user, setUser] = useState({
@@ -21,7 +20,7 @@ function LogInForm({ setForm }) {
     const handleSubmit = async e => {
         e.preventDefault();
 
-        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/user/auth`, {
+        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/auth`, {
             method: "POST",
             credentials: "include",
             headers: {

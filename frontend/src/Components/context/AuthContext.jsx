@@ -7,7 +7,7 @@ export const AuthProvider = ({children}) => {
 
     useEffect(() => {
         const getCurrentUser = async () => {
-            let response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/user/auth`, {
+            let response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/auth`, {
                 credentials: "include"
             });
             let user = await response.json();
