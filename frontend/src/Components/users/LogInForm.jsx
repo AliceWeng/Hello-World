@@ -68,7 +68,6 @@ function LogInForm({setForm}) {
                     <input
                         type={passwordToggle ? "text" : "password"}
                         id="password"
-                        className="inputPadding"
                         spellCheck="false"
                         autoCapitalize="off"
                         autoComplete="current-password"

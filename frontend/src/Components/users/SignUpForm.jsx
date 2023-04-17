@@ -188,7 +188,7 @@ function SignUpForm({setForm}) {
                     <input
                         type={passwordToggle ? "text" : "password"}
                         id="password"
-                        className={passwordInvalid ? "red inputPadding" : "inputPadding"}
+                        className={passwordInvalid ? "red " : null}
                         spellCheck="false"
                         autoCapitalize="off"
                         autoComplete="new-password"

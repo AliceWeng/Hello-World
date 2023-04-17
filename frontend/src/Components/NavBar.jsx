@@ -34,10 +34,14 @@ function NavBar() {
     }, []);
 
     useEffect(() => {
+        if(form) document.body.classList.add("popup");
+    }, [form]);
+
+    useEffect(() => {
         if(darkTheme !== null) localStorage.setItem("darkTheme", darkTheme);
         darkTheme
-            ? document.body.className = "darkTheme"
-            : document.body.className = ""
+            ? document.body.classList.add("darkTheme")
+            : document.body.classList.remove("darkTheme")
     }, [darkTheme]);
 
     return (

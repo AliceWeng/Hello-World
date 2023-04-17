@@ -21,7 +21,7 @@ function PostForm() {
     };
 
     return (
-        <div className="flex">
+        <div className="post">
             <form onSubmit={handleSubmit}>
                 <label htmlFor="post">
                     Let's talk about our feelings.
@@ -29,9 +29,12 @@ function PostForm() {
                 <textarea
                     id="post"
                     type="text"
+                    spellCheck="false"
+                    placeholder="Write your post here."
                     onChange={e => setPost({[e.target.id]: e.target.value})}
+                    maxLength="300"
                     />
-                <input className="submit" type="submit"/>
+                <input type="submit"/>
             </form>
         </div>
     )
