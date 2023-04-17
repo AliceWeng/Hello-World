@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-function LogInForm({ setForm }) {
+function LogInForm({setForm}) {
     const [user, setUser] = useState({
         username: "",
         password: ""
@@ -11,7 +11,6 @@ function LogInForm({ setForm }) {
     const [passwordToggle, setPasswordToggle] = useState(false);
 
     const usernameRef = useRef();
-    const errorRef = useRef();
 
     useEffect(() => {
         usernameRef.current.focus();
@@ -19,7 +18,7 @@ function LogInForm({ setForm }) {
 
     const handleSubmit = async e => {
         e.preventDefault();
-
+        
         const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/auth`, {
             method: "POST",
             credentials: "include",
@@ -28,13 +27,12 @@ function LogInForm({ setForm }) {
             },
             body: JSON.stringify(user)
         });
-        const data = await response.json();
+        const { message } = await response.json();
 
         if(response.status === 200) {
             window.location.reload();
         } else {
-            setError(data.message);
-            errorRef.current.focus()
+            setError(message);
         }
     }
 
@@ -43,7 +41,7 @@ function LogInForm({ setForm }) {
     }
 
     return (
-        <section className="center">    
+        <div className="center">    
             <form onSubmit={handleSubmit}>
                 <div className="closeContainer">
                     <button
@@ -54,7 +52,7 @@ function LogInForm({ setForm }) {
                     </button>
                 </div>
                 <h1>Log In</h1>
-                {error ? <p role="alert" className="loginError" ref={errorRef}>{error}</p> : null}
+                {error ? <p role="alert" className="loginError">{error}</p> : null}
                 <label htmlFor="username">Username</label>
                 <input
                     type="text"
@@ -64,8 +62,7 @@ function LogInForm({ setForm }) {
                     autoComplete="username"
                     onChange={handleChange}
                     value={user.username}
-                    ref={usernameRef}
-                />
+                    ref={usernameRef}/>
                 <label htmlFor="password">Password</label>
                 <div className="passwordContainer">
                     <input
@@ -76,21 +73,19 @@ function LogInForm({ setForm }) {
                         autoCapitalize="off"
                         autoComplete="current-password"
                         onChange={handleChange}
-                        value={user.password}
-                    />
+                        value={user.password}/>
                     <button
                         type="button"
                         className="passwordToggle"
                         onClick={() => setPasswordToggle(!passwordToggle)}
-                        aria-label={passwordToggle ? "Hide your password." : "Show your password."}
-                    >
+                        aria-label={passwordToggle ? "Hide your password." : "Show your password."}>
                         {passwordToggle ? "hide" : "show"}
                     </button>
                 </div>
-                <input className="submit" type="submit"/>
+                <input type="submit"/>
                 <p>Don't have an account? <span className="link" onClick={() => setForm("signup")}>Sign up.</span></p>
             </form>
-        </section>
+        </div>
     )
 }
 

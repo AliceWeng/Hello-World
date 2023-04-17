@@ -11,6 +11,7 @@
   --nav-background: white;
   --nav-shadow: rgba(0, 0, 0, .1);
   --menu-background: white;
+  --post-background: red;
   --input-background: #ebebeb;
   --input-border: black;
   --errorRed: #d93025;
@@ -22,20 +23,34 @@
   --nav-background: #18181b;
   --nav-shadow: rgba(0, 0, 0, .75);
   --menu-background: #1f1f23;
+  --post-background: #19191d;
   --input-background: #3d3d3f;
   --input-border: var(--logo);
   --text: white;
 }
 body {
   color: var(--text);
-  font-family: "Calibre";
+  font-family: "Inter";
   background: var(--body-background);
 }
 h1 {
   margin: .5em;
   font-size: 2.5em;
 }
-form {
+.center {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  overflow: auto;
+  position: fixed;
+  align-items: flex-start;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 10;
+}
+.center form {
   display: flex;
   position: relative;
   align-items: center;
@@ -43,6 +58,8 @@ form {
   justify-content: center;
   background: var(--nav-background);
   border-radius: .5em;
+  margin-bottom: auto;
+  margin-top: auto;
   padding: 1.5em;
 }
 .closeContainer {
@@ -76,24 +93,12 @@ form {
 .close::after {
   transform: rotate(-45deg);
 }
-.center {
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  position: fixed;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.75);
-}
 label {
-  font-size: 20px;
-  margin-top: .5em;
+  font-size: 1em;
+  margin-top: .7em;
+  margin-bottom: .3em;
 }
-input {
+input[type=text], input[type=password] {
   width: 19em;
   height: 2em;
   padding: .5em;
@@ -117,16 +122,57 @@ input[type=text]:focus, input[type=password]:focus {
 }
 .passwordToggle {
   background: transparent;
-  font-family: "Calibre";
-  padding: .15em .7em;
-  padding-top: .45em;
+  font-family: "Inter";
+  padding: .5em .7em;
   position: absolute;
   color: var(--text);
-  font-size: 20px;
+  font-size: 1em;
   border: none;
   right: .1em;
   top: .1em;
   cursor: pointer;
+}
+input[type=submit] {
+  width: 5em;
+  margin: .5em;
+  border: none;
+  height: 2.5em;
+  font-size: 1em;
+  color: white;
+  margin-bottom: 1em;
+  border-radius: .3em;
+  font-family: "Inter";
+  background: var(--logo);
+  cursor: pointer;
+}
+input[type=submit]:hover {
+  background: #5e91ff;
+}
+input[type=submit]:active {
+  background: #407cff;
+}
+.loginError {
+  padding: 1em;
+  border-radius: .3em;
+  margin-bottom: .5em;
+  color: var(--errorRed);
+  border: 1px solid var(--errorRed);
+  background: rgba(217, 49, 37, 0.1);
+}
+.signupError {
+  width: 29em;
+  color: var(--errorRed);
+}
+.hidden {
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.flex {
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 textarea {
   color: var(--text);
@@ -135,7 +181,7 @@ textarea {
   padding: .5em;
   font-size: 20px;
   height: 10em;
-  width: 35em;
+
   resize: none;
   border-radius: .5em;
 }
@@ -143,44 +189,6 @@ textarea:focus {
   outline: none;
   border: solid 2px var(--input-border);
   z-index: 0;
-}
-.submit {
-  width: 4em;
-  margin: .5em;
-  color: white;
-  margin-bottom: 1em;
-  font-family: "Calibre";
-  background: var(--logo);
-  cursor: pointer;
-}
-.submit:hover {
-  background: #5e91ff;
-}
-.submit:active {
-  background: #407cff;
-}
-.loginError {
-  color: var(--errorRed);
-  padding: 1em;
-  padding-bottom: .5em;
-  margin-top: -.5em;
-  margin-bottom: .5em;
-  border: 1px solid var(--errorRed);
-  border-radius: .3em;
-  background: rgba(217, 49, 37, 0.1);
-}
-.signupError {
-  width: 23.75em;
-  color: var(--errorRed);
-}
-.hidden {
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-}
-.colorInput {
-  padding: 0 .1em;
-  cursor: pointer;
 }
 nav ul {
   top: 0;
@@ -298,7 +306,9 @@ main {
   border-radius: 1em;
 }
 
-
+p {
+  font-size: 13px;
+}
 .moments {
   margin: 1em;
   display: flex;
@@ -308,16 +318,20 @@ main {
   justify-content: center;
 }
 .moment {
-  background: var(--menu-background);
   width: 500px;
   margin: .5em;
+  position: relative;
+  border-radius: .5em;
+  background: var(--post-background);
+  border: 1px solid #3a3d3f;
 }
 .moment p {
+  font-size: 1em;
   padding: 1em;
 }
 .moment p:first-child {
-  background: var(--nav-background);
+  padding: .5em;
+  padding-bottom: .1em;
+  border-bottom: 1px solid #3a3d3f;
 }
-.moment p:nth-child(2) {
 
-}

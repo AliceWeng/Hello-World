@@ -10,8 +10,8 @@ export const AuthProvider = ({children}) => {
             let response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/auth`, {
                 credentials: "include"
             });
-            let user = await response.json();
-            setAuth(user);
+            let userData = await response.json();
+            setAuth(userData);
         }
         getCurrentUser();
     }, []);

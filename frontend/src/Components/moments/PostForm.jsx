@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect } from "react";
+import { useState } from "react";
 
-function MoodForm() {
+function PostForm() {
     const [post, setPost] = useState({
         post: ""
     });
@@ -8,24 +8,20 @@ function MoodForm() {
     const handleSubmit = async e => {
         e.preventDefault();
 
-        try {
-            const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments`, {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(post)
-            });
-            await response.text();
-            window.location.reload();
-        } catch(error) {
-            console.error("Error.");
-        }
+        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(post)
+        });
+        await response.text();
+        window.location.reload();
     };
 
     return (
-        <div>
+        <div className="flex">
             <form onSubmit={handleSubmit}>
                 <label htmlFor="post">
                     Let's talk about our feelings.
@@ -41,4 +37,4 @@ function MoodForm() {
     )
 }
 
-export default MoodForm;
+export default PostForm;

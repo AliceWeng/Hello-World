@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import LogInForm from "./LogInForm";
-import SignUpForm from "./SignUpForm";
-import LogOutButton from "./LogOutButton";
+import LogInForm from "./users/LogInForm";
+import SignUpForm from "./users/SignUpForm";
+import LogOutButton from "./users/LogOutButton";
 import AuthContext from "./context/AuthContext";
 
 function NavBar() {
@@ -16,6 +16,10 @@ function NavBar() {
     document.addEventListener("click", e => {
         if(e.target.closest(".dropdown") === null) setActive(false);
         if(e.target.closest("form") === null && !e.target.matches(".navButton")) setForm("");
+    });
+
+    document.addEventListener("keydown", e => {
+        if(e.key === "Escape") setForm("");
     });
 
     window.addEventListener("resize", () => {

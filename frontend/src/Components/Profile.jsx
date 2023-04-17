@@ -1,12 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import AuthContext from "./context/AuthContext";
-import MoodForm from "./PostForm";
+import PostForm from "./moments/PostForm";
+import Moment from "./moments/Moment";
 import Error404 from "./Error404";
-import Moment from "./Moment";
 
 function Profile() {
     const [username, setUsername] = useState(null);
+    
     const [moments, setMoments] = useState([]);
 
     const { auth } = useContext(AuthContext);
@@ -21,13 +22,13 @@ function Profile() {
         if(username) {
             const fetchUsername = async () => {
                 const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/${username}`);
-                const data = await response.text();
-                setUsername(data);
-                if(data) {
+                const usernameData = await response.text();
+                setUsername(usernameData);
+                if(usernameData) {
                     const fetchMoments = async () => {
                         const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/${username}`)
-                        const data = await response.json();
-                        setMoments(data);
+                        const momentsData = await response.json();
+                        setMoments(momentsData);
                     }
                     fetchMoments();
                 }
@@ -36,23 +37,17 @@ function Profile() {
         }
     }, [username]);
 
-    let mapMoments;
-
-    if(moments) {
-        mapMoments = moments.map((moment, index) => {
-            return (
-                <Moment moment={moment} index={index} auth={auth}/>
-            )
-        });
-    }
 
     return (
         <main>
-            { !auth ? null : username === auth.username ? <MoodForm/> : null }
-            { username ? null : <Error404/>}
-            <section className="moments">
-                {moments ? mapMoments : <p>No posts yet.</p>}
-            </section>
+            {username
+            ? <>
+                {!auth ? null : username === auth.username ? <PostForm/> : null}
+                <section className="moments">
+                    {moments.length ? moments.map((moment, index) => <Moment moment={moment} key={index} auth={auth}/>) : <p>No posts yet.</p>}
+                </section>
+              </>
+            : <Error404/>}
         </main>
     )
 }

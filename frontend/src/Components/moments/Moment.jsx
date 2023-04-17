@@ -1,6 +1,6 @@
-function Moment({moment, index, auth}) {
-    
-    const deletePost = async () => {
+function Moment({moment, auth}) {
+
+    const deleteMoment = async () => {
         const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/${moment._id}`, {
             method: "DELETE"
         })
@@ -9,10 +9,10 @@ function Moment({moment, index, auth}) {
     }
 
     return (
-        <div className="moment" key={index}>
+        <div className="moment">
             <p>{moment.user.nickname}</p>
             <p>{moment.post}</p>
-            {!auth ? null : auth._id === moment.user._id ? <button onClick={deletePost}>Delete</button> : null}
+            {!auth ? null : moment.user._id === auth._id ? <button onClick={deleteMoment}>Delete</button> : null}
         </div>
     )
 }

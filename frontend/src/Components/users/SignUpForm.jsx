@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 
+const NICKNAME_REGEX = /^.{1,26}$/;
 const USERNAME_REGEX = /^[a-zA-Z0-9]{4,12}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
 
-function SignUpForm({ setForm }) {
+function SignUpForm({setForm}) {
     const [user, setUser] = useState({
         nickname: "",
         username: "",
@@ -36,11 +37,10 @@ function SignUpForm({ setForm }) {
 
     useEffect(() => {
         if(user.nickname && !nicknameFocus) {
-            if(user.nickname.length > 26) {
-                setNicknameInvalid(true);
+            setNicknameInvalid(!NICKNAME_REGEX.test(user.nickname));
+            
+            if(!NICKNAME_REGEX.test(user.nickname)) {
                 setNicknameError("Sorry, your nickname can only be up to 26 characters long.");
-            } else {
-                setNicknameInvalid(false);
             }
         }
     }, [nicknameFocus]);
@@ -49,8 +49,8 @@ function SignUpForm({ setForm }) {
         if(USERNAME_REGEX.test(user.username)) {
             const fetchUsername = async () => {
                 const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/${user.username}`);
-                const data = await response.text();
-                return (data ? true : false);
+                const usernameData = await response.text();
+                return (usernameData ? true : false);
             }
             const checkUsername = async () => {
                 const result = await fetchUsername();
@@ -112,23 +112,16 @@ function SignUpForm({ setForm }) {
             setNicknameError("Enter a nickname.");
             nicknameRef.current.focus();
         }
-        if(!user.nickname || !user.username || !user.password) {
-            return;
-        }
-        if(user.nickname.length <= 26 && USERNAME_REGEX.test(user.username) && !usernameTaken && PASSWORD_REGEX.test(user.password)) {
-            try {
-                const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(user)
-                });
-                await response.text();
-                setForm("");
-            } catch(error) {
-                console.error("Error.");
-            }
+        if(NICKNAME_REGEX.test(user.nickname) && USERNAME_REGEX.test(user.username) && !usernameTaken && PASSWORD_REGEX.test(user.password)) {
+            const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(user)
+            });
+            await response.text();
+            setForm("");
         }
     }
 
@@ -137,7 +130,7 @@ function SignUpForm({ setForm }) {
     };
 
     return (
-        <section className="center">
+        <div className="center">
             <form onSubmit={handleSubmit}>
                 <div className="closeContainer">
                     <button
@@ -163,8 +156,7 @@ function SignUpForm({ setForm }) {
                     ref={nicknameRef}
                     onFocus={() => setNicknameFocus(true)}
                     onBlur={() => setNicknameFocus(false)}
-                    maxLength="26"
-                />
+                    maxLength="26"/>
                 <p id="nickname-req" className={nicknameInvalid ? "signupError" : "hidden"}>
                     {nicknameInvalid
                         ? nicknameError
@@ -185,8 +177,7 @@ function SignUpForm({ setForm }) {
                     ref={usernameRef}
                     onFocus={() => setUsernameFocus(true)}
                     onBlur={() => setUsernameFocus(false)}
-                    maxLength="12"
-                />
+                    maxLength="12"/>
                 <p id="username-req" className={usernameInvalid ? "signupError" : "hidden"}>
                     {usernameInvalid
                         ? usernameError
@@ -207,14 +198,12 @@ function SignUpForm({ setForm }) {
                         value={user.password}
                         ref={passwordRef}
                         onFocus={() => setPasswordFocus(true)}
-                        onBlur={() => setPasswordFocus(false)}
-                    />
+                        onBlur={() => setPasswordFocus(false)}/>
                     <button
                         type="button"
                         className="passwordToggle"
                         onClick={() => setPasswordToggle(!passwordToggle)}
-                        aria-label={passwordToggle ? "Hide your password." : "Show your password."}
-                    >
+                        aria-label={passwordToggle ? "Hide your password." : "Show your password."}>
                         {passwordToggle ? "hide" : "show"}
                     </button>
                 </div>
@@ -223,10 +212,10 @@ function SignUpForm({ setForm }) {
                         ? passwordError
                         : "Please enter a password 8 or more characters long with at least 1 uppercase letter, 1 lowercase letter, and 1 number."}
                 </p>
-                <input type="submit" className="submit"/>
+                <input type="submit"/>
                 <p>Already have an account? <span className="link" onClick={() => setForm("login")}>Log in.</span></p>
             </form>
-        </section>
+        </div>
     )
 }
 

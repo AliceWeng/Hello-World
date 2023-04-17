@@ -12,9 +12,10 @@ router.get("/", (req, res) => {
 
 // finds moments posted by a specific user.
 router.get("/:username", async (req, res) => {
-    let user = await User.findOne({ username: new RegExp("^" + req.params.username + "$", "i") });
+    let user = await User.findOne({username: new RegExp("^" + req.params.username + "$", "i")});
 
     Moment.find({ user: user._id })
+    .sort({createdAt: -1})
     .populate("user")
     .then(moments => res.status(200).json(moments))
     .catch(() => res.status(404).json(null));

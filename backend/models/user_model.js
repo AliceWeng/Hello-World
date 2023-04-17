@@ -4,16 +4,21 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
     nickname: {
         type: String,
-        required: true
+        required: true,
+        minLength: 1,
+        maxLength: 26
     },
     username: {
         type: String,
-        unique: true,
         required: true,
+        unique: true,
+        minLength: 4,
+        maxLength: 12
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        minLength: 8
     }
 }, { timestamps: true });
 

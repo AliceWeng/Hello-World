@@ -7,7 +7,9 @@ const momentSchema = new mongoose.Schema({
     },
     post: {
         type: String,
-        required: true
+        required: true,
+        minLength: 1,
+        maxLength: 300
     }
 }, { timestamps: true });
 
