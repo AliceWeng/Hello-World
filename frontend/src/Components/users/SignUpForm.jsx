@@ -113,14 +113,13 @@ function SignUpForm({setForm}) {
             nicknameRef.current.focus();
         }
         if(NICKNAME_REGEX.test(user.nickname) && USERNAME_REGEX.test(user.username) && !usernameTaken && PASSWORD_REGEX.test(user.password)) {
-            const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users`, {
+            await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(user)
             });
-            await response.text();
             setForm("");
         }
     }
@@ -152,7 +151,6 @@ function SignUpForm({setForm}) {
                     onChange={handleChange}
                     aria-invalid={nicknameInvalid}
                     aria-describedby="nickname-req"
-                    value={user.nickname}
                     ref={nicknameRef}
                     onFocus={() => setNicknameFocus(true)}
                     onBlur={() => setNicknameFocus(false)}
@@ -173,7 +171,6 @@ function SignUpForm({setForm}) {
                     onChange={handleChange}
                     aria-invalid={usernameInvalid}
                     aria-describedby="username-req"
-                    value={user.username}
                     ref={usernameRef}
                     onFocus={() => setUsernameFocus(true)}
                     onBlur={() => setUsernameFocus(false)}
@@ -195,7 +192,6 @@ function SignUpForm({setForm}) {
                         onChange={handleChange}
                         aria-invalid={passwordInvalid}
                         aria-describedby="password-req"
-                        value={user.password}
                         ref={passwordRef}
                         onFocus={() => setPasswordFocus(true)}
                         onBlur={() => setPasswordFocus(false)}/>

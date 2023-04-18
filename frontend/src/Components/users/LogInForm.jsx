@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-function LogInForm({setForm}) {
+function LogInForm({setForm, setAuth}) {
     const [user, setUser] = useState({
         username: "",
         password: ""
@@ -27,12 +27,13 @@ function LogInForm({setForm}) {
             },
             body: JSON.stringify(user)
         });
-        const { message } = await response.json();
+        const data = await response.json();
 
         if(response.status === 200) {
-            window.location.reload();
+            setAuth(data.user);
+            setForm("");
         } else {
-            setError(message);
+            setError(data.message);
         }
     }
 
@@ -61,7 +62,6 @@ function LogInForm({setForm}) {
                     autoCapitalize="off"
                     autoComplete="username"
                     onChange={handleChange}
-                    value={user.username}
                     ref={usernameRef}/>
                 <label htmlFor="password">Password</label>
                 <div className="passwordContainer">
@@ -71,8 +71,7 @@ function LogInForm({setForm}) {
                         spellCheck="false"
                         autoCapitalize="off"
                         autoComplete="current-password"
-                        onChange={handleChange}
-                        value={user.password}/>
+                        onChange={handleChange}/>
                     <button
                         type="button"
                         className="passwordToggle"

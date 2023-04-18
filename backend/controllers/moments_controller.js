@@ -25,7 +25,7 @@ router.get("/:username", async (req, res) => {
 router.post("/", (req, res) => {
     Moment.create({
         user: req.session.userId,
-        post: req.body.post
+        ...req.body
     }).then(() => res.status(201).send("Your post has been successfully created."))
       .catch(() => res.status(500).send("Server error."));
 });

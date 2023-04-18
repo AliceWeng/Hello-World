@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import AuthContext from "./context/AuthContext";
-import PostForm from "./moments/PostForm";
+import PostForm from "./moments/MomentForm";
 import Moment from "./moments/Moment";
 import Error404 from "./Error404";
 
@@ -14,6 +14,12 @@ function Profile() {
 
     const location = useLocation();
 
+    const fetchMoments = async () => {
+        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/${username}`)
+        const momentsData = await response.json();
+        setMoments(momentsData);
+    }
+
     useEffect(() => {
         setUsername(location.pathname.replace(/\//g, ""));
     }, [location]);
@@ -25,11 +31,6 @@ function Profile() {
                 const usernameData = await response.text();
                 setUsername(usernameData);
                 if(usernameData) {
-                    const fetchMoments = async () => {
-                        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/${username}`)
-                        const momentsData = await response.json();
-                        setMoments(momentsData);
-                    }
                     fetchMoments();
                 }
             }
@@ -37,14 +38,15 @@ function Profile() {
         }
     }, [username]);
 
-
     return (
         <main>
             {username
             ? <>
-                {!auth ? null : username === auth.username ? <PostForm/> : null}
+                {!auth ? null : auth.username !== username ? null : <PostForm fetchMoments={fetchMoments}/>}
                 <section className="moments">
-                    {moments.length ? moments.map((moment, index) => <Moment moment={moment} key={index} auth={auth}/>) : <p>No posts yet.</p>}
+                    {moments.length
+                        ? moments.map((moment, index) => <Moment moment={moment} key={index} auth={auth} fetchMoments={fetchMoments}/>)
+                        : <p>No posts yet.</p>}
                 </section>
               </>
             : <Error404/>}

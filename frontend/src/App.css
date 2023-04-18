@@ -38,6 +38,7 @@ h1 {
   font-size: 2em;
 }
 main {
+  padding: 1em;
   margin-top: 88px;
   min-height: calc(100vh - 88px);
 }
@@ -179,7 +180,6 @@ input[type=submit]:active {
   pointer-events: none;
 }
 .post {
-  padding: 1em;
   display: flex;
   align-items: center;
   justify-content: center;

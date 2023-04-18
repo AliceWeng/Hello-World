@@ -11,7 +11,7 @@ function NavBar() {
     const [active, setActive] = useState(false);
     const [darkTheme, setDarkTheme] = useState(null);
 
-    const { auth } = useContext(AuthContext);
+    const { auth, setAuth } = useContext(AuthContext);
 
     document.addEventListener("click", e => {
         if(e.target.closest(".dropdown") === null) setActive(false);
@@ -49,11 +49,13 @@ function NavBar() {
             <nav>
                 <ul>
                     <li>
-                        <Link className="navLogo" to="/">Hello, world!</Link>
+                        <Link className="navLogo" to="/">
+                            {!auth ? "Hello, world!" : `Hello, ${auth.nickname}!`}
+                        </Link>
                     </li>
                     <li>
                         {auth
-                          ? <p>Welcome, {auth.nickname}!</p>
+                          ? null
                           : width > 555
                           ? <>
                                 <button className="navButton" onClick={() => setForm("signup")}>Sign up</button>
@@ -66,13 +68,13 @@ function NavBar() {
                                 {auth ? <Link to={auth.username}><button>Profile</button></Link> : null}
                                 <button onClick={() => setDarkTheme(!darkTheme)}>Dark Theme</button>
                                 <Link target="_blank" rel="noopener noreferrer" to="https://aliceweng.github.io/Rock-Paper-Scissors"><button>Rock, Paper, Scissors</button></Link>
-                                { auth ? <LogOutButton/> : null }
+                                { auth ? <LogOutButton setActive={setActive} setAuth={setAuth}/> : null }
                             </div>
                         </div>
                     </li>
                 </ul>
             </nav>
-            {form === "signup" ? <SignUpForm setForm={setForm}/> : form === "login" ? <LogInForm setForm={setForm}/> : null}
+            {form === "signup" ? <SignUpForm setForm={setForm}/> : form === "login" ? <LogInForm setForm={setForm} setAuth={setAuth}/> : null}
         </>
     )
 }

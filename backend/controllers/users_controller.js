@@ -42,7 +42,7 @@ router.post("/auth", async (req, res) => {
     }   
     if(await bcrypt.compare(req.body.password, user.password)) {
         req.session.userId = user._id;
-        res.status(200).json({message: "You have successfully logged in."});
+        res.status(200).json({user: user});
     } else {
         res.status(401).json({message: "The password you entered is incorrect."});
     }
