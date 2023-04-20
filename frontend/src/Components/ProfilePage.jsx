@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import AuthContext from "./context/AuthContext";
-import PostForm from "./moments/MomentForm";
+import MomentForm from "./moments/MomentForm";
 import Moment from "./moments/Moment";
-import Error404 from "./Error404";
+import Error404 from "./ErrorPage";
 
 function Profile() {
     const [username, setUsername] = useState(null);
@@ -15,9 +15,10 @@ function Profile() {
     const location = useLocation();
 
     const fetchMoments = async () => {
-        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/${username}`)
+        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/username/${username}`);
         const momentsData = await response.json();
         setMoments(momentsData);
+        
     }
 
     useEffect(() => {
@@ -42,12 +43,19 @@ function Profile() {
         <main>
             {username
             ? <>
-                {!auth ? null : auth.username !== username ? null : <PostForm fetchMoments={fetchMoments}/>}
-                <section className="moments">
+                {!auth ? null : auth.username !== username ? null : <MomentForm fetchMoments={fetchMoments}/>}
                     {moments.length
-                        ? moments.map((moment, index) => <Moment moment={moment} key={index} auth={auth} fetchMoments={fetchMoments}/>)
-                        : <p>No posts yet.</p>}
-                </section>
+                        ? moments.map((moment, index) => {
+                            return (
+                                <div className="flexbox">
+                                    <Moment moment={moment} key={index} fetchMoments={fetchMoments}/>
+                                </div>
+                            )
+                          })
+                        : <div className="flexbox">
+                            <p>No posts yet.</p>
+                          </div>
+                        }
               </>
             : <Error404/>}
         </main>

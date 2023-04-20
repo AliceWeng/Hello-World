@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import NavBar from "./Components/NavBar";
-import Profile from "./Components/Profile";
-import Error404 from "./Components/Error404";
+import ProfilePage from "./Components/ProfilePage";
+import Error404 from "./Components/ErrorPage";
+import MomentPage from "./Components/MomentPage";
 
 function App() {
   return (
@@ -10,7 +11,8 @@ function App() {
         <NavBar/>
         <Routes>
           <Route path="/"/>
-          <Route path="/:username" element={<Profile/>}/>
+          <Route path="/:username" element={<ProfilePage/>}/>
+          <Route path="/:username/:moment" element={<MomentPage/>}/>
           <Route path="/*" element={<Error404/>}/>
         </Routes>
       </Router>

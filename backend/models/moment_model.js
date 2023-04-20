@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Comment = require("./comment_model");
 
 const momentSchema = new mongoose.Schema({
     user: {
@@ -12,5 +13,11 @@ const momentSchema = new mongoose.Schema({
         maxLength: 300
     }
 }, { timestamps: true });
+
+momentSchema.post("findOneAndDelete", function() {
+    Comment.deleteMany({moment: this._conditions._id})
+        .then(() => console.log("👍"))
+        .catch(() => console.log("👎"));
+});
 
 module.exports = mongoose.model("Moment", momentSchema);

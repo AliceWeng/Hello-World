@@ -4,6 +4,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
     const [auth, setAuth] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getCurrentUser = async () => {
@@ -12,6 +13,7 @@ export const AuthProvider = ({children}) => {
             });
             let userData = await response.json();
             setAuth(userData);
+            setLoading(false);
         }
         getCurrentUser();
     }, []);

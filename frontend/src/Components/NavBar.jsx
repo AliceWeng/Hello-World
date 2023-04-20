@@ -65,7 +65,7 @@ function NavBar() {
                         <div className={active ? "dropdown active" : "dropdown"}>
                             <button className="navIcon" onClick={() => setActive(!active)}></button>
                             <div className="menu">
-                                {auth ? <Link to={auth.username}><button>Profile</button></Link> : null}
+                                {auth ? <Link to={`/${auth.username}`}><button onClick={() => setActive("")}>Profile</button></Link> : null}
                                 <button onClick={() => setDarkTheme(!darkTheme)}>Dark Theme</button>
                                 <Link target="_blank" rel="noopener noreferrer" to="https://aliceweng.github.io/Rock-Paper-Scissors"><button>Rock, Paper, Scissors</button></Link>
                                 { auth ? <LogOutButton setActive={setActive} setAuth={setAuth}/> : null }
