@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
 import Moment from "./moments/Moment";
 import MomentForm from "./moments/MomentForm";
@@ -14,18 +14,14 @@ function ProfilePage() {
 
     const { auth } = useContext(AuthContext);
 
-    const location = useLocation();
+    const { username } = useParams();
 
     useEffect(() => {
-        setUser(location.pathname.replace(/\//g, ""));
-    }, [location]);
-
-    useEffect(() => {
-        if(typeof(user) === "string") fetchUser();
-    }, [user]);
+        fetchUser();
+    }, []);
 
     const fetchUser = async () => {
-        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/${user}`);
+        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/${username}`);
         const userData = await response.json();
         if(userData) fetchMoments(userData._id);
         setUser(userData);
@@ -34,25 +30,27 @@ function ProfilePage() {
     const fetchMoments = async userId => {
         const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/user/${userId}`);
         const momentsData = await response.json();
-        setMoments([...momentsData]); 
+        setMoments(momentsData); 
     }
-    
+
     return (
         <main>
             { user === null
             ? <ErrorPage/>
-            : !user || typeof(user) === "string"
+            : !user
             ? null
             : <>
                 <div className="flexbox">
                     <h1>{user.nickname} @{user.username}</h1>
                     { !auth
                     ? null
-                    : auth.username === user.username
+                    : auth._id === user._id
                     ? <button className="create" onClick={() => setCreate(!create)}>Create a new moment</button>
                     : null }
                 </div>
-                {create ? <MomentForm fetchMoments={fetchMoments} userId={user._id} setCreate={setCreate}/> : null}
+                { create
+                ? <MomentForm fetchMoments={fetchMoments} userId={auth._id} setCreate={setCreate}/>
+                : null }
               </> }
 
             { !moments

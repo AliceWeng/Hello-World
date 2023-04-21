@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage/>}/>
           <Route path="/:username" element={<ProfilePage/>}/>
-          <Route path="/:username/:moment" element={<MomentPage/>}/>
+          <Route path="/:username/:momentId" element={<MomentPage/>}/>
           <Route path="/*" element={<Error404/>}/>
         </Routes>
       </Router>

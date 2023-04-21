@@ -36,9 +36,11 @@ router.post("/", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
-    Moment.findByIdAndDelete(req.params.id)
-        .then(() => res.status(200).send("Your post has been successfully deleted."))
-        .catch(() => res.status(500).send("Server error."));
+    if(req.session.userId) {
+        Moment.findByIdAndDelete(req.params.id)
+            .then(() => res.status(200).send("Your post has been successfully deleted."))
+            .catch(() => res.status(500).send("Server error."));
+    }
 });
 
 module.exports = router;

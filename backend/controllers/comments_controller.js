@@ -18,9 +18,11 @@ router.post("/", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
+    if(req.session.userId) {
     Comment.findByIdAndDelete(req.params.id)
         .then(() => res.status(200).send("Your comment has been successfully deleted."))
         .catch(() => res.status(500).send("Server error."));
+    }
 });
 
 module.exports = router;

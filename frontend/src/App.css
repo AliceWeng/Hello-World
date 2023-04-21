@@ -348,7 +348,7 @@ li {
   height: 75px;
   margin: .75em 0;
 }
-.moment, .comment {
+.moment {
   width: 525px;
   margin: .5em 1em;
   border: 1px solid var(--gray);

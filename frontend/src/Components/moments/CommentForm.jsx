@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-function CommentForm({momentId, setReply}) {
+function CommentForm({moment, setReply, fetchComments}) {
     const [comment, setComment] = useState("");
 
-    const location = useLocation();
+    const { momentId } = useParams();
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -16,14 +16,12 @@ function CommentForm({momentId, setReply}) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                moment: momentId,
+                moment: moment,
                 post: comment
             })
         });
-        let regex = /\/[\w\d]+\//
-        if(regex.test(location.pathname)) {
-        }
         setReply(false);
+        if(momentId) fetchComments();
     }
 
     return (
