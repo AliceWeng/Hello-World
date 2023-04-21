@@ -14,6 +14,10 @@ const momentSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
+momentSchema.post("create", function() {
+    momentSchema.findByIdAndUpdate({moment: this._conditions._id})
+});
+
 momentSchema.post("findOneAndDelete", function() {
     Comment.deleteMany({moment: this._conditions._id})
         .then(() => console.log("👍"))

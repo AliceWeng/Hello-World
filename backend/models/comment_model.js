@@ -12,7 +12,9 @@ const commentSchema = new Schema({
     },
     comment: {
         type: String,
-        required: true
+        required: true,
+        minLength: 1,
+        maxLength: 300
     }
 }, { timestamps: true });
 

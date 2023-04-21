@@ -14,7 +14,7 @@ function NavBar() {
     const { auth, setAuth } = useContext(AuthContext);
 
     document.addEventListener("click", e => {
-        if(e.target.closest(".dropdown") === null) setActive(false);
+        if(e.target.closest(".dropdown") === null && !e.target.matches(".navIcon")) setActive(false);
         if(e.target.closest("form") === null && !e.target.matches(".navButton")) setForm("");
     });
 
@@ -34,7 +34,12 @@ function NavBar() {
     }, []);
 
     useEffect(() => {
-        if(form) document.body.classList.add("popup");
+        if(form) {
+            document.body.classList.add("popup");
+        } else {
+            document.body.classList.remove("popup");
+        }
+
     }, [form]);
 
     useEffect(() => {
@@ -43,7 +48,7 @@ function NavBar() {
             ? document.body.classList.add("darkTheme")
             : document.body.classList.remove("darkTheme")
     }, [darkTheme]);
-
+    
     return (
         <>
             <nav>
@@ -62,18 +67,19 @@ function NavBar() {
                                 <button className="navButton" onClick={() => setForm("login")}>Log In</button>
                             </>
                           : null}
-                        <div className={active ? "dropdown active" : "dropdown"}>
                             <button className="navIcon" onClick={() => setActive(!active)}></button>
-                            <div className="menu">
-                                {auth ? <Link to={`/${auth.username}`}><button onClick={() => setActive("")}>Profile</button></Link> : null}
-                                <button onClick={() => setDarkTheme(!darkTheme)}>Dark Theme</button>
-                                <Link target="_blank" rel="noopener noreferrer" to="https://aliceweng.github.io/Rock-Paper-Scissors"><button>Rock, Paper, Scissors</button></Link>
-                                { auth ? <LogOutButton setActive={setActive} setAuth={setAuth}/> : null }
-                            </div>
-                        </div>
+
                     </li>
                 </ul>
             </nav>
+            <div className={active ? "dropdown active" : "dropdown"}>
+                <div className="menu">
+                    {auth ? <Link to={`/${auth.username}`}><button onClick={() => setActive("")}>Profile</button></Link> : null}
+                    <button onClick={() => setDarkTheme(!darkTheme)}>Dark Theme</button>
+                    <Link target="_blank" rel="noopener noreferrer" to="https://aliceweng.github.io/Rock-Paper-Scissors"><button>Rock, Paper, Scissors</button></Link>
+                    { auth ? <LogOutButton setActive={setActive} setAuth={setAuth}/> : null }
+                </div>
+            </div>
             {form === "signup" ? <SignUpForm setForm={setForm}/> : form === "login" ? <LogInForm setForm={setForm} setAuth={setAuth}/> : null}
         </>
     )

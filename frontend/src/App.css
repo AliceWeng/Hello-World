@@ -9,20 +9,21 @@
 :root {
   --body-background: #fafafa;
   --nav-background: white;
-  --shadow: rgba(0, 0, 0, .1);
+  --box-shadow: rgba(0, 0, 0, .1) 0 0 10px;
   --menu-background: white;
   --input-background: #ebebeb;
   --input-border: var(--logo);
   --errorRed: #d93025;
   --logo: #80a7fc;
+  --gray: #71767b;
   --text: black;
 }
 .darkTheme {
   --body-background: #0e0e10;
   --nav-background: #18181b;
-  --shadow: rgba(0, 0, 0, .75);
+  --box-shadow: rgba(0, 0, 0, .75) 0 0 10px;
   --menu-background: #1f1f23;
-  --input-background: #3d3d3f;
+  --input-background: #4b4b4e;
   --text: white;
 }
 .popup {
@@ -107,6 +108,8 @@ button {
 }
 label {
   font-size: 1em;
+}
+.center label {
   margin-top: 1.5em;
   margin-bottom: .3em;
 }
@@ -144,12 +147,13 @@ input[type=text]:focus, input[type=password]:focus {
   right: .1em;
   top: .1em;
 }
-input[type=submit] {
-  width: 5em;
-  border: none;
-  height: 2.5em;
-  font-size: 1em;
+.center input[type=submit] {
   margin: 1.25em;
+}
+input[type=submit] {
+  padding: .625em .845em;
+  border: none;
+  font-size: 1em;
   color: white;
   border-radius: .3em;
   font-family: "Inter";
@@ -178,29 +182,6 @@ input[type=submit]:active {
   position: absolute;
   pointer-events: none;
 }
-.post {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.post form {
-  margin: 1em;
-  width: 525px;
-  padding: 1em;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  background: var(--nav-background);
-  border: solid 1px var(--input-background);
-}
-.post label {
-  margin-top: 0;
-}
-.post input {
-  margin: 0;
-  margin-top: .5em;
-}
 textarea {
   width: 100%;
   resize: none;
@@ -224,7 +205,7 @@ nav ul {
   align-items: center;
   justify-content: space-between;
   background: var(--nav-background);
-  box-shadow: var(--shadow) 0 0 10px;
+  box-shadow: var(--box-shadow);
 }
 li {
   margin: 1em;
@@ -290,11 +271,12 @@ li {
   width: 200px;
   padding: .5em;
   color: var(--text);
-  position: absolute;
+  position: fixed;
   border-radius: .4em;
   pointer-events: none;
   background: var(--menu-background);
-  box-shadow: var(--shadow) 0 0 10px;
+  box-shadow: var(--box-shadow);
+  z-index: 100;
 }
 @media (max-width: 500px) {
   .menu {
@@ -333,22 +315,101 @@ li {
   border-radius: .5em;
   margin-bottom: .5em;
 }
-
-
-
-.moment, .comment {
-  margin: .5em;
-  padding: 1em;
-  width: 525px;
-  border: 1px solid var(--input-background);
-}
-.moment p {
-  font-size: 1em;
-  color: var(--text);
-  overflow-wrap: anywhere;
-}
 .flexbox {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.flexbox form {
+  padding: 1em;
+  text-align: center;
+  background: var(--nav-background);
+}
+.flexbox.m form {
+  width: 525px;
+  margin: .5em 1em;
+  border: 1px solid var(--gray);
+}
+.flexbox.c form {
+  border-top: 1px solid var(--gray);
+}
+.flexbox textarea {
+  height: 75px;
+  margin: .75em 0;
+}
+.moment, .comment {
+  width: 525px;
+  margin: .5em 1em;
+  border: 1px solid var(--gray);
+}
+.moment p {
+  font-size: 1em;
+  color: var(--text);
+}
+.nameLink {
+  text-decoration: none;
+}
+.nameLink p:hover {
+  text-decoration: underline;
+}
+.name {
+  display: flex;
+  align-items: center;
+}
+.name p:nth-child(2), .name p:nth-child(3) {
+  margin-left: .25em;
+  color: var(--gray);
+}
+.nameContainer {
+  display: flex;
+  margin: .5em 1em;
+  position: relative;
+  align-items: center;
+  justify-content: space-between;
+}
+.dots {
+  cursor: pointer;
+}
+.delete {
+  z-index: 1;
+  top: 1.5em;
+  padding: 1em;
+  right: -1.5em;
+  position: absolute;
+  border-radius: .4em;
+  color: var(--errorRed);
+  box-shadow: var(--box-shadow);
+  background: var(--nav-background);
+}
+.delete:hover {
+  background: var(--menu-background);
+}
+.postLink {
+  text-decoration: none;
+}
+.postLink p {
+  padding: 1em;
+  padding-bottom: 3em;
+  overflow-wrap: anywhere;
+}
+.post {
+  position: relative;
+}
+.reply {
+  right: 0;
+  bottom: 0;
+  width: 70px;
+  margin: .5em;
+  display: flex;
+  padding: .5em;
+  color: var(--gray);
+  position: absolute;
+  align-items: center;
+  border-radius: .3em;
+  background: transparent;
+  justify-content: space-between;
+  transition: 200ms;
+}
+.reply:hover {
+  background: rgba(113, 118, 123, 0.25);
 }

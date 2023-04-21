@@ -2,32 +2,34 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Moment from "./moments/Moment";
 import Comment from "./moments/Comment";
+import ErrorPage from "./ErrorPage";
 
 function MomentPage() {
     const [comments, setComments] = useState();
     const [moment, setMoment] = useState();
-    const [id, setId] = useState("");
+    const [momentId, setMomentId] = useState("");
+    
     const location = useLocation();
 
     useEffect(() => {
-        let string = location.pathname.replace(/^\/[\w\d]+\//g, "")
-        setId(string.replace(/\//g, ""));
+        let uri = location.pathname.replace(/\/[\w\d]+\//, "");
+        setMomentId(uri.replace(/\//g, ""));
     }, [location]);
 
     useEffect(() => {
-        if(id) {
+        if(momentId) {
             const fetchMoment = async () => {
-                const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/${id}`);
+                const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/${momentId}`);
                 const momentData = await response.json();
                 setMoment(momentData)
             }
             fetchMoment();
             fetchComments();
         }
-    }, [id]);
+    }, [momentId]);
 
     const fetchComments = async () => {
-        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/comments/${id}`);
+        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/comments/${momentId}`);
         const commentsData = await response.json();
         setComments(commentsData);
     }
@@ -46,7 +48,7 @@ function MomentPage() {
                                 </div>
                                 )}) : null}
                       </>
-                    : null}
+                    : <ErrorPage/>}
         </main>
     )
 }

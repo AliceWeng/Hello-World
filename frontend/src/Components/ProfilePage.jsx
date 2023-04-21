@@ -5,9 +5,9 @@ import MomentForm from "./moments/MomentForm";
 import Moment from "./moments/Moment";
 import Error404 from "./ErrorPage";
 
-function Profile() {
+function ProfilePage() {
     const [username, setUsername] = useState(null);
-    
+    const [create, setCreate] = useState(false);
     const [moments, setMoments] = useState([]);
 
     const { auth } = useContext(AuthContext);
@@ -43,12 +43,13 @@ function Profile() {
         <main>
             {username
             ? <>
-                {!auth ? null : auth.username !== username ? null : <MomentForm fetchMoments={fetchMoments}/>}
+                {!auth ? null : auth.username !== username ? null : <button onClick={() => setCreate(!create)}>New Moment</button>}
+                {create ? <MomentForm fetchMoments={fetchMoments} setCreate={setCreate}/> : null}
                     {moments.length
                         ? moments.map((moment, index) => {
                             return (
-                                <div className="flexbox">
-                                    <Moment moment={moment} key={index} fetchMoments={fetchMoments}/>
+                                <div className="flexbox" key={index}>
+                                    <Moment moment={moment} fetchMoments={fetchMoments}/>
                                 </div>
                             )
                           })
@@ -62,4 +63,4 @@ function Profile() {
     )
 }
 
-export default Profile;
+export default ProfilePage;

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-function CommentForm({momentId, fetchComments, setReply}) {
-    const [comment, setComment] = useState();
+function CommentForm({momentId, setReply}) {
+    const [comment, setComment] = useState("");
 
     const location = useLocation();
 
@@ -22,20 +22,21 @@ function CommentForm({momentId, fetchComments, setReply}) {
         });
         let regex = /\/[\w\d]+\//
         if(regex.test(location.pathname)) {
-            fetchComments();
         }
         setReply(false);
     }
 
     return (
-        <div>
+        <div className="flexbox c">
             <form onSubmit={handleSubmit}>
-                <label htmlFor="comment">Leave a comment here.</label>
-                <input
-                    type="text"
+                <label htmlFor="comment">A penny for your thoughts.</label>
+                <textarea
                     id="comment"
-                    onChange={e => setComment(e.target.value)}/>
-                    
+                    maxLength="300"
+                    spellCheck="false"
+                    placeholder="Leave a comment here."
+                    onChange={e => setComment(e.target.value)}>
+                </textarea>
                 <input type="submit"/>
             </form>
         </div>
