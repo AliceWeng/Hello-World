@@ -17,7 +17,7 @@ function CommentForm({momentId, setReply}) {
             },
             body: JSON.stringify({
                 moment: momentId,
-                comment: comment
+                post: comment
             })
         });
         let regex = /\/[\w\d]+\//

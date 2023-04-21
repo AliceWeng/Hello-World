@@ -10,7 +10,7 @@ const commentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Moment"
     },
-    comment: {
+    post: {
         type: String,
         required: true,
         minLength: 1,

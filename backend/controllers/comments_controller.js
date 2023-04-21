@@ -17,4 +17,10 @@ router.post("/", (req, res) => {
       .catch(() => res.status(500).send("Server error."));
 });
 
+router.delete("/:id", (req, res) => {
+    Comment.findByIdAndDelete(req.params.id)
+        .then(() => res.status(200).send("Your comment has been successfully deleted."))
+        .catch(() => res.status(500).send("Server error."));
+});
+
 module.exports = router;

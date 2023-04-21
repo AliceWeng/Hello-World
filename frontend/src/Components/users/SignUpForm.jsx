@@ -49,7 +49,7 @@ function SignUpForm({setForm}) {
         if(USERNAME_REGEX.test(user.username)) {
             const fetchUsername = async () => {
                 const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/${user.username}`);
-                const usernameData = await response.text();
+                const usernameData = await response.json();
                 return (usernameData ? true : false);
             }
             const checkUsername = async () => {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function MomentForm({fetchMoments, setCreate}) {
+function MomentForm({fetchMoments, userId, setCreate}) {
     const [post, setPost] = useState("");
 
     const handleSubmit = async e => {
@@ -15,8 +15,8 @@ function MomentForm({fetchMoments, setCreate}) {
             },
             body: JSON.stringify({post: post})
         });
-        setCreate();
-        fetchMoments();
+        setCreate(false);
+        fetchMoments(userId);
     };
 
     return (
@@ -28,8 +28,7 @@ function MomentForm({fetchMoments, setCreate}) {
                     spellCheck="false"
                     placeholder="Write your post here."
                     onChange={e => setPost(e.target.value)}
-                    maxLength="300"
-                    value={post}/>
+                    maxLength="300"/>
                 <input type="submit"/>
             </form>
         </div>

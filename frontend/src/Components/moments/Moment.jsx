@@ -1,20 +1,23 @@
 import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { BsThreeDots } from "react-icons/bs";
 import { FaReply } from "react-icons/fa";
-import { BsThreeDots } from "react-icons/bs"
 import CommentForm from "./CommentForm";
 import AuthContext from "../context/AuthContext";
 
 function Moment({moment, fetchMoments}) {
     const [reply, setReply] = useState(false);
     const [dots, setDots] = useState(false);
+    
     const { auth } = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     const deleteMoment = async () => {
         await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/${moment._id}`, {
             method: "DELETE"
-        })
-        fetchMoments();
+        });
+        navigate(`/${moment.user.username}`);
     }
     
     document.addEventListener("click", e => {
@@ -41,7 +44,7 @@ function Moment({moment, fetchMoments}) {
                     </Link>
                     <button className="reply" onClick={() => setReply(!reply)}><FaReply/>Reply</button>
                 </div>
-                {reply ? <CommentForm momentId={moment._id} setReply={setReply}/> : null}
+                {reply ? <CommentForm momentId={moment._id} setReply={setReply} /> : null}
             </div>
     )
 }

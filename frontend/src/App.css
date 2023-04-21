@@ -206,6 +206,7 @@ nav ul {
   justify-content: space-between;
   background: var(--nav-background);
   box-shadow: var(--box-shadow);
+  z-index: 100;
 }
 li {
   margin: 1em;
@@ -261,6 +262,7 @@ li {
 .navIcon {
   width: 3em;
   height: 3em;
+  margin-left: .75em;
   border-radius: 50%;
   background: var(--logo);
 }
@@ -315,6 +317,15 @@ li {
   border-radius: .5em;
   margin-bottom: .5em;
 }
+.create {
+  color: var(--text);
+  padding: 1em 1.5em;
+  background: transparent;
+  border: solid 1px var(--gray);
+}
+.create:hover {
+  background: rgba(113, 118, 123, 0.1);
+}
 .flexbox {
   display: flex;
   align-items: center;
@@ -357,7 +368,7 @@ li {
   align-items: center;
 }
 .name p:nth-child(2), .name p:nth-child(3) {
-  margin-left: .25em;
+  margin-left: .3em;
   color: var(--gray);
 }
 .nameContainer {
@@ -387,7 +398,7 @@ li {
 .postLink {
   text-decoration: none;
 }
-.postLink p {
+.post p {
   padding: 1em;
   padding-bottom: 3em;
   overflow-wrap: anywhere;

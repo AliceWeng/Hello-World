@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Moment from "./moments/Moment";
-import Comment from "./moments/Comment";
 import ErrorPage from "./ErrorPage";
+import Comment from "./moments/Comment";
 
 function MomentPage() {
     const [comments, setComments] = useState();
     const [moment, setMoment] = useState();
     const [momentId, setMomentId] = useState("");
-    
+
     const location = useLocation();
 
     useEffect(() => {
@@ -37,14 +37,16 @@ function MomentPage() {
     return (
         <main>
                 {moment
-                    ? <>    <div className="flexbox">
+                    ? <>    
+                            <div className="flexbox">
                                 <Moment moment={moment} fetchComments={fetchComments}/>
                             </div>
+                            <h3>Comments</h3>
                             {comments
                                 ? comments.map((comment, index) => {
                                 return (
-                                <div className="flexbox">
-                                    <Comment comment={comment} key={index}/>
+                                <div className="flexbox" key={index}>
+                                    <Comment comment={comment} fetchComments={fetchComments}/>
                                 </div>
                                 )}) : null}
                       </>

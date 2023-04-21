@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const user_model = require("../models/user_model");
 const User = require("../models/user_model");
 const bcrypt = require("bcrypt");
 
@@ -14,8 +15,8 @@ router.get("/auth", (req, res) => {
 router.get("/:username", (req, res) => {
     User.findOne({
         username: new RegExp("^" + req.params.username + "$", "i")
-    }).then(user => res.status(200).send(user.username))
-      .catch(() => res.status(404).send(null));
+    }).then(user => res.status(200).json(user))
+      .catch(() => res.status(404).json(null));
 });
 
 // hashes sign up form's password input, creates a new user.
