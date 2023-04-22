@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import DarkTheme from "./users/DarkTheme";
 import LogInForm from "./users/LogInForm";
 import SignUpForm from "./users/SignUpForm";
 import LogOutButton from "./users/LogOutButton";
@@ -9,7 +10,6 @@ function NavBar() {
     const [form, setForm] = useState("");
     const [width, setWidth] = useState(0);
     const [active, setActive] = useState(false);
-    const [darkTheme, setDarkTheme] = useState(null);
 
     const { auth, setAuth } = useContext(AuthContext);
 
@@ -28,9 +28,6 @@ function NavBar() {
 
     useEffect(() => {
         setWidth(window.innerWidth);
-        let boolean = localStorage.getItem("darkTheme");
-        if(boolean === "true") setDarkTheme(true);
-        if(boolean === "false") setDarkTheme(false);
     }, []);
 
     useEffect(() => {
@@ -41,13 +38,6 @@ function NavBar() {
         }
 
     }, [form]);
-
-    useEffect(() => {
-        if(darkTheme !== null) localStorage.setItem("darkTheme", darkTheme);
-        darkTheme
-            ? document.body.classList.add("darkTheme")
-            : document.body.classList.remove("darkTheme")
-    }, [darkTheme]);
     
     return (
         <>
@@ -68,15 +58,13 @@ function NavBar() {
                             </>
                           : null}
                             <button className="navIcon" onClick={() => setActive(!active)}></button>
-
                     </li>
                 </ul>
             </nav>
             <div className={active ? "dropdown active" : "dropdown"}>
                 <div className="menu">
                     {auth ? <Link to={`/${auth.username}`}><button onClick={() => setActive("")}>Profile</button></Link> : null}
-                    <button onClick={() => setDarkTheme(!darkTheme)}>Dark Theme</button>
-                    <Link target="_blank" rel="noopener noreferrer" to="https://aliceweng.github.io/Rock-Paper-Scissors"><button>Rock, Paper, Scissors</button></Link>
+                    <DarkTheme/>
                     { auth ? <LogOutButton setActive={setActive} setAuth={setAuth}/> : null }
                 </div>
             </div>

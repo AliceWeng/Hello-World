@@ -11,7 +11,7 @@
   --nav-background: white;
   --box-shadow: rgba(0, 0, 0, .1) 0 0 10px;
   --menu-background: white;
-  --input-background: #ebebeb;
+  --input-background: #e4e4e4;
   --input-border: var(--logo);
   --errorRed: #d93025;
   --logo: #80a7fc;
@@ -25,6 +25,42 @@
   --menu-background: #1f1f23;
   --input-background: #4b4b4e;
   --text: white;
+}
+.toggleContainer {
+  padding: .5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.toggleContainer label {
+  margin: 0 .5em;
+  font-size: 1em;
+  cursor: pointer;
+}
+.slider {
+  width: 2.5em;
+  height: 1.4em;
+  position: relative;
+  border-radius: 2em;
+  border: 1px solid var(--gray);
+  cursor: pointer;
+}
+.slider::before {
+  content: "";
+  position: absolute;
+  background: var(--text);
+  border-radius: 50%;
+  height: 1em;
+  width: 1em;
+  top: .1em;
+  left: .1em;
+  transition: 150ms;
+}
+#toggle {
+  display: none;
+}
+#toggle:checked + .slider::before {
+  transform: translateX(1.1em);
 }
 .popup {
   overflow: hidden;
@@ -41,7 +77,6 @@ h1 {
 main {
   padding-top: 1em;
   margin-top: 88px;
-  min-height: calc(100vh - 88px);
 }
 p {
   font-size: 13px;
@@ -300,7 +335,8 @@ li {
 }
 .menu button {
   width: 100%;
-  padding: 1em;
+  padding: .5em;
+  font-size: 1em;
   color: var(--text);
   border-radius: .4em;
   background: transparent;
