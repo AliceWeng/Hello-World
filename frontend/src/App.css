@@ -51,13 +51,13 @@ p {
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 4;
   display: flex;
   overflow: auto;
   position: fixed;
   align-items: flex-start;
   justify-content: center;
   background: rgba(0, 0, 0, 0.75);
-  z-index: 10;
 }
 .center form {
   width: 425px;
@@ -200,13 +200,13 @@ nav ul {
   top: 0;
   left: 0;
   right: 0;
+  z-index: 2;
   display: flex;
   position: fixed;
   align-items: center;
   justify-content: space-between;
   background: var(--nav-background);
   box-shadow: var(--box-shadow);
-  z-index: 100;
 }
 li {
   margin: 1em;
@@ -270,6 +270,7 @@ li {
   top: 6.5em;
   right: 1em;
   opacity: 0;
+  z-index: 3;
   width: 200px;
   padding: .5em;
   color: var(--text);
@@ -278,7 +279,6 @@ li {
   pointer-events: none;
   background: var(--menu-background);
   box-shadow: var(--box-shadow);
-  z-index: 100;
 }
 @media (max-width: 500px) {
   .menu {
@@ -316,6 +316,10 @@ li {
   max-width: 85vw;
   border-radius: .5em;
   margin-bottom: .5em;
+}
+.back {
+
+
 }
 .create {
   color: var(--text);
@@ -385,7 +389,7 @@ li {
   z-index: 1;
   top: 1.5em;
   padding: 1em;
-  right: -1.5em;
+  right: -2em;
   position: absolute;
   border-radius: .4em;
   color: var(--errorRed);
@@ -409,8 +413,8 @@ li {
 .reply {
   right: 0;
   bottom: 0;
-  width: 70px;
   margin: .5em;
+  width: 5.25em;
   display: flex;
   padding: .5em;
   color: var(--gray);

@@ -48,7 +48,7 @@ function ProfilePage() {
                     ? <button className="create" onClick={() => setCreate(!create)}>Create a new moment</button>
                     : null }
                 </div>
-                { create
+                { auth && create
                 ? <MomentForm fetchMoments={fetchMoments} userId={auth._id} setCreate={setCreate}/>
                 : null }
               </> }

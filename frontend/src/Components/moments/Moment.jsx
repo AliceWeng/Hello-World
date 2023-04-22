@@ -34,6 +34,14 @@ function Moment({moment, fetchMoments, fetchComments}) {
 
     let date = new Date(moment.createdAt);
 
+    const checkIfLoggedIn = () => {
+        if(auth) {
+            setReply(!reply);
+        } else {
+            // tell them to log in or sign up.
+        }
+    }
+
     return (
         <div className="moment">
             <div className="nameContainer">
@@ -54,10 +62,12 @@ function Moment({moment, fetchMoments, fetchComments}) {
                 : null }
             </div>
             <div className="post">
-                <Link className="postLink" to={`/${moment.user.username}/${moment._id}`} >
+                { momentId 
+                ? <p>{moment.post}</p>
+                : <Link className="postLink" to={`/${moment.user.username}/${moment._id}`} >
                     <p>{moment.post}</p>
-                </Link>
-                <button className="reply" onClick={() => setReply(!reply)}>
+                  </Link> }
+                <button className="reply" onClick={() => checkIfLoggedIn()}>
                     <FaReply/>Reply
                 </button>
             </div>

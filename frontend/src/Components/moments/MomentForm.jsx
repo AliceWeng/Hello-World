@@ -28,7 +28,8 @@ function MomentForm({fetchMoments, userId, setCreate}) {
                     spellCheck="false"
                     placeholder="Write your post here."
                     onChange={e => setPost(e.target.value)}
-                    maxLength="300"/>
+                    maxLength="300">
+                </textarea>
                 <input type="submit"/>
             </form>
         </div>

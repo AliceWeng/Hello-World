@@ -9,6 +9,7 @@ function CommentForm({moment, setReply, fetchComments}) {
     const handleSubmit = async e => {
         e.preventDefault();
 
+        if(!comment) return;
         await fetch(`${process.env.REACT_APP_FETCH_URI}/api/comments`, {
             method: "POST",
             credentials: "include",
@@ -32,7 +33,7 @@ function CommentForm({moment, setReply, fetchComments}) {
                     id="comment"
                     maxLength="300"
                     spellCheck="false"
-                    placeholder="Leave a comment here."
+                    placeholder="Leave your comment here."
                     onChange={e => setComment(e.target.value)}>
                 </textarea>
                 <input type="submit"/>

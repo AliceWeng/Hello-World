@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { IoMdArrowRoundBack } from "react-icons/io"
 import Comment from "./moments/Comment";
 import Moment from "./moments/Moment";
 import ErrorPage from "./ErrorPage";
@@ -9,7 +10,7 @@ function MomentPage() {
 
     const [moment, setMoment] = useState();
 
-    const { momentId } = useParams();
+    const { username, momentId } = useParams();
  
     useEffect(() => {
         fetchMoment();
@@ -30,6 +31,9 @@ function MomentPage() {
 
     return (
         <main>
+            <Link to={`/${username}`}>
+                <IoMdArrowRoundBack className="back"/>
+            </Link>
             { moment === null
             ? <ErrorPage/>
             : !moment
