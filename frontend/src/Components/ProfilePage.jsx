@@ -20,6 +20,12 @@ function ProfilePage() {
         fetchUser();
     }, []);
 
+    useEffect(() => {
+        create
+        ? document.body.classList.add("popup")
+        : document.body.classList.remove("popup")
+    }, [create]);
+
     const fetchUser = async () => {
         const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/${username}`);
         const userData = await response.json();
@@ -48,24 +54,23 @@ function ProfilePage() {
                     ? <button className="create" onClick={() => setCreate(!create)}>Create a new moment</button>
                     : null }
                 </div>
-                { auth && create
+                { create
                 ? <MomentForm fetchMoments={fetchMoments} userId={auth._id} setCreate={setCreate}/>
                 : null }
+                { !moments
+                ? null
+                : moments.length
+                ? moments.map((moment, index) => {
+                    return (
+                        <div className="flexbox" key={index}>
+                            <Moment moment={moment} fetchMoments={fetchMoments}/>
+                        </div>
+                    )
+                })
+                : <div className="flexbox">
+                    <p>No posts yet.</p>
+                </div> }
               </> }
-
-            { !moments
-            ? null
-            : moments.length
-            ? moments.map((moment, index) => {
-                return (
-                    <div className="flexbox" key={index}>
-                        <Moment moment={moment} fetchMoments={fetchMoments}/>
-                    </div>
-                )
-            })
-            : <div className="flexbox">
-                <p>No posts yet.</p>
-              </div> }
         </main>
     )
 }

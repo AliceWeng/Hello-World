@@ -12,7 +12,7 @@ const commentSchema = new Schema({
         ref: "Moment",
         required: true
     },
-    post: {
+    comment: {
         type: String,
         required: true,
         minLength: 1,

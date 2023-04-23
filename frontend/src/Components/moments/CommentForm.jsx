@@ -6,6 +6,14 @@ function CommentForm({moment, setReply, fetchComments}) {
 
     const { momentId } = useParams();
 
+    document.addEventListener("click", e => {
+        if(!e.target.closest("form") && !e.target.matches(".reply")) setReply(false);
+    });
+
+    document.addEventListener("keydown", e => {
+        if(e.key === "Escape") setReply(false);
+    });
+
     const handleSubmit = async e => {
         e.preventDefault();
 
@@ -18,7 +26,7 @@ function CommentForm({moment, setReply, fetchComments}) {
             },
             body: JSON.stringify({
                 moment: moment,
-                post: comment
+                comment: comment
             })
         });
         setReply(false);
@@ -26,8 +34,16 @@ function CommentForm({moment, setReply, fetchComments}) {
     }
 
     return (
-        <div className="flexbox c">
+        <div className="center">
             <form onSubmit={handleSubmit}>
+                <div className="closeContainer">
+                    <button
+                        type="button"
+                        className="close"
+                        aria-label="Close form."
+                        onClick={() => setReply(false)}>
+                    </button>
+                </div>
                 <label htmlFor="comment">A penny for your thoughts.</label>
                 <textarea
                     id="comment"

@@ -3,8 +3,7 @@ import { createContext, useState, useEffect } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
-    const [auth, setAuth] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [auth, setAuth] = useState();
 
     useEffect(() => {
         const getCurrentUser = async () => {
@@ -13,7 +12,6 @@ export const AuthProvider = ({children}) => {
             });
             let userData = await response.json();
             setAuth(userData);
-            setLoading(false);
         }
         getCurrentUser();
     }, []);

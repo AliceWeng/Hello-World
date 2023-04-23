@@ -8,6 +8,10 @@ function Comment({comment, fetchComments}) {
 
     const { auth } = useContext(AuthContext);
 
+    document.addEventListener("click", e => {
+        if(e.target.closest(".dots") === null) setDots(false);
+    });
+
     const deleteComment = async () => {
         await fetch(`${process.env.REACT_APP_FETCH_URI}/api/comments/${comment._id}`, {
             method: "DELETE",
@@ -15,10 +19,6 @@ function Comment({comment, fetchComments}) {
         });
         fetchComments();
     }
-
-    document.addEventListener("click", e => {
-        if(e.target.closest(".dots") === null) setDots(false);
-    });
 
     let date = new Date(comment.createdAt);
 

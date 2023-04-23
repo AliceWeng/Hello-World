@@ -2,22 +2,19 @@ import { useState, useEffect } from "react";
 import { MdDarkMode } from "react-icons/md";
 
 function DarkTheme() {
-    const [darkTheme, setDarkTheme] = useState(null);
+    const [darkTheme, setDarkTheme] = useState("");
 
     useEffect(() => {
         let boolean = localStorage.getItem("darkTheme");
-        if(boolean === "true") {
-            setDarkTheme(true);
-
-        }
+        if(boolean === "true") setDarkTheme(true);
         if(boolean === "false") setDarkTheme(false);
     }, []);
 
     useEffect(() => {
-        if(darkTheme !== null) localStorage.setItem("darkTheme", darkTheme);
+        if(typeof(darkTheme) !== "string") localStorage.setItem("darkTheme", darkTheme);
         darkTheme
-            ? document.body.classList.add("darkTheme")
-            : document.body.classList.remove("darkTheme")
+        ? document.body.classList.add("darkTheme")
+        : document.body.classList.remove("darkTheme")
     }, [darkTheme]);
 
     return (
@@ -28,8 +25,11 @@ function DarkTheme() {
                 id="toggle"
                 type="checkbox"
                 checked={darkTheme}
-                onClick={() => setDarkTheme(!darkTheme)}/>
-            <span className="slider" onClick={() => setDarkTheme(!darkTheme)}></span>
+                onChange={() => setDarkTheme(!darkTheme)}/>
+            <span
+                className="slider"
+                onClick={() => setDarkTheme(!darkTheme)}>
+            </span>
         </div>
     )
 }

@@ -53,7 +53,7 @@ function MomentPage() {
                     )
                 })
                 : <div className="flexbox">
-                    <p>No comment yet.</p>
+                    <p>No comments yet.</p>
                   </div> }
               </> }
         </main>

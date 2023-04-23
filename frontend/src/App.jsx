@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import NavBar from "./Components/NavBar";
-import ProfilePage from "./Components/ProfilePage";
+import HomePage from "./Components/HomePage";
 import Error404 from "./Components/ErrorPage";
 import MomentPage from "./Components/MomentPage";
-import HomePage from "./Components/HomePage";
+import ProfilePage from "./Components/ProfilePage";
 
 function App() {
   return (
