@@ -45,13 +45,13 @@ function MomentPage() {
                 { !comments
                 ? null
                 : comments.length
-                ? comments.map((comment, index) => {
+                ? <section className="margin">{comments.map((comment, index) => {
                     return (
                         <div className="flexbox" key={index}>
                             <Comment comment={comment} fetchComments={fetchComments}/>
                         </div>
                     )
-                })
+                  })}</section>
                 : <div className="flexbox">
                     <p>No comments yet.</p>
                   </div> }

@@ -48,6 +48,8 @@ function ProfilePage() {
             : <>
                 <div className="flexbox">
                     <h1>{user.nickname} @{user.username}</h1>
+                </div>
+                <div className="flexbox">
                     { !auth
                     ? null
                     : auth._id === user._id
@@ -60,13 +62,13 @@ function ProfilePage() {
                 { !moments
                 ? null
                 : moments.length
-                ? moments.map((moment, index) => {
+                ? <section className="margin">{moments.map((moment, index) => {
                     return (
                         <div className="flexbox" key={index}>
                             <Moment moment={moment} fetchMoments={fetchMoments}/>
                         </div>
                     )
-                })
+                  })}</section>
                 : <div className="flexbox">
                     <p>No posts yet.</p>
                 </div> }

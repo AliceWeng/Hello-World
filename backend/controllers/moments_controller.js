@@ -10,6 +10,10 @@ router.get("/", (req, res) => {
         .catch(() => res.status(500).send("Server error."));
 });
 
+router.get("/recent", (req, res) => {
+    Moment.find()
+});
+
 router.get("/:id", (req, res) => {
     Moment.findById(req.params.id)
         .populate("user")

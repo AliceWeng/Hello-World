@@ -51,8 +51,8 @@
   border-radius: 50%;
   height: 1em;
   width: 1em;
-  top: .1em;
-  left: .1em;
+  top: 2px;
+  left: 2px;
   transition: 300ms;
 }
 #toggle {
@@ -123,8 +123,8 @@ p {
 .close::before, .close::after {
   content: "";
   position: absolute;
-  top: 16px;
-  left: 9px;
+  top: 1.2em;
+  left: .65em;
   width: 15px;
   height: 2px;
   background: var(--text);
@@ -342,16 +342,20 @@ button {
   border: 1px solid var(--gray);
 }
 .create:hover {
-  background: rgba(113, 118, 123, 0.1);
+  background: rgba(113, 118, 123, 0.2);
 }
 .flexbox {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+.margin {
+  margin-top: 2em;
+}
 .moment {
   width: 525px;
-  margin: .5em 1em;
+  position: relative;
+  margin-bottom: -1px;
   border: 1px solid var(--gray);
 }
 .moment p {
@@ -365,27 +369,28 @@ button {
   text-decoration: underline;
 }
 .name {
+  top: 0;
+  left: 0;
+  margin: 1em;
   display: flex;
+  position: absolute;
   align-items: center;
 }
 .name p:nth-child(2), .name p:nth-child(3) {
   margin-left: .3em;
   color: var(--gray);
 }
-.nameContainer {
-  display: flex;
-  margin: .5em 1em;
-  position: relative;
-  align-items: center;
-  justify-content: space-between;
-}
 .dots {
+  top: 0;
+  right: 0;
+  margin: 1em;
+  position: absolute;
   cursor: pointer;
 }
 .delete {
   z-index: 1;
-  right: -2em;
-  bottom: -3em;
+  top: 2.5em;
+  right: -1em;
   padding: 1em 1.5em;
   position: absolute;
   border-radius: .4em;
@@ -397,12 +402,8 @@ button {
   background: var(--menu-background);
 }
 .post p {
-  padding: 1em;
-  padding-bottom: 3em;
+  padding: 3em 1em;
   overflow-wrap: anywhere;
-}
-.post {
-  position: relative;
 }
 .reply {
   right: 0;
@@ -424,8 +425,12 @@ button {
 }
 @media (max-width: 500px) {
   .center form {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100vw;
-    height: 100vh;
+    position: fixed;
     border-radius: 0;
   }
   .navButton {
@@ -440,13 +445,6 @@ button {
     position: fixed;
     border-radius: 0;
   }
-  .delete {
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: fixed;
-    border-radius: 0;
-  }
   .menu.active + .shadow {
     top: 0;
     left: 0;
@@ -455,5 +453,13 @@ button {
     z-index: 3;
     position: fixed;
     background: rgba(0, 0, 0, 0.75);
+  }
+  .delete {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    position: fixed;
+    border-radius: 0;
   }
 }

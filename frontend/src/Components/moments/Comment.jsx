@@ -24,25 +24,23 @@ function Comment({comment, fetchComments}) {
 
     return (
         <div className="moment">
-            <div className="nameContainer">
-                <div className="name">
-                    <Link className="nameLink" to={`/${comment.user.username}`}>
-                        <p>{comment.user.nickname}</p>
-                    </Link>
-                    <p>@{comment.user.username}</p>
-                    <p>{date.toDateString()}</p>
-                </div>
-                { !auth
-                ? null
-                : auth._id === comment.user._id
-                ? <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>
-                : null }
-                { dots
-                ? <button className="delete" onClick={deleteComment}>Delete</button>
-                : null }
+            <div className="name">
+                <Link className="nameLink" to={`/${comment.user.username}`}>
+                    <p>{comment.user.nickname}</p>
+                </Link>
+                <p>@{comment.user.username}</p>
+                <p>{date.toDateString()}</p>
             </div>
+            { !auth
+            ? null
+            : auth._id === comment.user._id
+            ? <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>
+            : null }
+            { dots
+            ? <button className="delete" onClick={deleteComment}>Delete</button>
+            : null }
             <div className="post">
-                <p>{comment.post}</p>
+                <p>{comment.comment}</p>
             </div>
         </div>
     )

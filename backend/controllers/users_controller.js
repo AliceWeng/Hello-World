@@ -4,18 +4,18 @@ const bcrypt = require("bcrypt");
 
 // finds user based on id stored in cookie session.
 router.get("/auth", (req, res) => {
-    User.findOne({
-        _id: req.session.userId
-    }).then(user => res.status(200).json(user))
-      .catch(() => res.status(404).json(null));
+    User.findOne({_id: req.session.userId})
+        .lean()
+        .then(user => res.status(200).json(user))
+        .catch(() => res.status(404).json(null));
 });
 
 // searches database for a match to sign up form's username input, checks if username is taken.
 router.get("/:username", (req, res) => {
-    User.findOne({
-        username: new RegExp("^" + req.params.username + "$", "i")
-    }).then(user => res.status(200).json(user))
-      .catch(() => res.status(404).json(null));
+    User.findOne({username: new RegExp("^" + req.params.username + "$", "i")})
+        .lean()
+        .then(user => res.status(200).json(user))
+        .catch(() => res.status(404).json(null));
 });
 
 // hashes sign up form's password input, creates a new user.

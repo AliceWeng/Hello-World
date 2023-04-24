@@ -6,14 +6,6 @@ function CommentForm({moment, setReply, fetchComments}) {
 
     const { momentId } = useParams();
 
-    document.addEventListener("click", e => {
-        if(!e.target.closest("form") && !e.target.matches(".reply")) setReply(false);
-    });
-
-    document.addEventListener("keydown", e => {
-        if(e.key === "Escape") setReply(false);
-    });
-
     const handleSubmit = async e => {
         e.preventDefault();
 

@@ -17,7 +17,12 @@ function Moment({moment, fetchMoments, fetchComments}) {
     const { username, momentId } = useParams();
 
     document.addEventListener("click", e => {
+        if(!e.target.closest("form") && !e.target.matches(".reply")) setReply(false);
         if(!e.target.closest(".dots")) setDots(false);
+    });
+
+    document.addEventListener("keydown", e => {
+        if(e.key === "Escape") setReply(false);
     });
 
     useEffect(() => {
@@ -51,33 +56,31 @@ function Moment({moment, fetchMoments, fetchComments}) {
     return (
         <>
             <div className="moment">
-                <div className="nameContainer">
-                    <div className="name">
-                        <Link className="nameLink" to={`/${moment.user.username}`}>
-                            <p>{moment.user.nickname}</p>
-                        </Link>
-                        <p>@{moment.user.username}</p>
-                        <p>{date.toDateString()}</p>
-                    </div>
-                    { !auth
-                    ? null
-                    : auth._id === moment.user._id
-                    ? <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>
-                    : null }
-                    { dots
-                    ? <button className="delete" onClick={deleteMoment}>Delete</button>
-                    : null }
+                <div className="name">
+                    <Link className="nameLink" to={`/${moment.user.username}`}>
+                        <p>{moment.user.nickname}</p>
+                    </Link>
+                    <p>@{moment.user.username}</p>
+                    <p>{date.toDateString()}</p>
                 </div>
+                { !auth
+                ? null
+                : auth._id === moment.user._id
+                ? <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>
+                : null }
+                { dots
+                ? <button className="delete" onClick={deleteMoment}>Delete</button>
+                : null }
                 <div className="post">
                     { momentId 
                     ? <p>{moment.post}</p>
                     : <Link className="underline" to={`/${moment.user.username}/${moment._id}`} >
                         <p>{moment.post}</p>
                     </Link> }
-                    <button className="reply" onClick={() => checkIfLoggedIn()}>
-                        <FaReply/>Reply
-                    </button>
                 </div>
+                <button className="reply" onClick={() => checkIfLoggedIn()}>
+                    <FaReply/>Reply
+                </button>
             </div>
             { reply
             ? <CommentForm moment={moment._id} setReply={setReply} fetchComments={fetchComments}/>
