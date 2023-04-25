@@ -27,24 +27,26 @@ function Comment({comment, fetchComments}) {
     let date = new Date(comment.createdAt);
 
     return (
-        <div className="moment">
-            <div className="name">
-                <Link className="underline" to={`/${comment.user.username}`}>
-                    <p>{comment.user.nickname}</p>
-                </Link>
-                <p>@{comment.user.username}</p>
-                <p>{date.toDateString()}</p>
-            </div>
-            { !auth
-            ? null
-            : auth._id === comment.user._id
-            ? <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>
-            : null }
-            { dots
-            ? <button className="delete" onClick={deleteComment}>Delete</button>
-            : null }
-            <div className="post comment">
-                <p>{comment.comment}</p>
+        <div className="flexbox">
+            <div className="moment">
+                <div className="name">
+                    <Link className="underline" to={`/${comment.user.username}`}>
+                        <p>{comment.user.nickname}</p>
+                    </Link>
+                    <p>@{comment.user.username}</p>
+                    <p>{date.toDateString()}</p>
+                </div>
+                { !auth
+                ? null
+                : auth._id === comment.user._id
+                ? <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>
+                : null }
+                { dots
+                ? <button className="delete" onClick={deleteComment}>Delete</button>
+                : null }
+                <div className="post comment">
+                    <p>{comment.comment}</p>
+                </div>
             </div>
         </div>
     )

@@ -67,12 +67,12 @@
 body {
   color: var(--text);
   font-family: "Inter";
+  text-align: center;
   background: var(--body-background);
 }
 h1 {
   padding: .5em;
   font-size: 2em;
-  text-align: center;
 }
 main {
   position: relative;
@@ -335,7 +335,7 @@ button {
   cursor: pointer;
 }
 .back:hover {
-  background: var(--input-background);
+  background: rgba(113, 118, 123, 0.25);
 }
 .create {
   margin-bottom: 1em;
@@ -350,6 +350,7 @@ button {
 }
 .flexbox {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
 }
@@ -375,13 +376,11 @@ button {
   font-size: 1em;
   color: var(--text);
 }
-.moment form {
+form.moment {
   padding: 1em;
-  text-align: center;
-
   background: var(--nav-background);
 }
-.moment form input {
+.moment input {
   margin: 0;
 }
 textarea {
@@ -443,6 +442,7 @@ textarea:focus {
 }
 .post p {
   padding: 3em 1em;
+  text-align: start;
   overflow-wrap: anywhere;
 }
 .comment p {

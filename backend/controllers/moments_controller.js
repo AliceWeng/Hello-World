@@ -1,13 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user_model");
 const Moment = require("../models/moment_model");
 
 // finds all moments, used for HomePage.
 router.get("/", (req, res) => {
     Moment.find()
         .lean()
-        .limit(10)
+        .limit(6)
         .populate("user")
         .sort({createdAt: -1})
         .then(moments => res.status(200).json(moments))

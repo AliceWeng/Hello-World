@@ -14,26 +14,29 @@ function HomePage() {
         const recentData = await response.json();
         setMoments(recentData);
     }
-
+    
     return (
         <main>
-            <Link target="_blank" rel="noopener noreferrer" to="https://aliceweng.github.io/Rock-Paper-Scissors">
-                <button>Rock, Paper, Scissors</button>
-            </Link>
-            <section className="flexbox">
-                <h1>Recent Moments</h1>
-                { !moments
-                ? null
-                : moments.length
-                ? moments.map((moment, index) => {
+            <div className="flexbox">
+                <Link target="_blank" rel="noopener noreferrer" to="https://aliceweng.github.io/Rock-Paper-Scissors/">
+                    <button>Rock, Paper, Scissors</button>
+                </Link>
+                <Link target="_blank" rel="noopener noreferrer" to="https://buck-it-seven.vercel.app/">
+                    <button>Buck It</button>
+                </Link>
+            </div>
+            <h1>Recent Moments</h1>
+            { !moments
+            ? null
+            : moments.length
+            ? <section>
+                {moments.map((moment, index) => {
                     return (
-                        <Moment moment={moment} key={index}/>
+                        <Moment moment={moment} key={index} fetchRecentMoments={fetchRecentMoments}/>
                     )
-                  })
-                : <div>
-                    <p>There aren't any yet.</p>
-                  </div> }
-            </section>
+                    })}
+              </section>
+            : <p className="margin">¯\_(ツ)_/¯</p> }
         </main>
     )
 }

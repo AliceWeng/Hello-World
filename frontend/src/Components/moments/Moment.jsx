@@ -5,7 +5,7 @@ import { FaReply } from "react-icons/fa";
 import CommentForm from "./CommentForm";
 import AuthContext from "../context/AuthContext";
 
-function Moment({moment, fetchMoments, fetchComments}) {
+function Moment({moment, fetchMoments, fetchComments, fetchRecentMoments}) {
     const [dots, setDots] = useState(false);
 
     const [reply, setReply] = useState(false);
@@ -39,6 +39,8 @@ function Moment({moment, fetchMoments, fetchComments}) {
             navigate(-1);
         } else if(username) {
             fetchMoments(auth._id);
+        } else {
+            fetchRecentMoments();
         }
     }
 
@@ -86,11 +88,7 @@ function Moment({moment, fetchMoments, fetchComments}) {
                 </div>
             </div>
             { reply && auth
-            ? <div className="flexbox">
-                <div className="moment">
-                    <CommentForm moment={moment._id} setReply={setReply} fetchComments={fetchComments}/>
-                </div>
-              </div>
+            ? <CommentForm moment={moment._id} setReply={setReply} fetchComments={fetchComments}/>
             : null }
         </>
     )

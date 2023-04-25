@@ -28,18 +28,20 @@ function MomentForm({fetchMoments, userId, setCreate}) {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="post">Let's talk about our feelings.</label>
-            <textarea
-                id="post"
-                maxLength="300"
-                ref={textareaRef}
-                spellCheck="false"
-                placeholder="Write your post here."
-                onChange={e => setPost(e.target.value)}>
-            </textarea>
-            <input type="submit"/>
-        </form>
+        <div className="flexbox">
+            <form className="moment" onSubmit={handleSubmit}>
+                <label htmlFor="post">Let's talk about our feelings.</label>
+                <textarea
+                    id="post"
+                    maxLength="300"
+                    ref={textareaRef}
+                    spellCheck="false"
+                    placeholder="Write your post here."
+                    onChange={e => setPost(e.target.value)}>
+                </textarea>
+                <input type="submit"/>
+            </form>
+        </div>
     )
 }
 

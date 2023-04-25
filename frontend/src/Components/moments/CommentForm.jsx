@@ -31,18 +31,20 @@ function CommentForm({moment, setReply, fetchComments}) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="comment">A penny for your thoughts.</label>
-            <textarea
-                id="comment"
-                maxLength="300"
-                ref={textareaRef}
-                spellCheck="false"
-                placeholder="Leave your comment here."
-                onChange={e => setComment(e.target.value)}>
-            </textarea>
-            <input type="submit"/>
-        </form>
+        <div className="flexbox">
+            <form className="moment" onSubmit={handleSubmit}>
+                <label htmlFor="comment">A penny for your thoughts.</label>
+                <textarea
+                    id="comment"
+                    maxLength="300"
+                    ref={textareaRef}
+                    spellCheck="false"
+                    placeholder="Leave your comment here."
+                    onChange={e => setComment(e.target.value)}>
+                </textarea>
+                <input type="submit"/>
+            </form>
+        </div>
     )
 }
 

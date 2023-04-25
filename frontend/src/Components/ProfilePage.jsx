@@ -33,7 +33,7 @@ function ProfilePage() {
     const fetchMoments = async userId => {
         const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/user/${userId}`);
         const momentsData = await response.json();
-        setMoments(momentsData); 
+        setMoments(momentsData);
     }
 
     return (
@@ -51,35 +51,31 @@ function ProfilePage() {
             ? null
             : <>
                 <div className="flexbox">
-                    <h1>{user.nickname} @{user.username}</h1>
-                </div>
-                <div className="flexbox">
-                    { !auth
-                    ? null
-                    : auth._id === user._id
-                    ? <button className="create" onClick={() => setCreate(!create)}>Create a new moment</button>
-                    : null }
+                    <div className="moment">
+                        <h1>{user.nickname} @{user.username}</h1>
+                        <div className="flexbox">
+                            { !auth
+                            ? null
+                            : auth._id === user._id
+                            ? <button className="create" onClick={() => setCreate(!create)}>Create a new moment</button>
+                            : null }
+                        </div>
+                    </div>
                 </div>
                 { create && auth
-                ? <div className="flexbox">
-                    <div className="moment">
-                        <MomentForm fetchMoments={fetchMoments} userId={auth._id} setCreate={setCreate}/>
-                    </div>
-                  </div>
+                ? <MomentForm fetchMoments={fetchMoments} userId={auth._id} setCreate={setCreate}/>
                 : null }
                 { !moments
                 ? null
                 : moments.length
-                ? <section>{moments.map((moment, index) => {
-                    return (
-                        <div className="flexbox" key={index}>
-                            <Moment moment={moment} fetchMoments={fetchMoments}/>
-                        </div>
-                    )
-                  })}</section>
-                : <div className="flexbox">
-                    <p>No posts yet.</p>
-                </div> }
+                ? <section>
+                    {moments.map((moment, index) => {
+                        return (
+                            <Moment moment={moment} key={index} fetchMoments={fetchMoments}/>
+                        )
+                    })}
+                  </section>
+                : <p className="margin">No posts yet.</p> }
               </> }
         </main>
     )
