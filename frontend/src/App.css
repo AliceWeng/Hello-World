@@ -70,14 +70,16 @@ body {
   background: var(--body-background);
 }
 h1 {
-  margin: .5em;
+  padding: .5em;
   font-size: 2em;
+  text-align: center;
 }
 main {
+  position: relative;
   padding-top: 1em;
   margin-top: 5.5em;
 }
-p {
+form p {
   font-size: 13px;
 }
 .center {
@@ -150,7 +152,7 @@ input[type=text], input[type=password] {
   border-radius: .25em;
   background: var(--input-background);
 }
-input[type=text]:focus, input[type=password]:focus, textarea:focus {
+input[type=text]:focus, input[type=password]:focus {
   outline: none;
   background: var(--body-background);
   border: 2px solid var(--input-border);
@@ -179,9 +181,9 @@ input[type=submit] {
   font-size: 1em;
   color: white;
   margin: 1.25em;
+  padding: 10px 13px;
   border-radius: .3em;
   font-family: "Inter";
-  padding: .625em .845em;
   background: var(--logo);
   cursor: pointer;
 }
@@ -218,17 +220,6 @@ input[type=submit]:active {
   opacity: 0;
   position: absolute;
   pointer-events: none;
-}
-textarea {
-  height: 5em;
-  width: 100%;
-  resize: none;
-  padding: .5em;
-  font-size: 1em;
-  color: var(--text);
-  font-family: "Inter";
-  border: 2px solid transparent;
-  background: var(--input-background);
 }
 nav ul {
   top: 0;
@@ -331,10 +322,23 @@ button {
 .menu button:hover {
   background: var(--input-background);
 }
+.backContainer {
+  display: flex;
+  align-items: center;
+}
 .back {
+  margin: .25em;
+  padding: .2em;
+  font-size: 2em;
   color: var(--text);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.back:hover {
+  background: var(--input-background);
 }
 .create {
+  margin-bottom: 1em;
   color: var(--text);
   border-radius: 2em;
   padding: 1em 1.5em;
@@ -350,27 +354,59 @@ button {
   justify-content: center;
 }
 .margin {
+  margin: 1em 0;
+}
+.comments {
   margin-top: 2em;
 }
 .moment {
-  width: 525px;
+  width: 550px;
   position: relative;
   margin-bottom: -1px;
   border: 1px solid var(--gray);
+}
+@media (max-width: 550px) {
+  .moment {
+    border-left: none;
+    border-right: none;
+  }
 }
 .moment p {
   font-size: 1em;
   color: var(--text);
 }
-.nameLink {
-  text-decoration: none;
+.moment form {
+  padding: 1em;
+  text-align: center;
+
+  background: var(--nav-background);
 }
-.nameLink p:hover {
+.moment form input {
+  margin: 0;
+}
+textarea {
+  height: 5em;
+  width: 100%;
+  resize: none;
+  padding: .5em;
+  font-size: 1em;
+  margin: .75em 0;
+  color: var(--text);
+  font-family: "Inter";
+  border: 2px solid transparent;
+  background: var(--input-background);
+}
+textarea:focus {
+  outline: none;
+  border: 2px solid var(--input-border);
+}
+.name .underline p:hover {
   text-decoration: underline;
 }
 .name {
   top: 0;
   left: 0;
+  z-index: 1;
   margin: 1em;
   display: flex;
   position: absolute;
@@ -383,6 +419,7 @@ button {
 .dots {
   top: 0;
   right: 0;
+  z-index: 1;
   margin: 1em;
   position: absolute;
   cursor: pointer;
@@ -401,9 +438,15 @@ button {
 .delete:hover {
   background: var(--menu-background);
 }
+.post {
+  position: relative;
+}
 .post p {
   padding: 3em 1em;
   overflow-wrap: anywhere;
+}
+.comment p {
+  padding-bottom: 1em;
 }
 .reply {
   right: 0;

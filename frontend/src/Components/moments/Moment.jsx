@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import { FaReply } from "react-icons/fa";
 import CommentForm from "./CommentForm";
@@ -16,20 +16,19 @@ function Moment({moment, fetchMoments, fetchComments}) {
 
     const { username, momentId } = useParams();
 
+    const [searchParams] = useSearchParams();
+
+    useEffect(() => {
+        setReply(searchParams.get("reply") === "true");
+    }, []);
+
     document.addEventListener("click", e => {
-        if(!e.target.closest("form") && !e.target.matches(".reply")) setReply(false);
         if(!e.target.closest(".dots")) setDots(false);
     });
 
     document.addEventListener("keydown", e => {
-        if(e.key === "Escape") setReply(false);
+        if(e.key === "Escape") setDots(false);
     });
-
-    useEffect(() => {
-        reply
-        ? document.body.classList.add("popup")
-        : document.body.classList.remove("popup")
-    }, [reply]);
 
     const deleteMoment = async () => {
         await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/${moment._id}`, {
@@ -37,53 +36,61 @@ function Moment({moment, fetchMoments, fetchComments}) {
             credentials: "include"
         });
         if(momentId) {
-            navigate(`/${auth.username}`);
+            navigate(-1);
         } else if(username) {
             fetchMoments(auth._id);
         }
     }
 
-    let date = new Date(moment.createdAt);
-
     const checkIfLoggedIn = () => {
-        if(auth) {
+        if(auth && momentId) {
             setReply(!reply);
-        } else {
-            // tell them to log in or sign up.
+        } else if(auth && !momentId) {
+            navigate(`/${moment.user.username}/${moment._id}/?reply=true`);
+        } else if(!auth) {
+            // tell user to log in or sign up.
         }
     }
 
+    let date = new Date(moment.createdAt);
+
     return (
         <>
-            <div className="moment">
-                <div className="name">
-                    <Link className="nameLink" to={`/${moment.user.username}`}>
-                        <p>{moment.user.nickname}</p>
-                    </Link>
-                    <p>@{moment.user.username}</p>
-                    <p>{date.toDateString()}</p>
+            <div className="flexbox">
+                <div className="moment">
+                    <div className="name">
+                        <Link className="underline" to={`/${moment.user.username}`}>
+                            <p>{moment.user.nickname}</p>
+                        </Link>
+                        <p>@{moment.user.username}</p>
+                        <p>{date.toDateString()}</p>
+                    </div>
+                    { !auth
+                    ? null
+                    : auth._id === moment.user._id
+                    ? <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>
+                    : null }
+                    { dots
+                    ? <button className="delete" onClick={deleteMoment}>Delete</button>
+                    : null }
+                    <div className="post">
+                        { momentId 
+                        ? <p>{moment.post}</p>
+                        : <Link className="underline" to={`/${moment.user.username}/${moment._id}`} >
+                            <p>{moment.post}</p>
+                        </Link> }
+                        <button className="reply" onClick={() => checkIfLoggedIn()}>
+                            <FaReply/>Reply
+                        </button>
+                    </div>
                 </div>
-                { !auth
-                ? null
-                : auth._id === moment.user._id
-                ? <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>
-                : null }
-                { dots
-                ? <button className="delete" onClick={deleteMoment}>Delete</button>
-                : null }
-                <div className="post">
-                    { momentId 
-                    ? <p>{moment.post}</p>
-                    : <Link className="underline" to={`/${moment.user.username}/${moment._id}`} >
-                        <p>{moment.post}</p>
-                    </Link> }
-                </div>
-                <button className="reply" onClick={() => checkIfLoggedIn()}>
-                    <FaReply/>Reply
-                </button>
             </div>
-            { reply
-            ? <CommentForm moment={moment._id} setReply={setReply} fetchComments={fetchComments}/>
+            { reply && auth
+            ? <div className="flexbox">
+                <div className="moment">
+                    <CommentForm moment={moment._id} setReply={setReply} fetchComments={fetchComments}/>
+                </div>
+              </div>
             : null }
         </>
     )

@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io"
 import Comment from "./moments/Comment";
 import Moment from "./moments/Moment";
-import ErrorPage from "./ErrorPage";
 
 function MomentPage() {
     const [comments, setComments] = useState();
 
     const [moment, setMoment] = useState();
 
-    const { username, momentId } = useParams();
+    const { momentId } = useParams();
+
+    const navigate = useNavigate();
  
     useEffect(() => {
         fetchMoment();
@@ -31,30 +32,35 @@ function MomentPage() {
 
     return (
         <main>
-            <Link to={`/${username}`}>
-                <IoMdArrowRoundBack className="back"/>
-            </Link>
+            <div className="flexbox">
+                <div className="backContainer moment">
+                    <IoMdArrowRoundBack className="back" onClick={() => navigate(-1)}/>
+                </div>
+            </div>
             { moment === null
-            ? <ErrorPage/>
+            ? <div className="flexbox">
+                <h1 className="moment">Sorry, this moment doesn't exist.</h1>
+              </div>
             : !moment
             ? null
             : <>
-                <div className="flexbox">
-                    <Moment moment={moment} fetchComments={fetchComments}/>
-                </div>
+                <Moment moment={moment} fetchComments={fetchComments}/>
                 { !comments
                 ? null
                 : comments.length
-                ? <section className="margin">{comments.map((comment, index) => {
-                    return (
-                        <div className="flexbox" key={index}>
-                            <Comment comment={comment} fetchComments={fetchComments}/>
-                        </div>
-                    )
-                  })}</section>
-                : <div className="flexbox">
-                    <p>No comments yet.</p>
-                  </div> }
+                ? <>
+                    <h2 className="flexbox margin">Comments</h2>
+                    <section>
+                        {comments.map((comment, index) => {
+                            return (
+                                <div className="flexbox" key={index}>
+                                    <Comment comment={comment} fetchComments={fetchComments}/>
+                                </div>
+                            )
+                        })}
+                    </section>
+                  </>
+                : <p className="flexbox margin">No comments yet.</p> }
               </> }
         </main>
     )

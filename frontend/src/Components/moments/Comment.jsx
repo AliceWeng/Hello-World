@@ -9,7 +9,11 @@ function Comment({comment, fetchComments}) {
     const { auth } = useContext(AuthContext);
 
     document.addEventListener("click", e => {
-        if(e.target.closest(".dots") === null) setDots(false);
+        if(!e.target.closest(".dots")) setDots(false);
+    });
+
+    document.addEventListener("keydown", e => {
+        if(e.key === "Escape") setDots(false);
     });
 
     const deleteComment = async () => {
@@ -25,7 +29,7 @@ function Comment({comment, fetchComments}) {
     return (
         <div className="moment">
             <div className="name">
-                <Link className="nameLink" to={`/${comment.user.username}`}>
+                <Link className="underline" to={`/${comment.user.username}`}>
                     <p>{comment.user.nickname}</p>
                 </Link>
                 <p>@{comment.user.username}</p>
@@ -39,7 +43,7 @@ function Comment({comment, fetchComments}) {
             { dots
             ? <button className="delete" onClick={deleteComment}>Delete</button>
             : null }
-            <div className="post">
+            <div className="post comment">
                 <p>{comment.comment}</p>
             </div>
         </div>

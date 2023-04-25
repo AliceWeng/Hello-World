@@ -6,13 +6,13 @@ function HomePage() {
     const [moments, setMoments] = useState();
 
     useEffect(() => {
-        fetchTodaysMoments();
+        fetchRecentMoments();
     }, []);
 
-    const fetchTodaysMoments = async () => {
-        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/recent`);
-        const todaysData = await response.json();
-        setMoments(todaysData);
+    const fetchRecentMoments = async () => {
+        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments`);
+        const recentData = await response.json();
+        setMoments(recentData);
     }
 
     return (
@@ -21,7 +21,7 @@ function HomePage() {
                 <button>Rock, Paper, Scissors</button>
             </Link>
             <section className="flexbox">
-                <h1>Today's Moments</h1>
+                <h1>Recent Moments</h1>
                 { !moments
                 ? null
                 : moments.length

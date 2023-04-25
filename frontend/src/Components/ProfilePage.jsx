@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { IoMdArrowRoundBack } from "react-icons/io"
 import ErrorPage from "./ErrorPage";
 import Moment from "./moments/Moment";
 import MomentForm from "./moments/MomentForm";
@@ -16,15 +17,11 @@ function ProfilePage() {
 
     const { username } = useParams();
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         fetchUser();
     }, []);
-
-    useEffect(() => {
-        create
-        ? document.body.classList.add("popup")
-        : document.body.classList.remove("popup")
-    }, [create]);
 
     const fetchUser = async () => {
         const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/${username}`);
@@ -41,8 +38,15 @@ function ProfilePage() {
 
     return (
         <main>
+            <div className="flexbox">
+                <div className="backContainer moment">
+                    <IoMdArrowRoundBack className="back" onClick={() => navigate(-1)}/>
+                </div>
+            </div>
             { user === null
-            ? <ErrorPage/>
+            ? <div className="flexbox">
+                <h1 className="moment">Sorry, this account doesn't exist.</h1>
+              </div>
             : !user
             ? null
             : <>
@@ -56,13 +60,17 @@ function ProfilePage() {
                     ? <button className="create" onClick={() => setCreate(!create)}>Create a new moment</button>
                     : null }
                 </div>
-                { create
-                ? <MomentForm fetchMoments={fetchMoments} userId={auth._id} setCreate={setCreate}/>
+                { create && auth
+                ? <div className="flexbox">
+                    <div className="moment">
+                        <MomentForm fetchMoments={fetchMoments} userId={auth._id} setCreate={setCreate}/>
+                    </div>
+                  </div>
                 : null }
                 { !moments
                 ? null
                 : moments.length
-                ? <section className="margin">{moments.map((moment, index) => {
+                ? <section>{moments.map((moment, index) => {
                     return (
                         <div className="flexbox" key={index}>
                             <Moment moment={moment} fetchMoments={fetchMoments}/>
