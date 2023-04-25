@@ -13,7 +13,7 @@ router.get("/", (req, res) => {
         .catch(() => res.status(500).send("Server error."));
 });
 
-// finds one moment based on params id, used for MomentPage.
+// finds a moment based on params id, used for MomentPage.
 router.get("/:id", (req, res) => {
     Moment.findById(req.params.id)
         .lean()
@@ -26,8 +26,9 @@ router.get("/:id", (req, res) => {
 router.get("/user/:id", async (req, res) => {
     Moment.find({ user: req.params.id })
         .lean()
-        .sort({createdAt: -1})
+        .limit(10)
         .populate("user")
+        .sort({createdAt: -1})
         .then(moments => res.status(200).json(moments))
         .catch(() => res.status(404).json(null));
 });

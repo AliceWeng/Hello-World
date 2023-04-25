@@ -32,9 +32,6 @@ router.post("/", async (req, res) => {
 
 // authenticates a user based on username and password input, used for LogInForm.
 router.post("/auth", async (req, res) => {
-    if(!req.body.username || !req.body.password) {
-        return res.status(400).json({message: "Please fill out all required fields."});
-    }
     let user = await User.findOne({
         username: new RegExp("^" + req.body.username + "$", "i")
     });

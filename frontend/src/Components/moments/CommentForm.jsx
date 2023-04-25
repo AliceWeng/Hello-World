@@ -11,6 +11,7 @@ function CommentForm({moment, setReply, fetchComments}) {
 
     const handleSubmit = async e => {
         e.preventDefault();
+        
         if(!comment || comment.length > 300) {
             textareaRef.current.focus();
             return;

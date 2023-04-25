@@ -11,6 +11,7 @@ function MomentForm({fetchMoments, userId, setCreate}) {
 
     const handleSubmit = async e => {
         e.preventDefault();
+        
         if(!post || post.length > 300) {
             textareaRef.current.focus();
             return;

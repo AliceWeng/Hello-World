@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { IoMdArrowRoundBack } from "react-icons/io"
+import { IoMdArrowRoundBack } from "react-icons/io";
 import Comment from "./moments/Comment";
 import Moment from "./moments/Moment";
 

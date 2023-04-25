@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io"
-import ErrorPage from "./ErrorPage";
 import Moment from "./moments/Moment";
 import MomentForm from "./moments/MomentForm";
 import AuthContext from "./context/AuthContext";
@@ -51,15 +50,13 @@ function ProfilePage() {
             ? null
             : <>
                 <div className="flexbox">
-                    <div className="moment">
+                    <div className="moment profile">
                         <h1>{user.nickname} @{user.username}</h1>
-                        <div className="flexbox">
-                            { !auth
-                            ? null
-                            : auth._id === user._id
-                            ? <button className="create" onClick={() => setCreate(!create)}>Create a new moment</button>
-                            : null }
-                        </div>
+                        { !auth
+                        ? null
+                        : auth._id === user._id
+                        ? <button className="create" onClick={() => setCreate(!create)}>Create a new moment</button>
+                        : null }
                     </div>
                 </div>
                 { create && auth

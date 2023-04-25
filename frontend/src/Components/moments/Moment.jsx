@@ -19,7 +19,7 @@ function Moment({moment, fetchMoments, fetchComments, fetchRecentMoments}) {
     const [searchParams] = useSearchParams();
 
     useEffect(() => {
-        setReply(searchParams.get("reply") === "true");
+        if(momentId) setReply(searchParams.get("reply") === "true");
     }, []);
 
     document.addEventListener("click", e => {
@@ -75,6 +75,7 @@ function Moment({moment, fetchMoments, fetchComments, fetchRecentMoments}) {
                     { dots
                     ? <button className="delete" onClick={deleteMoment}>Delete</button>
                     : null }
+                    <div className="shadow"></div>
                     <div className="post">
                         { momentId 
                         ? <p>{moment.post}</p>

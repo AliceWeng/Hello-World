@@ -11,6 +11,7 @@ function LogInForm({setForm, setAuth}) {
     const [passwordToggle, setPasswordToggle] = useState(false);
 
     const usernameRef = useRef();
+    const passwordRef = useRef();
 
     useEffect(() => {
         usernameRef.current.focus();
@@ -18,7 +19,13 @@ function LogInForm({setForm, setAuth}) {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        
+
+        if(!user.password) passwordRef.current.focus();
+        if(!user.username) usernameRef.current.focus();
+        if(!user.username || !user.password) {
+            setError("Please fill out all required fields.");
+            return;
+        }
         const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/auth`, {
             method: "POST",
             credentials: "include",
@@ -71,7 +78,8 @@ function LogInForm({setForm, setAuth}) {
                         spellCheck="false"
                         autoCapitalize="off"
                         autoComplete="current-password"
-                        onChange={handleChange}/>
+                        onChange={handleChange}
+                        ref={passwordRef}/>
                     <button
                         type="button"
                         className="passwordToggle"

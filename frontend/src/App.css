@@ -337,7 +337,17 @@ button {
 .back:hover {
   background: rgba(113, 118, 123, 0.25);
 }
+.profile {
+  padding: 2em;
+}
+.profile h1 {
+  text-align: start;
+}
 .create {
+  top: 0;
+  right: 0;
+  margin: 1em;
+  position: absolute;
   margin-bottom: 1em;
   color: var(--text);
   border-radius: 2em;
@@ -346,7 +356,7 @@ button {
   border: 1px solid var(--gray);
 }
 .create:hover {
-  background: rgba(113, 118, 123, 0.2);
+  background: rgba(113, 118, 123, 0.1);
 }
 .flexbox {
   display: flex;
@@ -419,9 +429,15 @@ textarea:focus {
   top: 0;
   right: 0;
   z-index: 1;
-  margin: 1em;
+  margin: .3em;
+  padding: .25em;
+  font-size: 2em;
+  border-radius: 50%;
   position: absolute;
   cursor: pointer;
+}
+.dots:hover {
+  background: rgba(113, 118, 123, 0.25);
 }
 .delete {
   z-index: 1;
@@ -502,7 +518,18 @@ textarea:focus {
     right: 0;
     bottom: 0;
     top: auto;
+    z-index: 3;
+    font-size: 1em;
     position: fixed;
     border-radius: 0;
+  }
+  .delete + .shadow {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.75);
   }
 }
