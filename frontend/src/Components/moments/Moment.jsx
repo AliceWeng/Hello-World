@@ -38,7 +38,7 @@ function Moment({moment, fetchMoments, fetchComments, fetchRecentMoments}) {
         if(momentId) {
             navigate(-1);
         } else if(username) {
-            fetchMoments(auth._id);
+            fetchMoments();
         } else {
             fetchRecentMoments();
         }

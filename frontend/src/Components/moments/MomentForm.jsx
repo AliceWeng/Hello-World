@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-function MomentForm({fetchMoments, userId, setCreate}) {
+function MomentForm({fetchMoments, setCreate}) {
     const [post, setPost] = useState("");
 
     const textareaRef = useRef();
@@ -25,7 +25,7 @@ function MomentForm({fetchMoments, userId, setCreate}) {
             },
             body: JSON.stringify({post: post})
         });
-        fetchMoments(userId);
+        fetchMoments();
     };
 
     return (

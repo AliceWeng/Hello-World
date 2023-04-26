@@ -8,7 +8,7 @@ router.get("/:id", (req, res) => {
         .limit(10)
         .populate({
             path: "user",
-            select: "nickname username"
+            select: "nickname username -_id"
         })
         .sort({createdAt: -1})
         .then(comments => res.status(200).json(comments))

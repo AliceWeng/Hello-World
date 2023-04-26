@@ -25,12 +25,12 @@ function ProfilePage() {
     const fetchUser = async () => {
         const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/${username}`);
         const userData = await response.json();
-        if(userData) fetchMoments(userData._id);
+        if(userData) fetchMoments();
         setUser(userData);
     }
 
-    const fetchMoments = async userId => {
-        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/user/${userId}`);
+    const fetchMoments = async () => {
+        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/user/${username}`);
         const momentsData = await response.json();
         setMoments(momentsData);
     }
@@ -60,7 +60,7 @@ function ProfilePage() {
                     </div>
                 </div>
                 { create && auth
-                ? <MomentForm fetchMoments={fetchMoments} userId={auth._id} setCreate={setCreate}/>
+                ? <MomentForm fetchMoments={fetchMoments} setCreate={setCreate}/>
                 : null }
                 { !moments
                 ? null

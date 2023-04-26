@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const User = require("../models/user_model");
 const Moment = require("../models/moment_model");
 
 // finds all moments, used for HomePage.
@@ -9,7 +10,7 @@ router.get("/", (req, res) => {
         .limit(6)
         .populate({
             path: "user",
-            select: "nickname username"
+            select: "nickname username -_id"
         })
         .sort({createdAt: -1})
         .then(moments => res.status(200).json(moments))
@@ -22,20 +23,22 @@ router.get("/:id", (req, res) => {
         .lean()
         .populate({
             path: "user",
-            select: "nickname username"
+            select: "nickname username -_id"
         })
         .then(moment => res.status(200).json(moment))
         .catch(() => res.status(404).json(null));
 });
 
 // finds all moments posted by a user based on params id, used for ProfilePage.
-router.get("/user/:id", async (req, res) => {
-    Moment.find({ user: req.params.id })
+router.get("/user/:username", async (req, res) => {
+    let user = User.find({username: new RegExp("^" + req.params.username + "$", "i")}).lean();
+
+    Moment.find({user: user._id})
         .lean()
         .limit(10)
         .populate({
             path: "user",
-            select: "nickname username"
+            select: "nickname username -_id"
         })
         .sort({createdAt: -1})
         .then(moments => res.status(200).json(moments))
