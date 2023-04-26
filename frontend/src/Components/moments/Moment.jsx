@@ -69,7 +69,7 @@ function Moment({moment, fetchMoments, fetchComments, fetchRecentMoments}) {
                     </div>
                     { !auth
                     ? null
-                    : auth._id === moment.user._id
+                    : auth.username === moment.user.username
                     ? <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>
                     : null }
                     { dots

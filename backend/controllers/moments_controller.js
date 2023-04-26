@@ -7,7 +7,10 @@ router.get("/", (req, res) => {
     Moment.find()
         .lean()
         .limit(6)
-        .populate("user")
+        .populate({
+            path: "user",
+            select: "nickname username"
+        })
         .sort({createdAt: -1})
         .then(moments => res.status(200).json(moments))
         .catch(() => res.status(500).send("Server error."));
@@ -17,7 +20,10 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
     Moment.findById(req.params.id)
         .lean()
-        .populate("user")
+        .populate({
+            path: "user",
+            select: "nickname username"
+        })
         .then(moment => res.status(200).json(moment))
         .catch(() => res.status(404).json(null));
 });
@@ -27,7 +33,10 @@ router.get("/user/:id", async (req, res) => {
     Moment.find({ user: req.params.id })
         .lean()
         .limit(10)
-        .populate("user")
+        .populate({
+            path: "user",
+            select: "nickname username"
+        })
         .sort({createdAt: -1})
         .then(moments => res.status(200).json(moments))
         .catch(() => res.status(404).json(null));

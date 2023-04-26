@@ -6,7 +6,10 @@ router.get("/:id", (req, res) => {
     Comment.find({moment: req.params.id})
         .lean()
         .limit(10)
-        .populate("user")
+        .populate({
+            path: "user",
+            select: "nickname username"
+        })
         .sort({createdAt: -1})
         .then(comments => res.status(200).json(comments))
         .catch(() => res.status(500).send("Server error."));

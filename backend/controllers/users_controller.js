@@ -15,7 +15,10 @@ router.get("/auth", (req, res) => {
 router.get("/:username", (req, res) => {
     User.findOne({username: new RegExp("^" + req.params.username + "$", "i")})
         .lean()
-        .then(user => res.status(200).json(user))
+        .then(user => res.status(200).json({
+            nickname: user.nickname,
+            username: user.username
+        }))
         .catch(() => res.status(404).json(null));
 });
 
@@ -32,9 +35,7 @@ router.post("/", async (req, res) => {
 
 // authenticates a user based on username and password input, used for LogInForm.
 router.post("/auth", async (req, res) => {
-    let user = await User.findOne({
-        username: new RegExp("^" + req.body.username + "$", "i")
-    });
+    let user = await User.findOne({username: new RegExp("^" + req.body.username + "$", "i")}).lean();
     if(!user) {
         return res.status(401).json({message: "The username you entered doesn't exist."});
     }   

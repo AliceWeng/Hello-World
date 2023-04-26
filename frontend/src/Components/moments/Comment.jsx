@@ -38,7 +38,7 @@ function Comment({comment, fetchComments}) {
                 </div>
                 { !auth
                 ? null
-                : auth._id === comment.user._id
+                : auth.username === comment.user.username
                 ? <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>
                 : null }
                 { dots

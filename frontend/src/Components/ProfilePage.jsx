@@ -54,7 +54,7 @@ function ProfilePage() {
                         <h1>{user.nickname} @{user.username}</h1>
                         { !auth
                         ? null
-                        : auth._id === user._id
+                        : auth.username === user.username
                         ? <button className="create" onClick={() => setCreate(!create)}>Create a new moment</button>
                         : null }
                     </div>
