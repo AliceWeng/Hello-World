@@ -31,7 +31,7 @@ router.get("/:id", (req, res) => {
 
 // finds all moments posted by a user based on params id, used for ProfilePage.
 router.get("/user/:username", async (req, res) => {
-    let user = User.find({username: new RegExp("^" + req.params.username + "$", "i")}).lean();
+    let user = await User.findOne({username: new RegExp("^" + req.params.username + "$", "i")}).lean();
 
     Moment.find({user: user._id})
         .lean()

@@ -1,23 +1,38 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Suspense, lazy } from "react";
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import "./App.css";
 import NavBar from "./Components/NavBar";
-import HomePage from "./Components/HomePage";
-import Error404 from "./Components/ErrorPage";
-import MomentPage from "./Components/MomentPage";
-import ProfilePage from "./Components/ProfilePage";
+import Loading from "./Components/Loading";
+
+const HomePage = lazy(() => import("./Components/HomePage"));
+const ProfilePage = lazy(() => import("./Components/ProfilePage"));
+const MomentPage = lazy(() => import("./Components/MomentPage"));
+const ErrorPage = lazy(() => import("./Components/ErrorPage"));
 
 function App() {
   return (
       <Router>
-        <NavBar/>
         <Routes>
-          <Route path="/" element={<HomePage/>}/>
-          <Route path="/:username" element={<ProfilePage/>}/>
-          <Route path="/:username/:momentId" element={<MomentPage/>}/>
-          <Route path="/*" element={<Error404/>}/>
+          <Route path="/" element={<NavPage/>}>
+            <Route path="/" element={<HomePage/>}/>
+            <Route path="/:username" element={<ProfilePage/>}/>
+            <Route path="/:username/:momentId" element={<MomentPage/>}/>
+            <Route path="/*" element={<ErrorPage/>}/>
+          </Route>
         </Routes>
       </Router>
   );
+}
+
+function NavPage() {
+  return (
+    <>
+      <NavBar/>
+      <Suspense fallback={<Loading/>}>
+        <Outlet/>
+      </Suspense>
+    </>
+  )
 }
 
 export default App;

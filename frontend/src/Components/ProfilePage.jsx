@@ -34,7 +34,7 @@ function ProfilePage() {
         const momentsData = await response.json();
         setMoments(momentsData);
     }
-
+    
     return (
         <main>
             <div className="flexbox">
