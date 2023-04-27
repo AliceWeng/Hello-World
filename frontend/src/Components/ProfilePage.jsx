@@ -55,7 +55,9 @@ function ProfilePage() {
                         { !auth
                         ? null
                         : auth.username === user.username
-                        ? <button className="create" onClick={() => setCreate(!create)}>Create a new moment</button>
+                        ? <div className="flexbox">
+                            <button className="create" onClick={() => setCreate(!create)}>Create a new moment</button>
+                          </div>
                         : null }
                     </div>
                 </div>
@@ -72,7 +74,7 @@ function ProfilePage() {
                         )
                     })}
                   </section>
-                : <p className="margin">No posts yet.</p> }
+                : <p className="margin">No moments yet.</p> }
               </> }
         </main>
     )

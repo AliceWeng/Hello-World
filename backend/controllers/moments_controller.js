@@ -54,6 +54,15 @@ router.post("/", (req, res) => {
       .catch(() => res.status(500).send("Server error."));
 });
 
+// finds a moment based on params id and updates it with request body, used for EditMoment.
+router.put("/:id", (req, res) => {
+    if(req.session.userId) {
+        Moment.findByIdAndUpdate(req.params.id, req.body)
+            .then(() => res.status(200).send("Your moment has been successfully updated."))
+            .catch(() => res.status(500).send("Server error"));
+    }
+});
+
 // deletes a moment based on params id, used for Moment.
 router.delete("/:id", (req, res) => {
     if(req.session.userId) {

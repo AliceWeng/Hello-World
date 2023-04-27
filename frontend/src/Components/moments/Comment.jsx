@@ -42,7 +42,9 @@ function Comment({comment, fetchComments}) {
                 ? <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>
                 : null }
                 { dots
-                ? <button className="delete" onClick={deleteComment}>Delete</button>
+                ? <div className="options">
+                    <button className="delete" onClick={deleteComment}>Delete</button>
+                  </div>
                 : null }
                 <div className="post comment">
                     <p>{comment.comment}</p>

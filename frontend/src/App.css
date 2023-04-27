@@ -226,7 +226,7 @@ nav ul {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   position: fixed;
   align-items: center;
@@ -338,19 +338,10 @@ button {
 .back:hover {
   background: rgba(113, 118, 123, 0.25);
 }
-.profile {
-  padding: 2em;
-}
-.profile h1 {
-  text-align: start;
-}
+
 .create {
-  top: 0;
-  right: 0;
-  margin: 1em;
-  position: absolute;
-  margin-bottom: 1em;
   color: var(--text);
+  margin-bottom: 1em;
   border-radius: 2em;
   padding: 1em 1.5em;
   background: transparent;
@@ -426,6 +417,11 @@ textarea:focus {
   margin-left: .3em;
   color: var(--gray);
 }
+.post span {
+  font-size: .75em;
+  color: var(--gray);
+  margin-left: .5em;
+}
 .dots {
   top: 0;
   right: 0;
@@ -440,19 +436,26 @@ textarea:focus {
 .dots:hover {
   background: rgba(113, 118, 123, 0.25);
 }
-.delete {
-  z-index: 1;
+.options {
+  z-index: 2;
   top: 2.5em;
-  right: -1em;
-  padding: 1em 1.5em;
+  right: .2em;
+  width: 100px;
+  padding: .5em;
   position: absolute;
   border-radius: .4em;
-  color: var(--errorRed);
   box-shadow: var(--box-shadow);
-  background: var(--nav-background);
-}
-.delete:hover {
   background: var(--menu-background);
+}
+.options button {
+  width: 100%;
+  padding: .5em;
+  color: var(--text);
+  border-radius: .4em;
+  background: transparent;
+}
+.edit:hover, .delete:hover {
+  background: var(--input-background);
 }
 .post {
   position: relative;

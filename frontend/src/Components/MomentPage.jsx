@@ -34,7 +34,7 @@ function MomentPage() {
         <main>
             <div className="flexbox">
                 <div className="backContainer moment">
-                    <IoMdArrowRoundBack className="back" onClick={() => navigate(-1)}/>
+                    <IoMdArrowRoundBack className="back" onClick={() => navigate(-2)}/>
                 </div>
             </div>
             { moment === null
@@ -44,7 +44,7 @@ function MomentPage() {
             : !moment
             ? null
             : <>
-                <Moment moment={moment} fetchComments={fetchComments}/>
+                <Moment moment={moment} fetchMoment={fetchMoment} fetchComments={fetchComments}/>
                 { !comments
                 ? null
                 : comments.length

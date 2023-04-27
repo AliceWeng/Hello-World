@@ -21,6 +21,8 @@ function HomePage() {
                 <Link target="_blank" rel="noopener noreferrer" to="https://aliceweng.github.io/Rock-Paper-Scissors/">
                     <button>Rock, Paper, Scissors</button>
                 </Link>
+            </div>
+            <div className="flexbox">
                 <Link target="_blank" rel="noopener noreferrer" to="https://buck-it-seven.vercel.app/">
                     <button>Buck It</button>
                 </Link>
