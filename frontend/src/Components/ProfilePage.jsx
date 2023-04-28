@@ -38,7 +38,7 @@ function ProfilePage() {
     return (
         <main>
             <div className="flexbox">
-                <div className="backContainer moment">
+                <div className="moment">
                     <IoMdArrowRoundBack className="back" onClick={() => navigate(-1)}/>
                 </div>
             </div>
@@ -68,11 +68,7 @@ function ProfilePage() {
                 ? null
                 : moments.length
                 ? <section>
-                    {moments.map((moment, index) => {
-                        return (
-                            <Moment moment={moment} key={index} fetchMoments={fetchMoments}/>
-                        )
-                    })}
+                    {moments.map((moment, index) => <Moment moment={moment} key={index} fetchMoments={fetchMoments}/>)}
                   </section>
                 : <p className="margin">No moments yet.</p> }
               </> }

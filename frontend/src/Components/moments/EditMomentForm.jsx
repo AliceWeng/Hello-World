@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-function EditMomentForm({moment, setEdit, fetchMoment}) {
+function EditMomentForm({moment, setEdit}) {
     const [updatedPost, setUpdatedPost] = useState(moment.post);
 
     const textareaRef = useRef();
@@ -31,7 +31,6 @@ function EditMomentForm({moment, setEdit, fetchMoment}) {
             },
             body: JSON.stringify({post: updatedPost})
         });
-        fetchMoment();
 
     }
     return (

@@ -32,11 +32,7 @@ function HomePage() {
             ? null
             : moments.length
             ? <section>
-                {moments.map((moment, index) => {
-                    return (
-                        <Moment moment={moment} key={index} fetchRecentMoments={fetchRecentMoments}/>
-                    )
-                    })}
+                {moments.map((moment, index) => <Moment moment={moment} key={index} fetchRecentMoments={fetchRecentMoments}/>)}
               </section>
             : <p className="margin">¯\_(ツ)_/¯</p> }
         </main>

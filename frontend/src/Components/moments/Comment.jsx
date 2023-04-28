@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import AuthContext from "../context/AuthContext";
 
-function Comment({comment, fetchComments}) {
+function Comment({comment, comments, setComments, count, setCount}) {
     const [dots, setDots] = useState(false);
 
     const { auth } = useContext(AuthContext);
@@ -21,7 +21,8 @@ function Comment({comment, fetchComments}) {
             method: "DELETE",
             credentials: "include"
         });
-        fetchComments();
+        setComments(comments.filter(object => object._id !== comment._id));
+        setCount(count - 1);
     }
 
     let date = new Date(comment.createdAt);

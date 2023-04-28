@@ -1,16 +1,23 @@
 const router = require("express").Router();
 const Comment = require("../models/comment_model");
 
+router.get("/count/:id", async (req, res) => {
+    Comment.countDocuments({moment: req.params.id})
+        .then(count => res.status(200).json(count))
+        .catch(() => res.status(500).send("Server error."));
+});
+
 // finds all comments based on moment's params id, used for MomentPage.
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res) => {
     Comment.find({moment: req.params.id})
         .lean()
+        .sort({createdAt: -1})
+        .skip(req.query.number)
         .limit(10)
         .populate({
             path: "user",
             select: "nickname username -_id"
         })
-        .sort({createdAt: -1})
         .then(comments => res.status(200).json(comments))
         .catch(() => res.status(500).send("Server error."));
 });
@@ -20,7 +27,7 @@ router.post("/", (req, res) => {
     Comment.create({
         user: req.session.userId,
         ...req.body
-    }).then(() => res.status(201).send("Your comment has been successfully created."))
+    }).then(newComment => res.status(201).json(newComment))
       .catch(() => res.status(500).send("Server error."));
 });
 

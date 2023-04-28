@@ -6,7 +6,7 @@ import CommentForm from "./CommentForm";
 import EditMomentForm from "./EditMomentForm";
 import AuthContext from "../context/AuthContext";
 
-function Moment({moment, fetchMoments, fetchMoment, fetchComments, fetchRecentMoments}) {
+function Moment({moment, fetchMoments, comments, setComments, count, setCount, fetchRecentMoments}) {
     const [edit, setEdit] = useState(false);
 
     const [dots, setDots] = useState(false);
@@ -47,7 +47,7 @@ function Moment({moment, fetchMoments, fetchMoment, fetchComments, fetchRecentMo
             credentials: "include"
         });
         if(momentId) {
-            navigate(-1);
+            navigate(-2);
         } else if(username) {
             fetchMoments();
         } else {
@@ -73,20 +73,21 @@ function Moment({moment, fetchMoments, fetchMoment, fetchComments, fetchRecentMo
         }
     }
 
-    let date = new Date(moment.createdAt);
+    let created = new Date(moment.createdAt);
+    let updated = new Date(moment.updatedAt);
 
     return (
         <>
-            <div className="flexbox">
-                { edit
-                ? <EditMomentForm moment={moment} setEdit={setEdit} fetchMoment={fetchMoment}/>
-                : <div className="moment">
+            { edit
+            ? <EditMomentForm moment={moment} setEdit={setEdit}/>
+            : <div className="flexbox">
+                <div className="moment">
                     <div className="name">
                         <Link className="underline" to={`/${moment.user.username}`}>
                             <p>{moment.user.nickname}</p>
                         </Link>
                         <p>@{moment.user.username}</p>
-                        <p>{date.toDateString()}</p>
+                        <p>{created.toDateString()}</p>
                     </div>
                     { !auth
                     ? null
@@ -102,18 +103,19 @@ function Moment({moment, fetchMoments, fetchMoment, fetchComments, fetchRecentMo
                     <div className="shadow"></div>
                     <div className="post">
                         { momentId 
-                        ? <p>{moment.post}{moment.createdAt !== moment.updatedAt ? <span>(edited)</span> : null}</p>
+                        ? <p>{moment.post}</p>
                         : <Link className="underline" to={`/${moment.user.username}/${moment._id}`} >
-                            <p>{moment.post}{moment.createdAt !== moment.updatedAt ? <span>(edited)</span> : null}</p>
+                            <p>{moment.post}</p>
                           </Link> }
+                        {moment.createdAt !== moment.updatedAt ? <p>Last updated on {updated.toDateString()}</p> : null}
                         <button className="reply" onClick={() => checkIfLoggedIn()}>
                             <FaReply/>Reply
                         </button>
                     </div>
-                  </div> }
-            </div>
+                </div>
+              </div>}
             { reply && auth
-            ? <CommentForm moment={moment._id} setReply={setReply} fetchComments={fetchComments}/>
+            ? <CommentForm auth={auth} moment={moment._id} comments={comments} setComments={setComments} count={count} setCount={setCount} setReply={setReply}/>
             : null }
         </>
     )

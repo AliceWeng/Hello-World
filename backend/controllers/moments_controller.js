@@ -33,6 +33,8 @@ router.get("/:id", (req, res) => {
 router.get("/user/:username", async (req, res) => {
     let user = await User.findOne({username: new RegExp("^" + req.params.username + "$", "i")}).lean();
 
+    let count = await Moment.countDocuments({user: user._id});
+
     Moment.find({user: user._id})
         .lean()
         .limit(10)

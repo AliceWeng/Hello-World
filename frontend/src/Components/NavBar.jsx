@@ -1,10 +1,11 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, Suspense, lazy } from "react";
 import { Link } from "react-router-dom";
 import { CgLogIn, CgLogOut, CgProfile } from "react-icons/cg";
 import DarkTheme from "./users/DarkTheme";
-import LogInForm from "./users/LogInForm";
-import SignUpForm from "./users/SignUpForm";
 import AuthContext from "./context/AuthContext";
+
+const LogInForm = lazy(() => import("./users/LogInForm"));
+const SignUpForm = lazy(() => import("./users/SignUpForm"));
 
 function NavBar() {
     const [form, setForm] = useState("");
@@ -32,11 +33,11 @@ function NavBar() {
     }, [form]);
 
     const logout = async () => {
+        setAuth("");
         await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/auth`, {
             method: "DELETE",
             credentials: "include"
         });
-        setAuth("");
     }
     
     return (
@@ -70,11 +71,13 @@ function NavBar() {
                 : <button className="menuButton" onClick={() => setForm("login")}><CgLogIn className="icon"/>Log In</button> }
             </div>
             <div className="shadow"></div>
-            { form === "signup"
-            ? <SignUpForm setForm={setForm}/>
-            : form === "login"
-            ? <LogInForm setForm={setForm} setAuth={setAuth}/>
-            : null }
+            <Suspense>
+                { form === "signup"
+                ? <SignUpForm setForm={setForm}/>
+                : form === "login"
+                ? <LogInForm setForm={setForm} setAuth={setAuth}/>
+                : null }
+            </Suspense>
         </>
     )
 }
