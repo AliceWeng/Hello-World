@@ -21,35 +21,27 @@ function Comment({comment, comments, setComments, count, setCount}) {
             method: "DELETE",
             credentials: "include"
         });
-        setComments(comments.filter(object => object._id !== comment._id));
         setCount(count - 1);
+        setComments(comments.filter(object => object._id !== comment._id));
     }
 
-    let date = new Date(comment.createdAt);
+    let created = new Date(comment.createdAt);
 
     return (
-        <div className="flexbox">
-            <div className="moment">
-                <div className="name">
-                    <Link className="underline" to={`/${comment.user.username}`}>
-                        <p>{comment.user.nickname}</p>
-                    </Link>
-                    <p>@{comment.user.username}</p>
-                    <p>{date.toDateString()}</p>
-                </div>
-                { !auth
-                ? null
-                : auth.username === comment.user.username
-                ? <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>
-                : null }
-                { dots
-                ? <div className="options">
-                    <button className="delete" onClick={deleteComment}>Delete</button>
-                  </div>
-                : null }
-                <div className="post comment">
-                    <p>{comment.comment}</p>
-                </div>
+        <div className="box">
+            <div className="name">
+                <Link className="underline" to={`/${comment.user.username}`}>
+                    <p>{comment.user.nickname}</p>
+                </Link>
+                <p>@{comment.user.username}</p>
+                <p>{created.toDateString()}</p>
+            </div>
+            {auth && auth.username === comment.user.username && <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>}
+            {dots && <div className="dotsContainer">
+                        <button className="delete" onClick={deleteComment}>Delete</button>
+                     </div>}
+            <div className="comment">
+                <p>{comment.comment}</p>
             </div>
         </div>
     )

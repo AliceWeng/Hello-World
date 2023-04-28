@@ -29,22 +29,26 @@ router.get("/:id", (req, res) => {
         .catch(() => res.status(404).json(null));
 });
 
-// finds all moments posted by a user based on params id, used for ProfilePage.
+// finds all moments based on user's params username, used for ProfilePage.
 router.get("/user/:username", async (req, res) => {
     let user = await User.findOne({username: new RegExp("^" + req.params.username + "$", "i")}).lean();
-
-    let count = await Moment.countDocuments({user: user._id});
-
     Moment.find({user: user._id})
         .lean()
+        .sort({createdAt: -1})
+        .skip(req.query.number)
         .limit(10)
         .populate({
             path: "user",
             select: "nickname username -_id"
         })
-        .sort({createdAt: -1})
-        .then(moments => res.status(200).json(moments))
-        .catch(() => res.status(404).json(null));
+        .then(moments => res.status(200).json(moments));
+});
+
+// counts the number of moments based on user's params username, used for ProfilePage.
+router.get("/user/:username/count", async (req, res) => {
+    let user = await User.findOne({username: new RegExp("^" + req.params.username + "$", "i")}).lean();
+    Moment.countDocuments({user: user._id})
+        .then(count => res.status(200).json(count));
 });
 
 // creates a new moment, used for MomentForm.
@@ -56,12 +60,16 @@ router.post("/", (req, res) => {
       .catch(() => res.status(500).send("Server error."));
 });
 
-// finds a moment based on params id and updates it with request body, used for EditMoment.
-router.put("/:id", (req, res) => {
+// finds a moment based on params id and updates it with request body, used for EditMomentForm.
+router.put("/:id", async (req, res) => {
     if(req.session.userId) {
-        Moment.findByIdAndUpdate(req.params.id, req.body)
-            .then(() => res.status(200).send("Your moment has been successfully updated."))
-            .catch(() => res.status(500).send("Server error"));
+        let updatedMoment = await Moment.findByIdAndUpdate(req.params.id, req.body);
+        updatedMoment.post = req.body.post;
+        let populatedMoment = await updatedMoment.populate({
+            path: "user",
+            select: "nickname username -_id"
+        });
+        res.status(200).json(populatedMoment);
     }
 });
 
@@ -70,7 +78,7 @@ router.delete("/:id", (req, res) => {
     if(req.session.userId) {
         Moment.findByIdAndDelete(req.params.id)
             .then(() => res.status(200).send("Your post has been successfully deleted."))
-            .catch(() => res.status(500).send("Server error."));
+            .catch(() => res.status(404).send("Moment not found."));
     }
 });
 

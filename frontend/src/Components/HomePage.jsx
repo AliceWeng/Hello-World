@@ -17,24 +17,20 @@ function HomePage() {
     
     return (
         <main>
-            <div className="flexbox">
+            <div className="width">
                 <Link target="_blank" rel="noopener noreferrer" to="https://aliceweng.github.io/Rock-Paper-Scissors/">
                     <button>Rock, Paper, Scissors</button>
                 </Link>
-            </div>
-            <div className="flexbox">
                 <Link target="_blank" rel="noopener noreferrer" to="https://buck-it-seven.vercel.app/">
                     <button>Buck It</button>
                 </Link>
+                <h1>Recent Moments</h1>
+                { !moments
+                ? null
+                : moments.length
+                ? moments.map((moment, index) => <Moment moment={moment} key={index} fetchRecentMoments={fetchRecentMoments}/>)
+                : <p className="margin">¯\_(ツ)_/¯</p> }
             </div>
-            <h1>Recent Moments</h1>
-            { !moments
-            ? null
-            : moments.length
-            ? <section>
-                {moments.map((moment, index) => <Moment moment={moment} key={index} fetchRecentMoments={fetchRecentMoments}/>)}
-              </section>
-            : <p className="margin">¯\_(ツ)_/¯</p> }
         </main>
     )
 }

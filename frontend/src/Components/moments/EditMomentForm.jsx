@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-function EditMomentForm({moment, setEdit}) {
+function EditMomentForm({moment, setMoment, setEdit}) {
     const [updatedPost, setUpdatedPost] = useState(moment.post);
 
     const textareaRef = useRef();
@@ -13,7 +13,6 @@ function EditMomentForm({moment, setEdit}) {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        
         if(!updatedPost|| updatedPost.length > 300) {
             textareaRef.current.focus();
             return;
@@ -23,7 +22,7 @@ function EditMomentForm({moment, setEdit}) {
             return;
         }
         setEdit(false);
-        await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/${moment._id}`, {
+        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/${moment._id}`, {
             method: "PUT",
             credentials: "include",
             headers: {
@@ -31,25 +30,24 @@ function EditMomentForm({moment, setEdit}) {
             },
             body: JSON.stringify({post: updatedPost})
         });
-
+        const updatedMomentData = await response.json();
+        setMoment(updatedMomentData);
     }
+
     return (
-        <div className="flexbox">
-            <form className="moment" onSubmit={handleSubmit}>
-                <label htmlFor="post">Edit your moment.</label>
-                <textarea
-                    id="post"
-                    maxLength="300"
-                    ref={textareaRef}
-                    spellCheck="false"
-                    defaultValue={moment.post}
-                    onChange={e => setUpdatedPost(e.target.value)}
-                    placeholder="Hey! You can't leave this empty.">
-                </textarea>
-                <input type="submit" value="Save Changes"/>
-            </form>
-            <div className="blackout"></div>
-        </div>
+        <form className="box" onSubmit={handleSubmit}>
+            <label htmlFor="post">Edit your moment.</label>
+            <textarea
+                id="post"
+                maxLength="300"
+                ref={textareaRef}
+                spellCheck="false"
+                value={updatedPost}
+                onChange={e => setUpdatedPost(e.target.value)}
+                placeholder="Hey! You can't leave this empty.">
+            </textarea>
+            <input type="submit" value="Save Changes"/>
+        </form>
     )
 }
 

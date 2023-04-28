@@ -6,7 +6,7 @@ import CommentForm from "./CommentForm";
 import EditMomentForm from "./EditMomentForm";
 import AuthContext from "../context/AuthContext";
 
-function Moment({moment, fetchMoments, comments, setComments, count, setCount, fetchRecentMoments}) {
+function Moment({moment, setMoment, fetchMoments, comments, setComments, count, setCount, fetchRecentMoments}) {
     const [edit, setEdit] = useState(false);
 
     const [dots, setDots] = useState(false);
@@ -79,9 +79,9 @@ function Moment({moment, fetchMoments, comments, setComments, count, setCount, f
     return (
         <>
             { edit
-            ? <EditMomentForm moment={moment} setEdit={setEdit}/>
-            : <div className="flexbox">
-                <div className="moment">
+            ? <EditMomentForm moment={moment} setMoment={setMoment} setEdit={setEdit}/>
+            : 
+                <div className="box">
                     <div className="name">
                         <Link className="underline" to={`/${moment.user.username}`}>
                             <p>{moment.user.nickname}</p>
@@ -95,7 +95,7 @@ function Moment({moment, fetchMoments, comments, setComments, count, setCount, f
                     ? <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>
                     : null }
                     { dots
-                    ? <div className="options">
+                    ? <div className="dotsContainer">
                         <button className="edit" onClick={editMoment}>Edit</button>
                         <button className="delete" onClick={deleteMoment}>Delete</button>
                     </div>
@@ -113,10 +113,8 @@ function Moment({moment, fetchMoments, comments, setComments, count, setCount, f
                         </button>
                     </div>
                 </div>
-              </div>}
-            { reply && auth
-            ? <CommentForm auth={auth} moment={moment._id} comments={comments} setComments={setComments} count={count} setCount={setCount} setReply={setReply}/>
-            : null }
+              }
+            { reply && auth && <CommentForm moment={moment._id} comments={comments} setComments={setComments} count={count} setCount={setCount} setReply={setReply}/>}
         </>
     )
 }

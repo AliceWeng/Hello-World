@@ -78,6 +78,9 @@ main {
   position: relative;
   padding: 1em 0;
   margin-top: 5.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 form p {
   font-size: 13px;
@@ -330,7 +333,6 @@ button {
   font-size: 2em;
   color: var(--text);
   border-radius: 50%;
-  align-items: center;
   cursor: pointer;
 }
 .back:hover {
@@ -338,6 +340,7 @@ button {
 }
 
 .create {
+  margin: auto;
   color: var(--text);
   margin-bottom: 1em;
   border-radius: 2em;
@@ -348,39 +351,39 @@ button {
 .create:hover {
   background: rgba(113, 118, 123, 0.1);
 }
-.flexbox {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-}
 .margin {
   margin: 1em 0;
 }
 .comments {
   margin-top: 2em;
 }
-.moment {
+.width {
   width: 550px;
+}
+.box {
+  width: 100%;
   position: relative;
   margin-bottom: -1px;
   border: 1px solid var(--gray);
 }
 @media (max-width: 550px) {
-  .moment {
+  .box {
     border-left: none;
     border-right: none;
   }
+  main {
+    padding: 0;
+  }
 }
-.moment p {
+.box p {
   font-size: 1em;
   color: var(--text);
 }
-form.moment {
+form.box {
   padding: 1em;
   background: var(--nav-background);
 }
-.moment input {
+.box input {
   margin: 0;
 }
 textarea {
@@ -439,7 +442,7 @@ textarea:focus {
 .dots:hover {
   background: rgba(113, 118, 123, 0.25);
 }
-.options {
+.dotsContainer {
   z-index: 2;
   top: 2.5em;
   right: .2em;
@@ -450,7 +453,7 @@ textarea:focus {
   box-shadow: var(--box-shadow);
   background: var(--menu-background);
 }
-.options button {
+.dotsContainer button {
   width: 100%;
   padding: .5em;
   color: var(--text);
@@ -460,10 +463,7 @@ textarea:focus {
 .edit:hover, .delete:hover {
   background: var(--input-background);
 }
-.post {
-  position: relative;
-}
-.post p {
+.post p, .comment p {
   padding: 3em 1em;
   text-align: start;
   overflow-wrap: anywhere;
@@ -539,8 +539,5 @@ textarea:focus {
     z-index: 2;
     position: fixed;
     background: rgba(0, 0, 0, 0.75);
-  }
-  main {
-    padding: 0;
   }
 }
