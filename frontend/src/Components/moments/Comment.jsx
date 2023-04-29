@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import AuthContext from "../context/AuthContext";
 
-function Comment({comment, comments, setComments, count, setCount}) {
+function Comment({comment, comments, setComments, commentsCount, setCommentsCount}) {
     const [dots, setDots] = useState(false);
 
     const { auth } = useContext(AuthContext);
@@ -21,14 +21,14 @@ function Comment({comment, comments, setComments, count, setCount}) {
             method: "DELETE",
             credentials: "include"
         });
-        setCount(count - 1);
+        setCommentsCount(commentsCount - 1);
         setComments(comments.filter(object => object._id !== comment._id));
     }
 
     let created = new Date(comment.createdAt);
 
     return (
-        <div className="box">
+        <article className="box">
             <div className="name">
                 <Link className="underline" to={`/${comment.user.username}`}>
                     <p>{comment.user.nickname}</p>
@@ -36,14 +36,15 @@ function Comment({comment, comments, setComments, count, setCount}) {
                 <p>@{comment.user.username}</p>
                 <p>{created.toDateString()}</p>
             </div>
-            {auth && auth.username === comment.user.username && <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>}
-            {dots && <div className="dotsContainer">
-                        <button className="delete" onClick={deleteComment}>Delete</button>
-                     </div>}
+            { auth && auth.username === comment.user.username && <BsThreeDots className="dots" onClick={() => setDots(!dots)}/> }
+            { dots &&
+              <div className="dotsContainer">
+                <button className="delete" onClick={deleteComment}>Delete</button>
+              </div> }
             <div className="comment">
                 <p>{comment.comment}</p>
             </div>
-        </div>
+        </article>
     )
 }
 

@@ -6,7 +6,7 @@ import CommentForm from "./CommentForm";
 import EditMomentForm from "./EditMomentForm";
 import AuthContext from "../context/AuthContext";
 
-function Moment({moment, setMoment, fetchMoments, comments, setComments, count, setCount, fetchRecentMoments}) {
+function Moment({moment, setMoment, comments, setComments, commentsCount, setCommentsCount, moments, setMoments, momentsCount, setMomentsCount}) {
     const [edit, setEdit] = useState(false);
 
     const [dots, setDots] = useState(false);
@@ -49,9 +49,8 @@ function Moment({moment, setMoment, fetchMoments, comments, setComments, count, 
         if(momentId) {
             navigate(-2);
         } else if(username) {
-            fetchMoments();
-        } else {
-            fetchRecentMoments();
+            setMomentsCount(momentsCount - 1);
+            setMoments(moments.filter(object => object._id !== moment._id));
         }
     }
 
@@ -80,41 +79,31 @@ function Moment({moment, setMoment, fetchMoments, comments, setComments, count, 
         <>
             { edit
             ? <EditMomentForm moment={moment} setMoment={setMoment} setEdit={setEdit}/>
-            : 
-                <div className="box">
-                    <div className="name">
-                        <Link className="underline" to={`/${moment.user.username}`}>
-                            <p>{moment.user.nickname}</p>
-                        </Link>
-                        <p>@{moment.user.username}</p>
-                        <p>{created.toDateString()}</p>
-                    </div>
-                    { !auth
-                    ? null
-                    : auth.username === moment.user.username
-                    ? <BsThreeDots className="dots" onClick={() => setDots(!dots)}/>
-                    : null }
-                    { dots
-                    ? <div className="dotsContainer">
-                        <button className="edit" onClick={editMoment}>Edit</button>
-                        <button className="delete" onClick={deleteMoment}>Delete</button>
-                    </div>
-                    : null }
-                    <div className="shadow"></div>
-                    <div className="post">
-                        { momentId 
-                        ? <p>{moment.post}</p>
-                        : <Link className="underline" to={`/${moment.user.username}/${moment._id}`} >
-                            <p>{moment.post}</p>
-                          </Link> }
-                        {moment.createdAt !== moment.updatedAt ? <p>Last updated on {updated.toDateString()}</p> : null}
-                        <button className="reply" onClick={() => checkIfLoggedIn()}>
-                            <FaReply/>Reply
-                        </button>
-                    </div>
+            : <article className="box">
+                <div className="name">
+                    <Link className="underline" to={`/${moment.user.username}`}>
+                        <p>{moment.user.nickname}</p>
+                    </Link>
+                    <p>@{moment.user.username}</p>
+                    <p>{created.toDateString()}</p>
                 </div>
-              }
-            { reply && auth && <CommentForm moment={moment._id} comments={comments} setComments={setComments} count={count} setCount={setCount} setReply={setReply}/>}
+                { auth && auth.username === moment.user.username && <BsThreeDots className="dots" onClick={() => setDots(!dots)}/> }
+                { dots &&
+                  <div className="dotsContainer">
+                    <button className="edit" onClick={editMoment}>Edit</button>
+                    <button className="delete" onClick={deleteMoment}>Delete</button>
+                  </div> }
+                <div className="post">
+                    { momentId 
+                    ? <p>{moment.post}</p>
+                    : <Link className="underline" to={`/${moment.user.username}/${moment._id}`} >
+                        <p>{moment.post}</p>
+                      </Link> }
+                    { moment.createdAt !== moment.updatedAt && <p>Last updated on {updated.toDateString()}</p> }
+                    <button className="reply" onClick={() => checkIfLoggedIn()}><FaReply/>Reply</button>
+                </div>
+              </article> }
+            { auth && reply && <CommentForm moment={moment._id} comments={comments} setComments={setComments} commentsCount={commentsCount} setCommentsCount={setCommentsCount} setReply={setReply}/> }
         </>
     )
 }

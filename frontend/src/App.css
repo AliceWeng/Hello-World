@@ -75,12 +75,15 @@ h1 {
   font-size: 2em;
 }
 main {
-  position: relative;
-  padding: 1em 0;
-  margin-top: 5.5em;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  padding: 1em 0;
+  margin-top: 5.5em;
+}
+.width {
+  width: 550px;
 }
 form p {
   font-size: 13px;
@@ -357,9 +360,7 @@ button {
 .comments {
   margin-top: 2em;
 }
-.width {
-  width: 550px;
-}
+
 .box {
   width: 100%;
   position: relative;

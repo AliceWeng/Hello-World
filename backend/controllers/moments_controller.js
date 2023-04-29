@@ -52,12 +52,16 @@ router.get("/user/:username/count", async (req, res) => {
 });
 
 // creates a new moment, used for MomentForm.
-router.post("/", (req, res) => {
-    Moment.create({
+router.post("/", async (req, res) => {
+    let newMoment = await Moment.create({
         user: req.session.userId,
         ...req.body
-    }).then(() => res.status(201).send("Your post has been successfully created."))
-      .catch(() => res.status(500).send("Server error."));
+    });
+    let populatedMoment = await newMoment.populate({
+        path: "user",
+        select: "nickname username -_id"
+    });
+    res.status(201).json(populatedMoment);
 });
 
 // finds a moment based on params id and updates it with request body, used for EditMomentForm.

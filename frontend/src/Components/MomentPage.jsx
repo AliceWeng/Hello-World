@@ -9,7 +9,7 @@ function MomentPage() {
 
     const [comments, setComments] = useState([]);
 
-    const [count, setCount] = useState(0);
+    const [commentsCount, setCommentsCount] = useState(0);
 
     const { momentId } = useParams();
 
@@ -20,7 +20,7 @@ function MomentPage() {
     const lastCommentRef = useCallback(node => {
         if(observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver(entries => {
-            if(entries[0].isIntersecting && comments.length !== count) {
+            if(entries[0].isIntersecting && comments.length !== commentsCount) {
                 fetchComments();
             }
         });
@@ -35,7 +35,7 @@ function MomentPage() {
                 if(momentData) {
                     fetch(`${process.env.REACT_APP_FETCH_URI}/api/comments/moment/${momentId}/count`)
                         .then(response => response.json())
-                        .then(countData => setCount(countData));
+                        .then(countData => setCommentsCount(countData));
                     fetchComments();
                 }
             });
@@ -58,7 +58,7 @@ function MomentPage() {
                 : !moment
                 ? null
                 : <>
-                    <Moment moment={moment} setMoment={setMoment} comments={comments} setComments={setComments} count={count} setCount={setCount}/>
+                    <Moment moment={moment} setMoment={setMoment} comments={comments} setComments={setComments} commentsCount={commentsCount} setCommentsCount={setCommentsCount}/>
                     { comments.length
                     ? <>
                         <h2 className="margin">Comments</h2>
@@ -66,10 +66,10 @@ function MomentPage() {
                             if(comments.length === index + 1) {
                                 return (
                                     <div ref={lastCommentRef} key={index}>
-                                        <Comment comment={comment} comments={comments} setComments={setComments} count={count} setCount={setCount}/>
+                                        <Comment comment={comment} comments={comments} setComments={setComments} commentsCount={commentsCount} setCommentsCount={setCommentsCount}/>
                                     </div>
                                 )
-                            } else return <Comment comment={comment} key={index} comments={comments} setComments={setComments} count={count} setCount={setCount}/>
+                            } else return <Comment comment={comment} key={index} comments={comments} setComments={setComments} commentsCount={commentsCount} setCommentsCount={setCommentsCount}/>
                         })}
                     </>
                     : <p className="margin">No comments yet.</p> }

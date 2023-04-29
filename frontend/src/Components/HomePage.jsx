@@ -28,7 +28,7 @@ function HomePage() {
                 { !moments
                 ? null
                 : moments.length
-                ? moments.map((moment, index) => <Moment moment={moment} key={index} fetchRecentMoments={fetchRecentMoments}/>)
+                ? moments.map((moment, index) => <Moment moment={moment} key={index}/>)
                 : <p className="margin">¯\_(ツ)_/¯</p> }
             </div>
         </main>

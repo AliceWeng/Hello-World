@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-function MomentForm({fetchMoments, setCreate}) {
+function MomentForm({moments, setMoments, momentsCount, setMomentsCount, setCreate}) {
     const [post, setPost] = useState("");
 
     const textareaRef = useRef();
@@ -11,13 +11,12 @@ function MomentForm({fetchMoments, setCreate}) {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        
         if(!post || post.length > 300) {
             textareaRef.current.focus();
             return;
         }
         setCreate(false);
-        await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments`, {
+        const response = await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -25,7 +24,9 @@ function MomentForm({fetchMoments, setCreate}) {
             },
             body: JSON.stringify({post: post})
         });
-        fetchMoments();
+        const newMomentData = await response.json();
+        setMomentsCount(momentsCount + 1);
+        setMoments([newMomentData, ...moments]);
     };
 
     return (

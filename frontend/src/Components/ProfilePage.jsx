@@ -10,7 +10,7 @@ function ProfilePage() {
 
     const [moments, setMoments] = useState([]);
 
-    const [count, setCount] = useState(0);
+    const [momentsCount, setMomentsCount] = useState(0);
 
     const [create, setCreate] = useState(false);
 
@@ -25,7 +25,7 @@ function ProfilePage() {
     const lastMomentRef = useCallback(node => {
         if(observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver(entries => {
-            if(entries[0].isIntersecting && moments.length !== count) {
+            if(entries[0].isIntersecting && moments.length !== momentsCount) {
                 fetchMoments();
             }
         });
@@ -40,7 +40,7 @@ function ProfilePage() {
                 if(userData) {
                     fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/user/${username}/count`)
                         .then(response => response.json())
-                        .then(countData => setCount(countData));
+                        .then(countData => setMomentsCount(countData));
                     fetchMoments();
                 }
             });
@@ -65,21 +65,21 @@ function ProfilePage() {
                 : <>
                     <div className="box">
                         <h1>{user.nickname} @{user.username}</h1>
-                        {auth && auth.username === user.username && <button className="create" onClick={() => setCreate(!create)}>Create a new moment</button>}
+                        { auth && auth.username === user.username && <button className="create" onClick={() => setCreate(!create)}>Create a new moment</button> }
                     </div>
-                    {auth && create && <MomentForm fetchMoments={fetchMoments} setCreate={setCreate}/>}
+                    { auth && create && <MomentForm moments={moments} setMoments={setMoments} momentsCount={momentsCount} setMomentsCount={setMomentsCount} setCreate={setCreate}/> }
                     { moments.length
                     ? moments.map((moment, index) => {
                         if(moments.length === index + 1) {
                             return (
                                 <div ref={lastMomentRef} key={index}>
-                                    <Moment moment={moment} fetchMoments={fetchMoments}/>
+                                    <Moment moment={moment} moments={moments} setMoments={setMoments} momentsCount={momentsCount} setMomentsCount={setMomentsCount}/>
                                 </div>
                             )
-                        } else return <Moment moment={moment} key={index} fetchMoments={fetchMoments}/>
+                        } else return <Moment moment={moment} key={index} moments={moments} setMoments={setMoments} momentsCount={momentsCount} setMomentsCount={setMomentsCount}/>
                       })
                     : <p className="margin">No moments yet.</p> }
-                </> }
+                  </> }
             </div>
         </main>
     )
