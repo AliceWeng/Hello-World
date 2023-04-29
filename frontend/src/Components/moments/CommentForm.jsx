@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-function CommentForm({moment, comments, setComments, count, setCount, setReply}) {
+function CommentForm({moment, comments, setComments, commentsCount, setCommentsCount, setReply}) {
     const [comment, setComment] = useState("");
 
     const textareaRef = useRef();
@@ -28,7 +28,7 @@ function CommentForm({moment, comments, setComments, count, setCount, setReply})
             })
         });
         const newCommentData = await response.json();
-        setCount(count + 1);
+        setCommentsCount(commentsCount + 1);
         setComments([newCommentData, ...comments]);
     }
 
