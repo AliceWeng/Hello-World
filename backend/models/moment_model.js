@@ -15,10 +15,8 @@ const momentSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-momentSchema.post("findOneAndDelete", function() {
-    Comment.deleteMany({moment: this._conditions._id})
-        .then(() => console.log("👍"))
-        .catch(() => console.log("👎"));
+momentSchema.post("findOneAndDelete", async function() {
+    await Comment.deleteMany({moment: this._conditions._id});
 });
 
 module.exports = mongoose.model("Moment", momentSchema);

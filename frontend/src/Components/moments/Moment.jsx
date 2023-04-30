@@ -53,7 +53,6 @@ function Moment({moment, setMoment, comments, setComments, commentsCount, setCom
             setMoments(moments.filter(object => object._id !== moment._id));
         }
     }
-
     const editMoment = () => {
         if(auth && momentId) {
             setEdit(true);

@@ -113,7 +113,6 @@ function SignUpForm({setForm}) {
             nicknameRef.current.focus();
         }
         if(NICKNAME_REGEX.test(user.nickname) && USERNAME_REGEX.test(user.username) && !usernameTaken && PASSWORD_REGEX.test(user.password)) {
-            setForm("");
             await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users`, {
                 method: "POST",
                 headers: {
@@ -121,6 +120,7 @@ function SignUpForm({setForm}) {
                 },
                 body: JSON.stringify(user)
             });
+            setForm("");
         }
     }
 

@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 // finds a user based on id stored in cookie session, used for AuthContext.
 router.get("/auth", (req, res) => {
-    User.findOne({_id: req.session.userId})
+    User.findById(req.session.userId)
         .lean()
         .then(user => res.status(200).json(user))
         .catch(() => res.status(404).json(null));
@@ -26,31 +26,31 @@ router.get("/:username", (req, res) => {
 router.post("/", async (req, res) => {
     let hashedPassword = await bcrypt.hash(req.body.password, 12);
     await User.create({
-        nickname: req.body.nickname,
-        username: req.body.username,
-        password: hashedPassword,
+        ...req.body,
+        password: hashedPassword
     });
     res.status(201).send("Your account has been successfully created.");
 });
 
 // authenticates a user based on username and password input, used for LogInForm.
-router.post("/auth", async (req, res) => {
-    let user = await User.findOne({username: new RegExp("^" + req.body.username + "$", "i")}).lean();
-    if(!user) {
-        return res.status(401).json({message: "The username you entered doesn't exist."});
-    }   
-    if(await bcrypt.compare(req.body.password, user.password)) {
-        req.session.userId = user._id;
-        res.status(200).json({user: user});
-    } else {
-        res.status(401).json({message: "The password you entered is incorrect."});
-    }
+router.post("/auth", (req, res) => {
+    User.findOne({username: new RegExp("^" + req.body.username + "$", "i")})
+        .lean()
+        .then(async user => {
+            if(await bcrypt.compare(req.body.password, user.password)) {
+                req.session.userId = user._id;
+                res.status(200).json({user: user});
+            } else {
+                res.status(401).json({message: "The password you entered is incorrect."});
+            }
+        })
+        .catch(() => res.status(401).json({message: "The username you entered doesn't exist."}));
 });
 
 // destroys cookie session, used for NavBar.
 router.delete("/auth", (req, res) => {
     req.session = null;
-    res.status(200).send("You have successfully logged out.");
+    res.status(200).send("You have been successfully logged out.");
 });
 
 module.exports = router;

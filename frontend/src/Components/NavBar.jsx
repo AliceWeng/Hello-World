@@ -36,7 +36,7 @@ function NavBar() {
             method: "DELETE",
             credentials: "include"
         });
-        setAuth("");
+        setAuth(null);
     }
 
     return (
@@ -66,7 +66,7 @@ function NavBar() {
                 <DarkTheme/>
                 { auth
                 ? <button onClick={logout}><CgLogOut className="icon"/>Log Out</button>
-                : <button onClick={() => setForm("login")}><CgLogIn className="icon"/>Log In</button> }
+                : <button className="menuButton" onClick={() => setForm("login")}><CgLogIn className="icon"/>Log In</button> }
             </div>
             <div className="shadow"></div>
             { form === "signup" && <SignUpForm setForm={setForm}/> }

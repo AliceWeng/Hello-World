@@ -352,7 +352,7 @@ button {
   border: 1px solid var(--gray);
 }
 .create:hover {
-  background: rgba(113, 118, 123, 0.1);
+  background: var(--nav-background);
 }
 .margin {
   margin: 1em 0;

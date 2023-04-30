@@ -3,7 +3,16 @@ import { useState, useEffect, useRef } from "react";
 function MomentForm({moments, setMoments, momentsCount, setMomentsCount, setCreate}) {
     const [post, setPost] = useState("");
 
+    const [textareaFocus, setTextareaFocus] = useState(false);
+
     const textareaRef = useRef();
+    const formRef = useRef();
+
+    document.addEventListener("keydown", e => {
+        if(e.key === "Enter" && textareaFocus) {
+            
+        }
+    });
 
     useEffect(() => {
         textareaRef.current.focus();
@@ -30,7 +39,7 @@ function MomentForm({moments, setMoments, momentsCount, setMomentsCount, setCrea
     };
 
     return (
-        <form className="box" onSubmit={handleSubmit}>
+        <form ref={formRef} className="box" onSubmit={handleSubmit}>
             <label htmlFor="post">Let's talk about our feelings.</label>
             <textarea
                 id="post"
@@ -38,6 +47,8 @@ function MomentForm({moments, setMoments, momentsCount, setMomentsCount, setCrea
                 ref={textareaRef}
                 spellCheck="false"
                 placeholder="Enter your post here."
+                onFocus={() => setTextareaFocus(true)}
+                onBlur={() => setTextareaFocus(false)}
                 onChange={e => setPost(e.target.value)}>
             </textarea>
             <input type="submit"/>
