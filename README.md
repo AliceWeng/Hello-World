@@ -7,6 +7,7 @@ Resources| What I've Learned
 [Infinite Scrolling With React - Tutorial](https://www.youtube.com/watch?v=NZKUirTtxcg&ab_channel=WebDevSimplified) | 
 
 [Move Cursor to the Beginning or END of Input field in JS](https://bobbyhadz.com/blog/javascript-move-cursor-end-of-text-input) | I learned about the setSelectionRange method.
+[How to (really) remove eventListeners in React](https://dev.to/marcostreng/how-to-really-remove-eventlisteners-in-react-3och)
 
 ## Front-End Dependencies
 * [create-react-app](https://www.npmjs.com/package/create-react-app)

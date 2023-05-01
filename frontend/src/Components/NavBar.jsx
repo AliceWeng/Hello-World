@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { CgLogIn, CgLogOut, CgProfile } from "react-icons/cg";
 import DarkTheme from "./users/DarkTheme";
@@ -9,17 +9,27 @@ function NavBar() {
 
     const { auth, setAuth, setForm } = useContext(AuthContext);
 
-    document.addEventListener("click", e => {
-        if(!e.target.closest(".toggleContainer") && !e.target.matches(".menu") && !e.target.matches(".navIcon")) setDropdown(false);
-        if(!e.target.closest("form") && !e.target.matches(".navButton") && !e.target.matches(".menuButton") && !e.target.matches(".reply")) setForm("");
-    });
+    let click = useCallback(e => {
+        if(!e.target.closest(".toggleContainer") && !e.target.matches(".menu") && !e.target.matches(".navIcon")) {
+            setDropdown(false);
+        }
+    }, []);
 
-    document.addEventListener("keydown", e => {
+    let keydown = useCallback(e => {
         if(e.key === "Escape") {
             setDropdown(false);
-            setForm("");
         }
-    });
+    }, []);
+
+    useEffect(() =>{
+        if(dropdown) {
+            document.addEventListener("click", click);
+            document.addEventListener("keydown", keydown);
+        } else {
+            document.removeEventListener("click", click);
+            document.removeEventListener("keydown", keydown);
+        }
+    }, [dropdown]);
 
     const logout = async () => {
         await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/auth`, {
@@ -41,8 +51,8 @@ function NavBar() {
                     <li>
                         { auth === null &&
                         <>
-                            <button className="navButton" onClick={() => setForm("signup")}>Sign up</button>
-                            <button className="navButton" onClick={() => setForm("login")}>Log In</button>
+                            <button className="navButton formButton" onClick={() => setForm("signup")}>Sign up</button>
+                            <button className="navButton formButton" onClick={() => setForm("login")}>Log In</button>
                         </> }
                         <button className="navIcon" onClick={() => setDropdown(!dropdown)}></button>
                     </li>
@@ -56,7 +66,7 @@ function NavBar() {
                 <DarkTheme/>
                 { auth
                 ? <button onClick={logout}><CgLogOut className="icon"/>Log Out</button>
-                : <button className="menuButton" onClick={() => setForm("login")}><CgLogIn className="icon"/>Log In</button> }
+                : <button className="formButton" onClick={() => setForm("login")}><CgLogIn className="icon"/>Log In</button> }
             </div>
             <div className="shadow"></div>
         </>

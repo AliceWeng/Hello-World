@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import AuthContext from "../context/AuthContext";
@@ -8,12 +8,19 @@ function Comment({comment, comments, setComments, commentsCount, setCommentsCoun
 
     const { auth } = useContext(AuthContext);
 
-    document.addEventListener("click", e => {
-        if(!e.target.closest(".dots")) setDots(false);
-    });
-
-    document.addEventListener("keydown", e => {
-        if(e.key === "Escape") setDots(false);
+    useEffect(() => {
+        const escape = e => {
+            if(e.key === "Escape") setDots(false);
+        }
+        const click = e => {
+            if(!e.target.closest(".dots")) setDots(false);
+        }
+        document.addEventListener("click", click);
+        document.addEventListener("keydown", escape);
+        return () => {
+            document.removeEventListener("click", click);
+            document.removeEventListener("keydown", escape);
+        }
     });
 
     const deleteComment = async () => {

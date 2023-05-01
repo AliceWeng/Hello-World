@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 import LogInForm from "../users/LogInForm";
 import SignUpForm from "../users/SignUpForm";
 
@@ -20,10 +20,28 @@ export const AuthProvider = ({children}) => {
         getCurrentUser();
     }, []);
 
+    const click = useCallback(e => {
+        if(!e.target.closest("form") && !e.target.matches(".formButton")) {
+            setForm("");
+        }
+    }, []);
+
+    const keydown = useCallback(e => {
+        if(e.key === "Escape") {
+            setForm("");
+        }
+    }, []);
+
     useEffect(() => {
-        form
-        ? document.body.classList.add("popup")
-        : document.body.classList.remove("popup")
+        if(form) {
+            document.body.classList.add("popup");
+            document.addEventListener("click", click);
+            document.addEventListener("keydown", keydown);
+        } else {
+            document.body.classList.remove("popup");
+            document.removeEventListener("click", click);
+            document.removeEventListener("keydown", keydown);
+        }
     }, [form]);
 
     return (

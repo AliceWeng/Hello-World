@@ -107,7 +107,7 @@ function Moment({moment, setMoment, comments, setComments, commentsCount, setCom
                     : <Link className="underline" to={`/${moment.user.username}/${moment._id}`} >
                         <p>{moment.post}</p>
                       </Link> }
-                    <button className="reply" onClick={replyMoment}><FaReply/>Reply</button>
+                    <button className="reply formButton" onClick={replyMoment}><FaReply/>Reply</button>
                 </div>
               </article> }
             { auth && reply && <CommentForm moment={moment._id} comments={comments} setComments={setComments} commentsCount={commentsCount} setCommentsCount={setCommentsCount} reply={reply} setReply={setReply}/> }
