@@ -2,7 +2,6 @@ import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import "./App.css";
 import NavBar from "./Components/NavBar";
-import Loading from "./Components/Loading";
 
 const HomePage = lazy(() => import("./Components/HomePage"));
 const ProfilePage = lazy(() => import("./Components/ProfilePage"));
@@ -28,7 +27,7 @@ function NavPage() {
   return (
     <>
       <NavBar/>
-      <Suspense fallback={<Loading/>}>
+      <Suspense fallback={<main><h1>Loading...</h1></main>}>
         <Outlet/>
       </Suspense>
     </>

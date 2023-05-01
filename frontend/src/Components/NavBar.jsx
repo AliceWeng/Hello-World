@@ -2,20 +2,16 @@ import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { CgLogIn, CgLogOut, CgProfile } from "react-icons/cg";
 import DarkTheme from "./users/DarkTheme";
-import LogInForm from "./users/LogInForm";
-import SignUpForm from "./users/SignUpForm";
 import AuthContext from "./context/AuthContext";
 
 function NavBar() {
-    const [form, setForm] = useState("");
-
     const [dropdown, setDropdown] = useState(false);
 
-    const { auth, setAuth } = useContext(AuthContext);
+    const { auth, setAuth, setForm } = useContext(AuthContext);
 
     document.addEventListener("click", e => {
         if(!e.target.closest(".toggleContainer") && !e.target.matches(".menu") && !e.target.matches(".navIcon")) setDropdown(false);
-        if(!e.target.closest("form") && !e.target.matches(".navButton") && !e.target.matches(".menuButton")) setForm("");
+        if(!e.target.closest("form") && !e.target.matches(".navButton") && !e.target.matches(".menuButton") && !e.target.matches(".reply")) setForm("");
     });
 
     document.addEventListener("keydown", e => {
@@ -24,12 +20,6 @@ function NavBar() {
             setForm("");
         }
     });
-
-    useEffect(() => {
-        form
-        ? document.body.classList.add("popup")
-        : document.body.classList.remove("popup")
-    }, [form]);
 
     const logout = async () => {
         await fetch(`${process.env.REACT_APP_FETCH_URI}/api/users/auth`, {
@@ -69,8 +59,6 @@ function NavBar() {
                 : <button className="menuButton" onClick={() => setForm("login")}><CgLogIn className="icon"/>Log In</button> }
             </div>
             <div className="shadow"></div>
-            { form === "signup" && <SignUpForm setForm={setForm}/> }
-            { form === "login" && <LogInForm setForm={setForm} setAuth={setAuth}/> }
         </>
     )
 }

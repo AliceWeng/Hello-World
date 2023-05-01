@@ -210,6 +210,9 @@ input[type=submit]:active {
 .underline {
   text-decoration: none;
 }
+img {
+  max-width: 90vw;
+}
 .loginError {
   padding: 1em;
   color: var(--errorRed);

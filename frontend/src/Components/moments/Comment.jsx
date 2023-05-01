@@ -27,6 +27,8 @@ function Comment({comment, comments, setComments, commentsCount, setCommentsCoun
 
     let created = new Date(comment.createdAt);
 
+    const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
     return (
         <article className="box">
             <div className="name">
@@ -34,7 +36,10 @@ function Comment({comment, comments, setComments, commentsCount, setCommentsCoun
                     <p>{comment.user.nickname}</p>
                 </Link>
                 <p>@{comment.user.username}</p>
-                <p>{created.toDateString()}</p>
+                <p>
+                    {month[created.getMonth()]} {created.getDate()}
+                    {new Date().getFullYear() !== created.getFullYear() && `, ${created.getFullYear()}`}
+                </p>
             </div>
             { auth && auth.username === comment.user.username && <BsThreeDots className="dots" onClick={() => setDots(!dots)}/> }
             { dots &&

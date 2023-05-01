@@ -8,9 +8,16 @@ function MomentForm({moments, setMoments, momentsCount, setMomentsCount, setCrea
     const textareaRef = useRef();
     const formRef = useRef();
 
-    document.addEventListener("keydown", e => {
-        if(e.key === "Enter" && textareaFocus) {
-            
+    useEffect(() => {
+        let manualSubmit = e => {
+            if(e.key === "Enter" && textareaFocus) {
+                e.preventDefault();
+                formRef.current.requestSubmit();
+            }
+        }
+        document.addEventListener("keydown", manualSubmit);
+        return () => {
+            document.removeEventListener("keydown", manualSubmit);
         }
     });
 
@@ -20,6 +27,7 @@ function MomentForm({moments, setMoments, momentsCount, setMomentsCount, setCrea
 
     const handleSubmit = async e => {
         e.preventDefault();
+
         if(!post || post.length > 300) {
             textareaRef.current.focus();
             return;

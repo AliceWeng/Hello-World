@@ -3,7 +3,23 @@ import { useState, useEffect, useRef } from "react";
 function EditMomentForm({moment, setMoment, setEdit}) {
     const [updatedPost, setUpdatedPost] = useState(moment.post);
 
+    const [textareaFocus, setTextareaFocus] = useState(false);
+
     const textareaRef = useRef();
+    const formRef = useRef();
+    
+    useEffect(() => {
+        let manualSubmit = e => {
+            if(e.key === "Enter" && textareaFocus) {
+                e.preventDefault();
+                formRef.current.requestSubmit();
+            }
+        }
+        document.addEventListener("keydown", manualSubmit);
+        return () => {
+            document.removeEventListener("keydown", manualSubmit);
+        }
+    });
 
     useEffect(() => {
         let end = moment.post.length;
@@ -13,6 +29,7 @@ function EditMomentForm({moment, setMoment, setEdit}) {
 
     const handleSubmit = async e => {
         e.preventDefault();
+        
         if(!updatedPost|| updatedPost.length > 300) {
             textareaRef.current.focus();
             return;
@@ -35,7 +52,7 @@ function EditMomentForm({moment, setMoment, setEdit}) {
     }
 
     return (
-        <form className="box" onSubmit={handleSubmit}>
+        <form ref={formRef} className="box" onSubmit={handleSubmit}>
             <label htmlFor="post">Edit your moment.</label>
             <textarea
                 id="post"
@@ -43,6 +60,8 @@ function EditMomentForm({moment, setMoment, setEdit}) {
                 ref={textareaRef}
                 spellCheck="false"
                 value={updatedPost}
+                onFocus={() => setTextareaFocus(true)}
+                onBlur={() => setTextareaFocus(false)}
                 onChange={e => setUpdatedPost(e.target.value)}
                 placeholder="Hey! You can't leave this empty.">
             </textarea>

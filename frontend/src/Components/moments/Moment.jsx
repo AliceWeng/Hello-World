@@ -13,7 +13,7 @@ function Moment({moment, setMoment, comments, setComments, commentsCount, setCom
 
     const [reply, setReply] = useState(false);
 
-    const { auth } = useContext(AuthContext);
+    const { auth, setForm } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -53,30 +53,36 @@ function Moment({moment, setMoment, comments, setComments, commentsCount, setCom
             setMoments(moments.filter(object => object._id !== moment._id));
         }
     }
-    const editMoment = () => {
-        if(auth && momentId) {
-            setEdit(true);
-        } else if(auth && !momentId) {
-            navigate(`/${moment.user.username}/${moment._id}?edit=true`);
-        }
-    }
 
-    const checkIfLoggedIn = () => {
+    const replyMoment = () => {
         if(auth && momentId) {
             setReply(!reply);
         } else if(auth && !momentId) {
             navigate(`/${moment.user.username}/${moment._id}?reply=true`);
         } else if(!auth) {
-            // tell user to log in or sign up.
+            setForm("login");
         }
     }
 
     let created = new Date(moment.createdAt);
-    let updated = new Date(moment.updatedAt);
+
+    let twentyfourHours = created.getTime() + (24 * 3600000);
+
+    const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    const editMoment = () => {
+        if(new Date().getTime() < twentyfourHours) {
+            if(auth && momentId) {
+                setEdit(true);
+            } else if(auth && !momentId) {
+                navigate(`/${moment.user.username}/${moment._id}?edit=true`);
+            }
+        }
+    }
 
     return (
         <>
-            { edit
+            { auth && edit
             ? <EditMomentForm moment={moment} setMoment={setMoment} setEdit={setEdit}/>
             : <article className="box">
                 <div className="name">
@@ -84,12 +90,15 @@ function Moment({moment, setMoment, comments, setComments, commentsCount, setCom
                         <p>{moment.user.nickname}</p>
                     </Link>
                     <p>@{moment.user.username}</p>
-                    <p>{created.toDateString()}</p>
+                    <p>
+                        {month[created.getMonth()]} {created.getDate()}
+                        {new Date().getFullYear() !== created.getFullYear() && `, ${created.getFullYear()}`}
+                    </p>
                 </div>
                 { auth && auth.username === moment.user.username && <BsThreeDots className="dots" onClick={() => setDots(!dots)}/> }
                 { dots &&
                   <div className="dotsContainer">
-                    <button className="edit" onClick={editMoment}>Edit</button>
+                    {new Date().getTime() < twentyfourHours && <button className="edit" onClick={editMoment}>Edit</button>}
                     <button className="delete" onClick={deleteMoment}>Delete</button>
                   </div> }
                 <div className="post">
@@ -98,11 +107,10 @@ function Moment({moment, setMoment, comments, setComments, commentsCount, setCom
                     : <Link className="underline" to={`/${moment.user.username}/${moment._id}`} >
                         <p>{moment.post}</p>
                       </Link> }
-                    { moment.createdAt !== moment.updatedAt && <p>Last updated on {updated.toDateString()}</p> }
-                    <button className="reply" onClick={() => checkIfLoggedIn()}><FaReply/>Reply</button>
+                    <button className="reply" onClick={replyMoment}><FaReply/>Reply</button>
                 </div>
               </article> }
-            { auth && reply && <CommentForm moment={moment._id} comments={comments} setComments={setComments} commentsCount={commentsCount} setCommentsCount={setCommentsCount} setReply={setReply}/> }
+            { auth && reply && <CommentForm moment={moment._id} comments={comments} setComments={setComments} commentsCount={commentsCount} setCommentsCount={setCommentsCount} reply={reply} setReply={setReply}/> }
         </>
     )
 }
