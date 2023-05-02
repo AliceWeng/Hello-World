@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import { FaReply } from "react-icons/fa";
@@ -33,13 +33,27 @@ function Moment({moment, setMoment, comments, setComments, commentsCount, setCom
         if(edit) setReply(false);
     }, [edit]);
 
-    document.addEventListener("click", e => {
-        if(!e.target.closest(".dots")) setDots(false);
-    });
+    let click = useCallback(e => {
+        if(!e.target.closest(".dots")) {
+            setDots(false);
+        }
+    }, []);
 
-    document.addEventListener("keydown", e => {
-        if(e.key === "Escape") setDots(false);
-    });
+    let keydown = useCallback(e => {
+        if(e.key === "Escape") {
+            setDots(false);
+        }
+    }, []);
+    
+    useEffect(() => {
+        if(dots) {
+            document.addEventListener("click", click);
+            document.addEventListener("keydown", keydown);
+        } else {
+            document.removeEventListener("click", click);
+            document.removeEventListener("keydown", keydown);
+        }
+    }, [dots]);
 
     const deleteMoment = async () => {
         await fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/${moment._id}`, {
@@ -48,7 +62,7 @@ function Moment({moment, setMoment, comments, setComments, commentsCount, setCom
         });
         if(momentId) {
             navigate(-2);
-        } else if(username) {
+        } else {
             setMomentsCount(momentsCount - 1);
             setMoments(moments.filter(object => object._id !== moment._id));
         }
@@ -72,9 +86,9 @@ function Moment({moment, setMoment, comments, setComments, commentsCount, setCom
 
     const editMoment = () => {
         if(new Date().getTime() < twentyfourHours) {
-            if(auth && momentId) {
+            if(momentId) {
                 setEdit(true);
-            } else if(auth && !momentId) {
+            } else if(!momentId) {
                 navigate(`/${moment.user.username}/${moment._id}?edit=true`);
             }
         }
@@ -82,7 +96,7 @@ function Moment({moment, setMoment, comments, setComments, commentsCount, setCom
 
     return (
         <>
-            { auth && edit
+            { auth && auth.username === moment.user.username && edit
             ? <EditMomentForm moment={moment} setMoment={setMoment} setEdit={setEdit}/>
             : <article className="box">
                 <div className="name">
@@ -101,6 +115,7 @@ function Moment({moment, setMoment, comments, setComments, commentsCount, setCom
                     {new Date().getTime() < twentyfourHours && <button className="edit" onClick={editMoment}>Edit</button>}
                     <button className="delete" onClick={deleteMoment}>Delete</button>
                   </div> }
+                <div className="shadow"></div>
                 <div className="post">
                     { momentId 
                     ? <p>{moment.post}</p>

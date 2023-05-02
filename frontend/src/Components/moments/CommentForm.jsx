@@ -6,6 +6,7 @@ function CommentForm({moment, comments, setComments, commentsCount, setCommentsC
     const [textareaFocus, setTextareaFocus] = useState(false);
 
     const textareaRef = useRef();
+    
     const formRef = useRef();
 
     useEffect(() => {

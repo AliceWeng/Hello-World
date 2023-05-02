@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import AuthContext from "../context/AuthContext";
@@ -7,21 +7,28 @@ function Comment({comment, comments, setComments, commentsCount, setCommentsCoun
     const [dots, setDots] = useState(false);
 
     const { auth } = useContext(AuthContext);
+    
+    let click = useCallback(e => {
+        if(!e.target.closest(".dots")) {
+            setDots(false);
+        }
+    }, []);
 
+    let keydown = useCallback(e => {
+        if(e.key === "Escape") {
+            setDots(false);
+        }
+    }, []);
+    
     useEffect(() => {
-        const escape = e => {
-            if(e.key === "Escape") setDots(false);
-        }
-        const click = e => {
-            if(!e.target.closest(".dots")) setDots(false);
-        }
-        document.addEventListener("click", click);
-        document.addEventListener("keydown", escape);
-        return () => {
+        if(dots) {
+            document.addEventListener("click", click);
+            document.addEventListener("keydown", keydown);
+        } else {
             document.removeEventListener("click", click);
-            document.removeEventListener("keydown", escape);
+            document.removeEventListener("keydown", keydown);
         }
-    });
+    }, [dots]);
 
     const deleteComment = async () => {
         await fetch(`${process.env.REACT_APP_FETCH_URI}/api/comments/${comment._id}`, {
@@ -53,6 +60,7 @@ function Comment({comment, comments, setComments, commentsCount, setCommentsCoun
               <div className="dotsContainer">
                 <button className="delete" onClick={deleteComment}>Delete</button>
               </div> }
+            <div className="shadow"></div>
             <div className="comment">
                 <p>{comment.comment}</p>
             </div>

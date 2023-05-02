@@ -6,6 +6,7 @@ function EditMomentForm({moment, setMoment, setEdit}) {
     const [textareaFocus, setTextareaFocus] = useState(false);
 
     const textareaRef = useRef();
+    
     const formRef = useRef();
     
     useEffect(() => {

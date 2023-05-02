@@ -6,6 +6,7 @@ function MomentForm({moments, setMoments, momentsCount, setMomentsCount, setCrea
     const [textareaFocus, setTextareaFocus] = useState(false);
 
     const textareaRef = useRef();
+    
     const formRef = useRef();
 
     useEffect(() => {

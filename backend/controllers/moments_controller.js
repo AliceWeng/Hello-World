@@ -3,8 +3,9 @@ const User = require("../models/user_model");
 const Moment = require("../models/moment_model");
 
 // finds all moments, used for HomePage.
-router.get("/", (req, res) => {
-    Moment.find()
+router.get("/", async (req, res) => {
+    let count = await Moment.countDocuments({post: new RegExp(req.query.search, "i")});
+    Moment.find({post: new RegExp(req.query.search, "i")})
         .lean()
         .sort({createdAt: -1})
         .skip(req.query.number)
@@ -13,7 +14,7 @@ router.get("/", (req, res) => {
             path: "user",
             select: "nickname username -_id"
         })
-        .then(moments => res.status(200).json(moments));
+        .then(moments => res.status(200).json({moments: moments, count: count}));
 });
 
 // counts the number of moments based on user's params username, used for ProfilePage.
