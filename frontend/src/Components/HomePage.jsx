@@ -25,7 +25,7 @@ function HomePage() {
     }, []);
 
     const fetchRecentMoments = () => {
-        fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/?number=${moments.length}&&search=${query}`)
+        fetch(`${process.env.REACT_APP_FETCH_URI}/api/moments/?number=${moments.length}&search=${query}`)
         .then(response => response.json())
         .then(data => {
             setMomentsCount(data.count);
